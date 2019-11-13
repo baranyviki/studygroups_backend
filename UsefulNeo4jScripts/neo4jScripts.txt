@@ -1,4 +1,4 @@
-LOAD CSV FROM 'file:///C:/subjects.csv' AS line FIELDTERMINATOR ';'
+﻿LOAD CSV FROM 'file:///C:/subjects.csv' AS line FIELDTERMINATOR ';'
 CREATE (:Subject { subjectCode: line[0], SubjectName: toInteger(line[1]), 
 credits : toInteger(line[2]), semester: line[3], rate:toInteger(line[4]), passed: line[5]})
 
@@ -25,3 +25,22 @@ MATCH (u1:Student{UserID:10054} )-[:ENROLLED_TO]->(s:Subject{SubjectCode:'NAIPR1
 MATCH (u1)--(c:Course {})--(u2)
 RETURN u1,u2,s,c
 LIMIT 100
+
+--Azt keressük akinek ebben a félévben van közösen Prog1 velünk, 
+--és van közös kurzus amire járunk:
+MATCH (u1:Student{UserID:10054} )-[:ENROLLED_TO]->(s:Subject{SubjectCode:'NAIPR1SAND'})<-[ENROLLED_TO]-(u2:Student{UserID:10026})
+MATCH (u1)--(c:Labour )--(u2)
+MATCH (c)--(cs:Subject)
+RETURN u1,u2,s,c,cs
+
+
+MATCH (u1:Student{UserID:10054} )-[:ATTENDS]->(c:Course{CourseID:5003})<-[:ATTENDS]-(u2:Student)
+MATCH (c)-[:BELONGS_TO]-(cs:Subject{SubjectCode:'NAIPR1SAND'})
+RETURN u1,c,cs
+
+MATCH (u1:Student)-[e:ENROLLED_TO]->(s:Subject)
+WHERE u1.UserID =10054 AND s.SubjectID=1 //AND e.Grade = 1
+RETURN apoc.meta.type(e.Grade)
+
+címkék keresése node-on:
+head([company IN $companies where company IN labels(node)])

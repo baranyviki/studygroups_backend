@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StudyGroups.DataAccessLayer.DAOs
 {
-    public class TeacherDBModel :UserDBModel
+    public class Teacher 
     {
 
     }

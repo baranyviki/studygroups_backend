@@ -4,9 +4,9 @@ using System.Text;
 
 namespace StudyGroups.DataAccessLayer.DAOs
 {
-    public class StudentDBModel : UserDBModel
+    public class Student : User
     {
-
+        public string NeptunCode { get; set; }
 
     }
 }

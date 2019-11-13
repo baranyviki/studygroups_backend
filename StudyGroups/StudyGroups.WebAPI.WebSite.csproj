@@ -5,11 +5,27 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>StudyGroups.WebAPI.WebSite.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="Neo4j.Driver" Version="1.7.2" />
     <PackageReference Include="Neo4jMapper" Version="1.0.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StudyGroups.Contracts\StudyGroups.Contracts.csproj" />
+    <ProjectReference Include="..\StudyGroups.Data.Repository\StudyGroups.Data.Repository.csproj" />
+    <ProjectReference Include="..\StudyGroups.WebAPI.Services\StudyGroups.WebAPI.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
 
 </Project>

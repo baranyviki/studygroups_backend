@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StudyGroup.DataAccessLayer\StudyGroups.Data.DAL.csproj" />
+    <ProjectReference Include="..\StudyGroups.Data.DAL\StudyGroups.Data.DAL.csproj" />
+    <ProjectReference Include="..\StudyGroups.WebAPI.Models\StudyGroups.WebAPI.Models.csproj" />
   </ItemGroup>
 
 </Project>

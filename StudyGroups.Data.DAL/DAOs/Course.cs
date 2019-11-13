@@ -9,7 +9,7 @@ namespace StudyGroups.DataAccessLayer.DAOs
         Theoretical, Labour, Practical, Seminar, ELearning, Special, ExamCourse
     }
 
-    public class CourseDBModel
+    public class Course
     {
         public int CourseID { get; set; }
         public string CourseCode { get; set; }

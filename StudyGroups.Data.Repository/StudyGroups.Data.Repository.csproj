@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StudyGroup.DataAccessLayer\StudyGroups.Data.DAL.csproj" />
     <ProjectReference Include="..\StudyGroups.Contracts\StudyGroups.Contracts.csproj" />
+    <ProjectReference Include="..\StudyGroups.Data.DAL\StudyGroups.Data.DAL.csproj" />
   </ItemGroup>
 
 </Project>

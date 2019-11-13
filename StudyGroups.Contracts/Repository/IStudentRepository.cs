@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StudyGroups.Contracts.Repository
 {
-    public interface IStudentRepository : IBaseRepository <StudentDBModel>
+    public interface IStudentRepository : IBaseRepository <Student>
     {
         /// <summary>
         /// Gets a list of student who are attended to this subject
@@ -20,7 +20,7 @@ namespace StudyGroups.Contracts.Repository
         /// <param name="subjectID"></param>
         /// <param name="semester"></param>
         /// <returns></returns>
-        IEnumerable<StudentDBModel> GetStudentsAttendedToSubject(int subjectID, string semester);
+        IEnumerable<Student> GetStudentsAttendedToSubject(int subjectID, string semester);
 
         /// <summary>
         /// Gets students who had been comleted a specific subject, with a better grade then specified.
@@ -29,7 +29,7 @@ namespace StudyGroups.Contracts.Repository
         /// <param name="semester"></param>
         /// <param name="grade"></param>
         /// <returns></returns>
-        IEnumerable<StudentDBModel> GetStudentsAttendedToSubjectWithGrade(int subjectID, string semester, int grade);
+        IEnumerable<Student> GetStudentsAttendedToSubjectWithGrade(int subjectID, string semester, int grade);
 
 
 

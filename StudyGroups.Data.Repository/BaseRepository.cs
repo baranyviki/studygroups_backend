@@ -1,4 +1,5 @@
 ﻿using Neo4j.Driver.V1;
+using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
 using System;
 using System.Linq;
@@ -27,7 +28,16 @@ namespace StudyGroups.Repository
 
         public IQueryable<T> FindAll()
         {
-            throw new NotImplementedException();
+            using (var session = Neo4jDriver.Session())
+            {
+                string classType = typeof(T).Name;
+                //int classTypeIdx = typeof(T).ToString().LastIndexOf(".");
+                //string classType = typeof(T).ToString().Substring(classTypeIdx+1);
+                string query = $@"Match (sub:{classType}) RETURN sub";
+                var result = session.Run(query);
+                var results = result.Map<T>().AsQueryable();
+                return results;
+            }
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)

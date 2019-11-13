@@ -1,0 +1,23 @@
+﻿using StudyGroups.DataAccessLayer.DAOs;
+using StudyGroups.WebAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StudyGroups.WebAPI.Services.Mapping
+{
+    internal static class MapSubjects
+    {
+        internal static GeneralSelectionItem MapSubjectToGeneralSelectionItem(Subject subjectDBModel)
+        {
+            return new GeneralSelectionItem
+            {
+                ID = subjectDBModel.SubjectID,
+                DisplayName = $"{subjectDBModel.Name} - {subjectDBModel.SubjectCode}"
+            };
+
+        }
+
+
+    }
+}
