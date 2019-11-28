@@ -1,6 +1,5 @@
 ﻿using StudyGroups.Contracts.Logic;
 using StudyGroups.Contracts.Repository;
-using StudyGroups.DataAccessLayer.DAOs;
 using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Mapping;
 using System;

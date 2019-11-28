@@ -1,4 +1,4 @@
-﻿using StudyGroups.DataAccessLayer.DAOs;
+﻿using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.WebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
         {
             return new GeneralSelectionItem
             {
-                ID = subjectDBModel.SubjectID,
+                ID = subjectDBModel.SubjectID.ToString(),
                 DisplayName = $"{subjectDBModel.Name} - {subjectDBModel.SubjectCode}"
             };
 

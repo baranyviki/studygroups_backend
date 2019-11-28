@@ -1,7 +1,7 @@
 ﻿using Neo4j.Driver.V1;
 using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
-using StudyGroups.DataAccessLayer.DAOs;
+using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.Repository;
 using System;
 using System.Collections.Generic;
@@ -18,5 +18,16 @@ namespace StudyGroups.Data.Repository
 
         }
 
+        public Subject FindSubjectBySubjectCode(string subjectCode)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("subjectCode", subjectCode);
+                string query = $@"MATCH (node:Subject) WHERE node.SubjectCode = $subjectCode RETURN node";
+                var result = session.Run(query, parameters);
+                return result.Single().Map<Subject>();
+            }
+
+        }
     }
 }

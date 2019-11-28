@@ -44,3 +44,9 @@ RETURN apoc.meta.type(e.Grade)
 
 címkék keresése node-on:
 head([company IN $companies where company IN labels(node)])
+
+constraint:
+CREATE CONSTRAINT ON (user:USER) ASSERT user.UserID IS UNIQUE
+
+CALL apoc.uuid.install('User', {addToExistingNodes: true, uuidProperty: 'UserID'}) yield label, installed, properties
+

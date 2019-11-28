@@ -1,4 +1,4 @@
-﻿using StudyGroups.DataAccessLayer.DAOs;
+﻿using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.WebAPI.Models;
 using System;
 using System.Collections.Generic;

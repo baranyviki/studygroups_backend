@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudyGroups.Contracts.Logic;
@@ -22,8 +23,8 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         }
 
         // GET api/student/5/'2015/16/1'
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{id}"),Authorize]
+        public ActionResult<string> Get(string id)
         {
             // TODO: need to calculate from date
             string semester = "2017/18/1";

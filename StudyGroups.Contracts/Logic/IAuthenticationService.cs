@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StudyGroups.Contracts.Logic
 {
     public interface IAuthenticationService
     {
-        void RegisterUser(StudentRegistrationDTO userRegistrationDTO);
-
+        Task RegisterUserAsync(StudentRegistrationDTO userRegistrationDTO);
+        
     }
 }

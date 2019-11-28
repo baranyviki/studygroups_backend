@@ -11,18 +11,18 @@ namespace StudyGroups.Contracts
     public interface IQueryableRepository<T>
     {
         /// <summary>
-        /// Find all database row for the given database entity.
+        /// Find all database node for the given database set.
         /// </summary>
         /// <returns>Queryable data structure, contains given type records</returns>
         IQueryable<T> FindAll();
 
         /// <summary>
-        /// Find all database row for the given database entity by given condition.
+        /// Find all database node for the given database entity by given condition.
         /// </summary>
         /// <param name="expression">
         /// Condition in lambda expression
         /// </param>
         /// <returns>Queryable data structure, contains given type records</returns>
-        IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        IQueryable<T> FindByCondition(string whereExpression);
     }
 }

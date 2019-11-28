@@ -4,5 +4,16 @@
         <name>StudyGroups.WebAPI.WebSite</name>
     </assembly>
     <members>
+        <member name="T:StudyGroups.WebAPI.WebSite.Exceptions.InvalidLoginParametersException">
+            <summary>
+            Custom exception for handling invalid logins.
+            </summary>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Exceptions.InvalidLoginParametersException.#ctor(System.String)">
+            <summary>
+            base constructor
+            </summary>
+            <param name="msg">Exception message</param>
+        </member>
     </members>
 </doc>

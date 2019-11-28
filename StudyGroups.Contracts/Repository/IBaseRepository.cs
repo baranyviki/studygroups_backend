@@ -10,7 +10,7 @@ namespace StudyGroups.Contracts.Repository
         /// Create method
         /// </summary>
         /// <param name="node">node for create</param>
-        void Create(T node);
+        T Create(T node);
 
         /// <summary>
         /// Update method

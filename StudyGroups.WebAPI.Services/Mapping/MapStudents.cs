@@ -1,4 +1,5 @@
-﻿using StudyGroups.DataAccessLayer.DAOs;
+﻿
+using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.DTOmodels;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
         internal static StudentListItemDTO MapStudentDBModelToStudentDTO(Student studentDBModel)
         {
             return new StudentListItemDTO {
-                Id = studentDBModel.UserID,
+                Id = studentDBModel.UserID.ToString(),
                 Email = studentDBModel.Email,
                 Name = studentDBModel.FirstName+" "+studentDBModel.LastName
             };

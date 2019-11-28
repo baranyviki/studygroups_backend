@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StudyGroups.DataAccessLayer.DAOs
+namespace StudyGroups.Data.DAL.DAOs
 {
     public enum CourseType
     {
@@ -11,9 +11,9 @@ namespace StudyGroups.DataAccessLayer.DAOs
 
     public class Course
     {
-        public int CourseID { get; set; }
+        public string CourseID { get; set; }
         public string CourseCode { get; set; }
         public string Semester { get; set; }
-        public CourseType CourseType { get; set; }
+        public int CourseType { get; set; }
     }
 }

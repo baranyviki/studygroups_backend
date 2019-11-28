@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StudyGroups.DataAccessLayer.DAOs
+namespace StudyGroups.Data.DAL.DAOs
 {
     public enum SubjectType
     {
@@ -21,10 +21,11 @@ namespace StudyGroups.DataAccessLayer.DAOs
 
     public class Subject
     {
-        public int SubjectID { get; set; }
+        public string SubjectID { get; set; }
         public string SubjectCode { get; set; }
         public string Name { get; set; }
         public int Credits { get; set; }
         public int SuggestedSemester { get; set; }
     }
+
 }

@@ -7,8 +7,8 @@ namespace StudyGroups.Contracts.Logic
 {
     public interface IStudentService
     {
-        List<StudentListItemDTO> GetStudentsAttendedToSubject(int subjectID, string semester);
-        List<StudentListItemDTO> GetStudentsAttendedToSubjectWithGrade(int subjectID, string semester, int grade);
+        List<StudentListItemDTO> GetStudentsAttendedToSubject(string subjectID, string semester);
+        List<StudentListItemDTO> GetStudentsAttendedToSubjectWithGrade(string subjectID, string semester, int grade);
 
 
 

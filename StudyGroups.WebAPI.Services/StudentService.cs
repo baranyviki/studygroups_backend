@@ -17,7 +17,7 @@ namespace StudyGroups.Services
             this.studentRepository = studentRepository;
         }
 
-        public List<StudentListItemDTO> GetStudentsAttendedToSubject(int subjectID, string semester)
+        public List<StudentListItemDTO> GetStudentsAttendedToSubject(string subjectID, string semester)
         {
             var studentDBList = studentRepository.GetStudentsAttendedToSubject(subjectID, semester);
             List<StudentListItemDTO> studentDTOs = new List<StudentListItemDTO>();
@@ -25,7 +25,7 @@ namespace StudyGroups.Services
             return studentDTOs;
         }
 
-        public List<StudentListItemDTO> GetStudentsAttendedToSubjectWithGrade(int subjectID, string semester, int grade)
+        public List<StudentListItemDTO> GetStudentsAttendedToSubjectWithGrade(string subjectID, string semester, int grade)
         {
             throw new NotImplementedException();
         }
