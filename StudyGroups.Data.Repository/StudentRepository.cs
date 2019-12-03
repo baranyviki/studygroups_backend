@@ -5,15 +5,14 @@ using System.Linq;
 using Neo4jMapper;
 using System;
 using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.Data.DAL.ProjectionModels;
 
 namespace StudyGroups.Repository
 {
     public class StudentRepository : BaseRepository<Student>, IStudentRepository
     {
         public StudentRepository(IDriver neo4jDriver) : base(neo4jDriver)
-        {
-
-        }
+        { }
 
         public void CreateAttendsToRelationShipWithCourse(Guid userID, Guid courseID)
         {
@@ -45,6 +44,7 @@ namespace StudyGroups.Repository
                 var result = session.Run(query, parameters);
             }
         }
+
         public void CreateEnrolledToRelationShipWithSubject(Guid userID, Guid subjectID, string semester)
         {
             using (var session = Neo4jDriver.Session())
@@ -52,7 +52,7 @@ namespace StudyGroups.Repository
                 var parameters = new Neo4jParameters().WithValue("userId", userID.ToString())
                                                       .WithValue("subjectId", subjectID.ToString())
                                                       .WithValue("semester", semester);
-                
+
                 string query = @"MATCH (stud:Student { UserID: $userId})
                                  MATCH (subj: Subject { SubjectID: $subjectId})
                                  MERGE (stud)-[r: ENROLLED_TO {Semester: $semester}]->(subj)";
@@ -69,6 +69,34 @@ namespace StudyGroups.Repository
                 var result = session.Run(query, parameters);
                 var stud = result.Single().Map<Student>();
                 return stud;
+            }
+        }
+
+        public Student FindStudentByUserName(string userName)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("username", userName);
+                string query = $@"MATCH (node:Student) WHERE node.UserName = $username RETURN node";
+                var result = session.Run(query, parameters);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return null;
+                return resultList.Single().Map<Student>();
+            }
+        }
+
+        public Student FindStudentByUserID(string userID)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userID);
+                string query = $@"MATCH (node:Student) WHERE node.UserID = $userId RETURN node";
+                var result = session.Run(query, parameters);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return null;
+                return resultList.Single().Map<Student>();
             }
         }
 
@@ -102,18 +130,80 @@ namespace StudyGroups.Repository
                 return students;
             }
         }
-
-        public Student FindStudentByUserName(string userName)
+                
+        public IEnumerable<Student> GetStudentsHavingCommonPracticalCoursesInCurrentSemester(string userId, string searchCourseId, string currentSemester)
         {
             using (var session = Neo4jDriver.Session())
             {
-                var parameters = new Neo4jParameters().WithValue("username", userName);
-                string query = $@"MATCH (node:Student) WHERE node.UserName = $username RETURN node";
+                var parameters = new Neo4jParameters().WithValue("userId", userId)
+                                                      .WithValue("courseId", searchCourseId)
+                                                      .WithValue("semester", currentSemester);
+                string query = $@"MATCH (u1:Student)-[:ATTENDS]->(c1:Course)<-[:ATTENDS]-(u2:Student)
+                                  ,(u1)-[:ATTENDS]->(c2:Course)<-[:ATTENDS]-(u2)
+                                  WHERE u1.UserID = $userId AND c1.Semester = $semester AND c1.CourseID=$courseId
+                                  AND c2.Semester=c1.Semester AND c2.CourseType IN([1,2])
+                                  RETURN distinct u2";
                 var result = session.Run(query, parameters);
-                return result.Single().Map<Student>();
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return new List<Student>();
+                return resultList.Map<Student>();
             }
         }
 
+        public IEnumerable<Student> GetStudentsAttendingToCourseInCurrentSemester(string userId, string searchCourseId, string currentSemester)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userId)
+                                                      .WithValue("courseId", searchCourseId)
+                                                      .WithValue("semester", currentSemester);
+                string query = $@"MATCH (u1:Student)-[:ATTENDS]->(c1:Course)<-[:ATTENDS]-(u2:Student)
+                                 WHERE u1.UserID = $userId AND c1.Semester = $semester 
+                                 AND c1.CourseID = $courseId 
+                                 RETURN u2";
+                var result = session.Run(query, parameters);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return new List<Student>();
+                return resultList.Map<Student>();
+            }
 
+        }
+
+        public double GetStudentGradeAverage(string userId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userId);
+                string query = $@"MATCH (u1:Student)-[r:ENROLLED_TO]->(:Subject)
+                                  WHERE u1.UserID=$userId
+                                  AND r.Grade is not null
+                                  RETURN avg(distinct r.Grade) as avg";
+                var result = session.Run(query, parameters);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return 0.0;
+                return resultList.Single().Map<double>();
+            }
+        }
+
+        public int GetStudentSemesterCount(string userId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userId);
+                string query = $@"MATCH (u1:Student)-[r:ENROLLED_TO]->(:Subject)
+                                WHERE u1.UserID = $userId
+                                RETURN count(distinct r.Semester) as cnt";
+                var result = session.Run(query, parameters);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return 0;
+                return resultList.Single().Map<int>();
+            }
+        }
+
+        
     }
 }

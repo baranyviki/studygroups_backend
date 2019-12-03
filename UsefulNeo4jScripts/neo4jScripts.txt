@@ -11,7 +11,7 @@ CALL apoc.import.csv(
   [{fileName: 'file:///courses.csv', labels: ['Course']},
   {fileName: 'file:///subjects.csv', labels: ['Subject']},
   {fileName: 'file:///students.csv', labels: ['Student','User']},
-  {fileName: 'file:///teachers.csv', labels: ['Teacher','User']}
+  {fileName: 'file:///teachers.csv', labels: ['Teacher']}
   ],
   [{fileName: 'file:///courseSubject.csv', type: 'BELONGS_TO'},
   {fileName: 'file:///courseTeacher.csv', type: 'TEACHING'},
@@ -49,4 +49,22 @@ constraint:
 CREATE CONSTRAINT ON (user:USER) ASSERT user.UserID IS UNIQUE
 
 CALL apoc.uuid.install('User', {addToExistingNodes: true, uuidProperty: 'UserID'}) yield label, installed, properties
+
+
+course groups:
+having another course in common:
+
+MATCH (u1:Student)-[:ATTENDS]->(c1:Course)<-[:ATTENDS]-(u2:Student)
+MATCH (u1)-[:ATTENDS]->(c2:Course)<-[:ATTENDS]-(u2)
+WHERE u1.UserName = 'admin' AND c1.Semester = '2019/20/1' AND c1.CourseID='ded980bd-d91d-4748-b8cb-17668ab280a7' 
+AND c2.Semester=c1.Semester AND c2.CourseType IN([1,2])
+RETURN u1,c1,u2,c2
+
+group by having:
+match (u:User) 
+WITH u.UserName as usr ,count(u.UserName) as cnt
+WHERE cnt > 1
+return usr, cnt
+ORDER BY cnt desc
+
 

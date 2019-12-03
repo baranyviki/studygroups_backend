@@ -24,7 +24,10 @@ namespace StudyGroups.Data.Repository
                 var parameters = new Neo4jParameters().WithValue("userID", userID.ToString());
                 string query = $@"MATCH (node:User) WHERE node.UserID = $userID RETURN node";
                 var result = session.Run(query, parameters);
-                return result.Single().Map<User>();
+                var resultList = result.ToList();
+                if (resultList.Count() != 1)
+                    return null;
+                return resultList.Single().Map<User>();
             }
         }
 
@@ -35,7 +38,13 @@ namespace StudyGroups.Data.Repository
                 var parameters = new Neo4jParameters().WithValue("username", userName);
                 string query = $@"MATCH (node:User) WHERE node.UserName = $username RETURN node";
                 var result = session.Run(query, parameters);
-                return result.Single().Map<User>();
+                var resultList = result.ToList();
+                if (resultList.Count() != 1)
+                {
+                    return null;
+                }
+                var user = resultList.Single().Map<User>();
+                return user;
             }
         }
 
@@ -47,8 +56,30 @@ namespace StudyGroups.Data.Repository
                                                       .WithValue("password", password);
                 string query = $@"MATCH (node:User) WHERE node.UserName = $username AND node.Password= $password RETURN node";
                 var result = session.Run(query, parameters);
-                return result.Single().Map<User>();
+                var resultList = result.ToList();
+                if (resultList.Count() == 0)
+                {
+                    return null;
+                }
+                return resultList.Single().Map<User>();
             }
         }
+
+        public List<string> GetUserLabelsByUserID(string userID)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userID);
+
+                string query = $@"MATCH (n:User)
+                                WHERE n.UserID = $userId
+                                UNWIND( labels(n)) as labels 
+                                RETURN distinct labels";
+                var result = session.Run(query, parameters);
+                var labels = result.Select(record => record[0].As<string>()).ToList();
+                return labels;
+            }
+        }
+
     }
 }

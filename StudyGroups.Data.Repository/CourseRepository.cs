@@ -92,5 +92,25 @@ namespace StudyGroups.Data.Repository
             }
 
         }
+
+        public IEnumerable<CourseCodeSubjectNameProjection> FindLabourCoursesWithSubjectStudentCurrentlyEnrolledTo(string userid, string currentSemester)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userid)
+                                                      .WithValue("semester", currentSemester);
+                string query = $@"MATCH (u:User)-[r:ATTENDS]->(c:Course)
+                                  MATCH (c)-[:BELONGS_TO]->(s:Subject)
+                                  WHERE u.UserID = $userId AND c.Semester = $semester AND (c.CourseType=1 OR c.CourseType=2) 
+                                  RETURN c.CourseID as CourseID, c.CourseCode +' - '+ s.Name+' ('+s.SubjectCode+')' as CourseCodeWithSubjectName";
+                var result = session.Run(query, parameters);
+                return result.Map((string CourseID, string CourseCodeWithSubjectName) =>
+                new CourseCodeSubjectNameProjection
+                {
+                    CourseID = CourseID,
+                    CourseCodeWithSubjectName = CourseCodeWithSubjectName
+                }).ToList();
+            }
+        }
     }
 }

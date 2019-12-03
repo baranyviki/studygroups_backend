@@ -10,6 +10,6 @@ namespace StudyGroups.Contracts.Repository
         User FindUserByUserName(string userName);
         User FindUserById(Guid userID);
         User FindUserByUserNameAndPassword(string username, string password);
-
+        List<string> GetUserLabelsByUserID(string userID);
     }
 }

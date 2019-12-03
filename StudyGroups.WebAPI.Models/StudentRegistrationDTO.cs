@@ -18,7 +18,7 @@ namespace StudyGroups.WebAPI.Models
         public string Password { get; set; }
         public string NeptunCode { get; set; }
         public IFormFile Image { get; set; }
-        public IFormFile GradeBookExport { get; set; }
-        public IFormFile CoursesExport { get; set; }
+        public IFormFile GradeBook { get; set; }
+        public IFormFile Courses { get; set; }
     }
 }

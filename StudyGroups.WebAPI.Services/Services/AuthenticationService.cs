@@ -1,21 +1,33 @@
-﻿using CryptoHelper;
-using Microsoft.AspNetCore.Http;
-using StudyGroups.Contracts.Logic;
-using StudyGroups.Contracts.Repository;
-using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Data.DAL.ProjectionModels;
-using StudyGroups.WebAPI.Models;
-using StudyGroups.WebAPI.Services.Mapping;
-using StudyGroups.WebAPI.Services.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using CryptoHelper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using StudyGroups.Contracts.Logic;
+using StudyGroups.Contracts.Repository;
+using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.WebAPI.Models;
+using StudyGroups.WebAPI.Services.Exceptions;
+using StudyGroups.WebAPI.Services.Mapping;
+using StudyGroups.WebAPI.Services.Utils;
 
 namespace StudyGroups.WebAPI.Services
 {
+    //    public enum UserRoleTypes {
+    //        Student,
+    //        Admin
+    //    } 
+
     public class AuthenticationService : IAuthenticationService
     {
         ICourseRepository courseRepository;
@@ -23,15 +35,62 @@ namespace StudyGroups.WebAPI.Services
         ISubjectRepository subjectRepository;
         ITeacherRepository teacherRepository;
         IUserRepository userRepository;
+        IConfiguration _config;
+        ILogger _logger;
 
         public AuthenticationService(ICourseRepository courseRepository, IStudentRepository studentRepository, ISubjectRepository subjectRepository
-           , ITeacherRepository teacherRepository, IUserRepository userRepository)
+           , ITeacherRepository teacherRepository, IUserRepository userRepository, IConfiguration config, ILogger<AuthenticationService> logger)
         {
             this.courseRepository = courseRepository;
             this.studentRepository = studentRepository;
             this.subjectRepository = subjectRepository;
             this.teacherRepository = teacherRepository;
             this.userRepository = userRepository;
+            _config = config;
+            _logger = logger;
+        }
+
+        public string Login(LoginDTO user)
+        {
+            if (user == null)
+            {
+                throw new AuthenticationException("Login object was null");
+          
+            }
+
+            var loggedInUser = userRepository.FindUserByUserName(user.UserName);
+            if (loggedInUser != null && Crypto.VerifyHashedPassword(loggedInUser.Password, user.Password))
+            {
+                var roles = userRepository.GetUserLabelsByUserID(loggedInUser.UserID);
+                roles.Remove("User");
+
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSecretKey"]));
+                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+                var claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.Name, loggedInUser.UserName));
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+                claims.Add(new Claim(JwtRegisteredClaimNames.Sub, loggedInUser.UserID));
+
+                var tokenOptions = new JwtSecurityToken(
+                    issuer: _config["ValidClientURI"],
+                    audience: _config["ValidClientURI"],
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(30),
+                    signingCredentials: signinCredentials
+
+                );
+
+                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                return tokenString;
+            }
+            else
+            {
+                throw new AuthenticationException("Username or password is wrong");
+            }
         }
 
         public async Task RegisterUserAsync(StudentRegistrationDTO studentRegistrationDTO)
@@ -39,7 +98,13 @@ namespace StudyGroups.WebAPI.Services
             //todo: validate these values!!
             //check username existence
 
-            if (studentRegistrationDTO.GradeBookExport != null && studentRegistrationDTO.CoursesExport != null)
+            var usernameExisting = studentRepository.FindStudentByUserName(studentRegistrationDTO.UserName);
+            if (usernameExisting != null)
+            {
+                throw new RegistrationException("This username is already taken.");
+            }
+
+            if (studentRegistrationDTO.GradeBook != null && studentRegistrationDTO.Courses != null)
             {
 
                 var student = new Student();
@@ -63,12 +128,20 @@ namespace StudyGroups.WebAPI.Services
                 studentRepository.CreateUserStudent(student);
                 var stud = studentRepository.FindStudentByUserName(student.UserName);
 
-                await ProcessNeptunExportsAsync(stud, studentRegistrationDTO.GradeBookExport, studentRegistrationDTO.CoursesExport);
-
+                try
+                {
+                    await ProcessNeptunExportsAsync(stud, studentRegistrationDTO.GradeBook, studentRegistrationDTO.Courses);
+                }
+                catch (Exception e)
+                {
+                    _logger.Log(LogLevel.Error, e.Message);
+                    studentRepository.Delete(stud,stud.UserID);
+                    throw new RegistrationException("Neptun export processing was unsuccesful.");
+                }
             }
             else
             {
-                throw new Exception("Neptun exports weren't included, or was in bad format. required file: .CSV - comma or semicolon separated, and UTF-8 coded");
+                throw new RegistrationException("Neptun exports weren't included, or was in bad format. required file: .CSV - comma or semicolon separated, and UTF-8 coded");
             }
 
         }
@@ -203,8 +276,9 @@ namespace StudyGroups.WebAPI.Services
                 return dbPath;
             }
             else
-                throw new Exception("Form File was empty, cannot store it");
+                throw new FileNotFoundException("Form File was empty, cannot store it");
         }
+
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Neo4j.Driver.V1;
 using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
+using StudyGroups.Data.DAL.DAOs;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -28,9 +29,20 @@ namespace StudyGroups.Repository
             }
         }
 
-        public void Delete(T node)
+        public void Delete(T node,string ID)
         {
-            throw new NotImplementedException();
+            using (var session = Neo4jDriver.Session())
+            {
+                string classType = typeof(T).Name;
+                if (node is User)
+                {
+                    classType = "User";
+                }
+                string query = $@"MATCH (node:" + classType + ") WHERE node." + classType+"ID ='"+ID+"' DETACH DELETE node";
+                var result = session.Run(query);
+                var summary = result.Summary;
+                return;
+            }
         }
 
         public IQueryable<T> FindAll()

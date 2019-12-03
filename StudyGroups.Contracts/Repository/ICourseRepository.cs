@@ -26,8 +26,10 @@ namespace StudyGroups.Contracts.Repository
         /// <param name="semester">Semester, in which course was started. Format: YYYY/YY/S</param>
         /// <returns></returns>
         CourseIDSubjectIDProjection GetCourseWithSubject(string courseCode, string subjectCode, string semester);
+        
+        Course CreateCourseBelongingToSubject(Course course, string subjectCode);
 
+        IEnumerable<CourseCodeSubjectNameProjection> FindLabourCoursesWithSubjectStudentCurrentlyEnrolledTo(string username, string currentSemester);
 
-        Course CreateCourseBelongingToSubject(Course course, string subjectCode);  
     }
 }

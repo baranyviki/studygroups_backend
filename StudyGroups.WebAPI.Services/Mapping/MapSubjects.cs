@@ -1,4 +1,5 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.Data.DAL.ProjectionModels;
 using StudyGroups.WebAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,6 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         }
 
-
+        
     }
 }

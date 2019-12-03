@@ -1,4 +1,5 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.Data.DAL.ProjectionModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,11 +33,21 @@ namespace StudyGroups.Contracts.Repository
         IEnumerable<Student> GetStudentsAttendedToSubjectWithGrade(string subjectID, string semester, int grade);
 
         void CreateAttendsToRelationShipWithCourse(Guid userID, Guid courseID);
+
         Student CreateUserStudent(Student student);
+        Student FindStudentByUserID(string userID);
         Student FindStudentByUserName(string userName);
+
         void CreateEnrolledToRelationShipWithSubjectAndGrade(Guid userID, Guid subjectID, string semester, int grade);
+
         void CreateEnrolledToRelationShipWithSubject(Guid userID, Guid subjectID, string semester);
 
+        IEnumerable<Student> GetStudentsHavingCommonPracticalCoursesInCurrentSemester(string userId, string searchCourseId, string currentSemester);
 
+        IEnumerable<Student> GetStudentsAttendingToCourseInCurrentSemester(string userId, string searchCourseId, string currentSemester);
+
+        double GetStudentGradeAverage(string userId);
+
+        int GetStudentSemesterCount(string userId);
     }
 }

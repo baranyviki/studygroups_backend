@@ -17,7 +17,7 @@ using StudyGroups.WebAPI.WebSite.Exceptions;
 
 namespace StudyGroups.WebAPI.WebSite.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -41,32 +41,9 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         [HttpPost,Route("login")]
         public IActionResult Login([FromBody]LoginDTO user)
         {
-            if (user == null)
-            {
-                throw new InvalidLoginParametersException("Login object was null");
-            }
-            if (user.UserName == "viki" && user.Password == "viki")
-            {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetValue<string>("JWTSecretKey")));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            string token = _authenticationService.Login(user);
+            return Ok(new { Token = token });
 
-                var tokenOptions = new JwtSecurityToken(
-                    issuer: _config.GetValue<string>("ValidClientURI"),
-                    audience: _config.GetValue<string>("ValidClientURI"),
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(15),
-                    signingCredentials: signinCredentials
-                );
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-                return Ok(new { Token = tokenString });
-            }
-            else
-            {
-                return Unauthorized();
-            }
-
-            
         }
 
     }

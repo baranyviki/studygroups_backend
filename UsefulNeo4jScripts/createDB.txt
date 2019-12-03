@@ -1,15 +1,15 @@
 CREATE CONSTRAINT ON (node:User) ASSERT node.UserID IS UNIQUE
+CREATE CONSTRAINT ON (node:UserName) ASSERT node.UserID IS UNIQUE
 CREATE CONSTRAINT ON (node:Subject) ASSERT node.SubjectID IS UNIQUE
 CREATE CONSTRAINT ON (node:Course) ASSERT node.CourseID IS UNIQUE
 CREATE CONSTRAINT ON (node:Teacher) ASSERT node.TeacherID IS UNIQUE
 CREATE CONSTRAINT ON (node:Teacher) ASSERT node.Name IS UNIQUE
-
 CREATE CONSTRAINT ON (node:Subject) ASSERT node.SubjectCode IS UNIQUE
 
 
 CALL apoc.uuid.install('User', {addToExistingNodes: true, uuidProperty: 'UserID'}) yield label, installed, properties
 CALL apoc.uuid.install('Subject', {addToExistingNodes: true, uuidProperty: 'SubjectID'}) yield label, installed, properties
-CALL apoc.uuid.install('Course', {addToExistingNodes: true, uuidProperty: 'CourseID '}) yield label, installed, properties
+CALL apoc.uuid.install('Course', {addToExistingNodes: true, uuidProperty: 'CourseID'}) yield label, installed, properties
 CALL apoc.uuid.install('Teacher', {addToExistingNodes: true, uuidProperty: 'TeacherID'}) yield label, installed, properties
 
 
@@ -26,6 +26,14 @@ CALL apoc.import.csv(
   ],
   {delimiter: ';', arrayDelimiter: ',', stringIds: false}
 )
+
+
+Match (u1:Student)
+WHERE u1.FirstName IS NULL
+WITH split(u1.Name,' ') as splitted, u1 as usr
+SET usr.FirstName =splitted[1], usr.LastName=splitted[0]
+RETURN usr.FirstName, usr.LastName
+
 
 match (c:Course)-[:BELONGS_TO]-(s:Subject)
 return s,c

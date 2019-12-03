@@ -22,7 +22,7 @@ namespace StudyGroups.Contracts.Repository
         /// Update method
         /// </summary>
         /// <param name="node">node for Update</param>
-        void Delete(T node);
+        void Delete(T node, string ID);
 
     }
 }

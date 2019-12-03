@@ -2,6 +2,7 @@
 using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.Data.DAL.ProjectionModels;
 using StudyGroups.Repository;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Text;
 
 namespace StudyGroups.Data.Repository
 {
-    public class SubjectRepository :  BaseRepository<Subject>, ISubjectRepository
+    public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
         public SubjectRepository(IDriver neo4jDriver) : base(neo4jDriver)
         {
@@ -29,5 +30,7 @@ namespace StudyGroups.Data.Repository
             }
 
         }
+
+       
     }
 }

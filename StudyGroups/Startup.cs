@@ -17,12 +17,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Neo4j.Driver.V1;
+using Serilog;
 using StudyGroups.Contracts.Logic;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.Repository;
 using StudyGroups.Repository;
 using StudyGroups.Services;
 using StudyGroups.WebAPI.Services;
+using StudyGroups.WebAPI.Services.Services;
+using StudyGroups.WebAPI.WebSite.Middlewares;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -32,6 +35,11 @@ namespace StudyGroupRecommendations
     {
         public Startup(IConfiguration configuration)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File("Logs/log_.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
             Configuration = configuration;
         }
 
@@ -55,6 +63,7 @@ namespace StudyGroupRecommendations
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<ICourseService, CourseService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -98,7 +107,7 @@ namespace StudyGroupRecommendations
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             #region Swagger
             app.UseSwagger();
@@ -115,6 +124,8 @@ namespace StudyGroupRecommendations
                 app.UseDeveloperExceptionPage();
             }
 
+            loggerFactory.AddSerilog();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseCors("CorsPolicy");
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()

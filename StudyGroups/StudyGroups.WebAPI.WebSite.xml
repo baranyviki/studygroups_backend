@@ -4,6 +4,39 @@
         <name>StudyGroups.WebAPI.WebSite</name>
     </assembly>
     <members>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas">
+            <summary>
+            Returns all courses of subjects student enrolled to currently.
+            </summary>
+            <returns>Subjects as selection items</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsEnrolledToSubject(System.String)">
+            <summary>
+            Gets all student who enrolled to a given subject in current semester/all time
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails(System.String)">
+            <summary>
+            Fetch a student with details.
+            </summary>
+            <param name="userName"></param>
+            <returns>Student with profile details.</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsFromStudyGroupSearch(StudyGroups.WebAPI.Models.StudyGroupSearchDTO)">
+            <summary>
+            Gets filtered student list, applied with given params.
+            </summary>
+            <param name="searchParams">Object holding filter parameters.</param>
+            <returns>List of students, who met the search criteria.</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems">
+            <summary>
+            Gets all subjects.
+            </summary>
+            <returns>Subjects as selection items</returns>
+        </member>
         <member name="T:StudyGroups.WebAPI.WebSite.Exceptions.InvalidLoginParametersException">
             <summary>
             Custom exception for handling invalid logins.
@@ -14,6 +47,37 @@
             base constructor
             </summary>
             <param name="msg">Exception message</param>
+        </member>
+        <member name="T:StudyGroups.WebAPI.WebSite.Middlewares.ExceptionMiddleware">
+            <summary>
+            Middleware class for handling Exceptions generally, and return proper HTTP responses.
+            Registered in ApplicationExtensions during startup.
+            With help of this class, there is no need try catch blocks in the code (just special cases).
+            </summary>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Middlewares.ExceptionMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{StudyGroups.WebAPI.WebSite.Middlewares.ExceptionMiddleware})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="next"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Middlewares.ExceptionMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Method what runs all of Http async Task invoke. 
+            Wrap the call in a try catch block and call the original call.
+            In the catch branch, there is a global logging step, and the call for handling the HTTP response returning.
+            </summary>
+            <param name="httpContext">Calling context object</param>
+            <returns>Async Task</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Middlewares.ExceptionMiddleware.HandleExceptionAsync(Microsoft.AspNetCore.Http.HttpContext,System.Exception)">
+            <summary>
+            Method for returning proper HTTP response
+            </summary>
+            <param name="httpContext">Calling context object</param>
+            <param name="ex">Catched exception</param>
+            <returns>Async Task</returns>
         </member>
     </members>
 </doc>
