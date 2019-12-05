@@ -16,10 +16,12 @@ namespace StudyGroups.Services
     public class StudentService : IStudentService
     {
         IStudentRepository _studentRepository;
+        ISubjectRepository _subjectRepository;
 
-        public StudentService(IStudentRepository studentRepository)
+        public StudentService(IStudentRepository studentRepository, ISubjectRepository subjectRepository)
         {
-            this._studentRepository = studentRepository;
+            _studentRepository = studentRepository;
+            _subjectRepository = subjectRepository;
         }
 
         public List<StudentListItemDTO> GetStudentsAttendedToSubject(string subjectID, string semester)
@@ -30,17 +32,16 @@ namespace StudyGroups.Services
             return studentDTOs;
         }
 
-        public List<StudentListItemDTO> GetStudentsAttendedToSubjectWithGrade(string subjectID, string semester, int grade)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public StudentDTO GetStudentDetails(string userID)
         {
             var currentStudent = _studentRepository.FindStudentByUserID(userID);
             if (currentStudent == null)
                 throw new AuthenticationException("Requested student does not exists");
+            var subjectsTutoring = _subjectRepository.GetSubjectsStudentIsTutoring(userID);
+            var subjectDtos = subjectsTutoring.Select(x => MapSubjects.MapSubjectToSubjectDTO(x));
             StudentDTO studentDTO = MapStudents.MapStudentDBModelToStudentDTO(currentStudent);
+            studentDTO.TutoringSubjects = subjectDtos;
             return studentDTO;
         }
 
@@ -94,9 +95,40 @@ namespace StudyGroups.Services
             var filteredStudentListDtos = filteredStudents.Select(x => MapStudents.MapStudentDBModelToStudentListItemDTO(x)).ToList();
             return filteredStudentListDtos;
 
+        }        
+
+        public void UpdateStudentAndTutoringRelationShips(StudentDTO studentDTO,string userId)
+        {
+            if (studentDTO == null)
+                throw new ParameterException("Student for update cannot be null");
+            if (userId == null)
+                throw new AuthenticationException("Bad user token");
+            var student = MapStudents.MapStudentDTOToStudentDBModel(studentDTO, userId);
+            _studentRepository.UpdateStudent(student);
+
+            var tutoringSubjects = _subjectRepository.GetSubjectsStudentIsTutoring(userId).ToList();
+            if (tutoringSubjects != null && tutoringSubjects.Count != 0)
+            {
+                var subjectIdsFromDatabase = tutoringSubjects.Select(x => x.SubjectID);
+                var subjectIdsFromDTO = studentDTO.TutoringSubjects.Select(x => x.SubjectID);
+                var toCreateTutoringRelationship = subjectIdsFromDTO.Where(x => !subjectIdsFromDatabase.Contains(x));
+                var toDeleteTutoringRelationship = subjectIdsFromDatabase.Where(x => !subjectIdsFromDTO.Contains(x));
+
+                foreach (var subId in toCreateTutoringRelationship)
+                {
+                    _studentRepository.MergeTutoringRelationship(userId, subId);
+                }
+                foreach (var subId in toDeleteTutoringRelationship)
+                {
+                    _studentRepository.DeleteTutoringRelationship(userId,subId);
+                }
+            }
+            else {
+                foreach (var subject in studentDTO.TutoringSubjects)
+                {
+                    _studentRepository.MergeTutoringRelationship(userId, subject.SubjectID);
+                }
+            }
         }
-
-
-
     }
 }

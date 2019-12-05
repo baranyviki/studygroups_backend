@@ -26,7 +26,6 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         /// Gets all subjects.
         /// </summary>
         /// <returns>Subjects as selection items</returns>
-        // GET api/subject/'
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("selections")]
         public ActionResult<string> GetAllSelectionItems()
@@ -34,6 +33,32 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             var subjectListItems = subjectService.GetAllSubjectsAsSelectionItem();
             return Ok(subjectListItems);
         }
+
+
+        /// <summary>
+        /// Gets all subjects user has passed.
+        /// </summary>
+        /// <returns>List of subjects as selection items.</returns>
+        [Authorize]
+        [HttpGet("completed")]
+        public ActionResult<string> GetAllCompletedSubjectSelectionItems()
+        {
+            string userId = GetUserIdFromToken();
+            var subjectListItems = subjectService.GetSubjectUserHasPassedAsSubjectDTO(userId);
+            return Ok(subjectListItems);
+        }
+
+        
+        private string GetUserIdFromToken()
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string authHeader = Request.Headers["Authorization"];
+            authHeader = authHeader.Replace("Bearer ", "");
+            JwtSecurityToken tokens = handler.ReadToken(authHeader) as JwtSecurityToken;
+            return tokens.Claims.Where(claim => claim.Type == JwtRegisteredClaimNames.Sub).SingleOrDefault().Value;
+
+        }
+
     }
 
 }

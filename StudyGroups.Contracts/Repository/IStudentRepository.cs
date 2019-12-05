@@ -1,20 +1,11 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Data.DAL.ProjectionModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.Contracts.Repository
 {
     public interface IStudentRepository : IBaseRepository<Student>
     {
-        /// <summary>
-        /// Gets a list of student who are attended to this subject
-        /// </summary>
-        /// <param name="subjectID"></param>
-        /// <returns></returns>
-        //IEnumerable<StudentDBModel> GetStudentsAttendingToSubjectCurrently(int subjectID);
-
         /// <summary>
         /// Gets students having a specific subject in a specific semester. 
         /// </summary>
@@ -35,9 +26,17 @@ namespace StudyGroups.Contracts.Repository
         void CreateAttendsToRelationShipWithCourse(Guid userID, Guid courseID);
 
         Student CreateUserStudent(Student student);
+
         Student FindStudentByUserID(string userID);
+
         Student FindStudentByUserName(string userName);
 
+        void UpdateStudent(Student student);
+
+        void MergeTutoringRelationship(string userId, string subjectId);
+
+        void DeleteTutoringRelationship(string userId, string subjectId);
+        
         void CreateEnrolledToRelationShipWithSubjectAndGrade(Guid userID, Guid subjectID, string semester, int grade);
 
         void CreateEnrolledToRelationShipWithSubject(Guid userID, Guid subjectID, string semester);

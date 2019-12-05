@@ -9,6 +9,7 @@ namespace StudyGroups.Contracts.Logic
     public interface ISubjectService
     {
         List<GeneralSelectionItem> GetAllSubjectsAsSelectionItem();
-        //List<GeneralSelectionItem> GetAllLabourCoursesWithSubjectStudentEnrolledToCurrentSemester(string username);
+        IEnumerable<SubjectDTO> GetSubjectUserHasPassedAsSubjectDTO(string userId);
+
     }
 }

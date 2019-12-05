@@ -31,6 +31,28 @@ namespace StudyGroups.Data.Repository
 
         }
 
-       
+        public IEnumerable<Subject> GetSubjectsStudentHasPassed(string userID)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userID);
+                string query = $@"MATCH(n: User) -[r: ENROLLED_TO]->(s: Subject)
+                        WHERE n.UserID = $userId AND r.Grade > 1 RETURN s";
+                var result = session.Run(query, parameters);
+                return result.Map<Subject>();
+            }
+        }
+        
+        public IEnumerable<Subject> GetSubjectsStudentIsTutoring(string userId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userId);
+                string query = $@"MATCH (n:User)-[:TUTORING]->(s:Subject)
+                                  WHERE n.UserID=$userId RETURN s";
+                var result = session.Run(query, parameters);
+                return result.Map<Subject>();
+            }
+        }
     }
 }

@@ -38,6 +38,21 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         }
 
+        internal static Student MapStudentDTOToStudentDBModel(StudentDTO studentDto,string userId) {
 
+            return new Student {
+                UserID =userId,
+                DateOfBirth = studentDto.DateOfBirth,
+                NeptunCode = studentDto.NeptunCode,
+                Email = studentDto.Email,
+                MessengerName = studentDto.MessengerName,
+                FirstName = studentDto.FirstName,
+                LastName = studentDto.LastName,
+                GenderType = studentDto.GenderType,
+                ImagePath = studentDto.ImagePath,
+                InstagramName = studentDto.InstagramName               
+            };
+            
+        }
     }
 }

@@ -15,8 +15,7 @@ namespace StudyGroups.WebAPI.Services
     public class SubjectService : ISubjectService
     {
         ISubjectRepository _subjectRepository;
-
-
+        
         public SubjectService(ISubjectRepository subjectRepository)
         {
             this._subjectRepository = subjectRepository;
@@ -30,12 +29,13 @@ namespace StudyGroups.WebAPI.Services
             return subjectDTOs;
         }
 
-        //public List<GeneralSelectionItem> GetAllLabourCoursesWithSubjectStudentEnrolledToCurrentSemester(string username)
-        //{
-        //    string currentSemester = SemesterManager.GetCurrentSemester();
-        //    List<CourseCodeSubjectNameProjection> subjects = _subjectRepository.FindLabourCoursesWithSubjectStudentCurrentlyEnrolledTo(username, currentSemester);
-        //    var subjectSelectionItems = subjects.Select(x => MapSubjects.MapCourseProjectionToGeneralSelectionItem(x)).ToList();
-        //    return subjectSelectionItems;
-        //}
+        public IEnumerable<SubjectDTO> GetSubjectUserHasPassedAsSubjectDTO(string userId)
+        {
+            var subjects = _subjectRepository.GetSubjectsStudentHasPassed(userId);
+            var selectionItems = subjects.Select(x => MapSubjects.MapSubjectToSubjectDTO(x));
+            return selectionItems;
+        }
+
+        
     }
 }

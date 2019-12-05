@@ -13,12 +13,21 @@ namespace StudyGroups.WebAPI.Services.Mapping
         {
             return new GeneralSelectionItem
             {
-                ID = subjectDBModel.SubjectID.ToString(),
+                ID = subjectDBModel.SubjectID,
                 DisplayName = $"{subjectDBModel.Name} - {subjectDBModel.SubjectCode}"
             };
 
         }
 
-        
+        internal static SubjectDTO MapSubjectToSubjectDTO(Subject subjectDBModel)
+        {
+            return new SubjectDTO
+            {
+                SubjectID = subjectDBModel.SubjectID,
+                Name = $"{subjectDBModel.Name} - {subjectDBModel.SubjectCode}"
+            };
+
+        }
+
     }
 }

@@ -37,7 +37,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         }
 
         /// <summary>
-        /// Fetch a student with details.
+        /// Fetch a user student with details.
         /// </summary>
         /// <param name="userName"></param>
         /// <returns>Student with profile details.</returns>
@@ -48,7 +48,20 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             StudentDTO student=_studentService.GetStudentDetails(userID);
             return Ok(student);
         }
+
+        /// <summary>
+        /// Fetch student details.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet("details/{id}"), Authorize(Roles = "Student")]
+        public ActionResult<StudentDTO> GetStudentDetailsById(string id)
+        {
+            StudentDTO student = _studentService.GetStudentDetails(id);
+            return Ok(student);
+        }
         
+
         /// <summary>
         /// Gets filtered student list, applied with given params.
         /// </summary>
@@ -60,6 +73,16 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             string id = GetUserIdFromToken();
             List<StudentListItemDTO> student = _studentService.GetStudentFromStudyGroupSearch(searchParams,id);
             return Ok(student);
+        }
+
+        // PUT api/values/5
+        [HttpPut("update"), Authorize(Roles = "Student")]
+        public IActionResult Put([FromBody] StudentDTO value)
+        {
+            
+            var studentId = GetUserIdFromToken();
+            _studentService.UpdateStudentAndTutoringRelationShips(value,studentId);
+            return Ok();
         }
 
         private string GetUserIdFromToken()

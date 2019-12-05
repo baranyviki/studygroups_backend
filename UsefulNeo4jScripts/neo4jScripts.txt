@@ -67,4 +67,7 @@ WHERE cnt > 1
 return usr, cnt
 ORDER BY cnt desc
 
-
+MATCH (n:User)-[r:ENROLLED_TO]->(s:Subject)
+WHERE n.UserName="admin" AND r.Grade > 1 and s.SubjectCode='NAMVS1SAND'
+MERGE (n)-[:TUTORING]->(s)
+RETURN n,r,s

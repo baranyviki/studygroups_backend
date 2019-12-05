@@ -60,6 +60,50 @@ namespace StudyGroups.Repository
             }
         }
 
+        public void UpdateStudent(Student student)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", student.UserID)
+                                                      .WithValue("firstName",student.FirstName)
+                                                      .WithValue("lastName",student.LastName)
+                                                      .WithValue("email",student.Email)
+                                                      .WithValue("messenger",student.MessengerName)
+                                                      .WithValue("instagram",student.InstagramName)
+                                                      .WithValue("neptun",student.NeptunCode);
+
+                string query = @"MATCH(n: User)
+                                 WHERE n.UserID = $userId
+                                 SET n.FirstName = $firstName,n.LastName = $lastName, n.Email =$email,
+                                 n.MessengerName = $messenger, n.InstagramName = $instagram, n.NeptunCode=$neptun";
+                var result = session.Run(query, parameters);
+            }
+        }
+
+        public void MergeTutoringRelationship(string userId, string subjectId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userId).WithValue("subjectId",subjectId);
+                string query = $@"MATCH (u:User),(s:Subject)
+                                  WHERE u.UserID = $userId and s.SubjectID=$subjectId
+                                  MERGE(u) -[r: TUTORING]->(s)";
+                var result = session.Run(query, parameters);
+            }
+        }
+
+        public void DeleteTutoringRelationship(string userId, string subjectId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userId).WithValue("subjectId", subjectId);
+                string query = $@"MATCH (u:User)-[r:TUTORING]->(s:Subject)
+                                  WHERE u.UserID=$userId AND s.SubjectID=$subjectId DELETE r";
+                var result = session.Run(query, parameters);
+            }
+        }
+
+
         public Student CreateUserStudent(Student student)
         {
             using (var session = Neo4jDriver.Session())
@@ -204,6 +248,5 @@ namespace StudyGroups.Repository
             }
         }
 
-        
     }
 }

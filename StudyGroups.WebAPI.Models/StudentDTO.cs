@@ -16,5 +16,6 @@ namespace StudyGroups.WebAPI.Models
         public int GenderType { get; set; }
         public DateTime DateOfBirth { get; set; }       
         public string ImagePath { get; set; }
+        public IEnumerable<SubjectDTO> TutoringSubjects { get; set; }
     }
 }
