@@ -48,5 +48,7 @@ namespace StudyGroups.Contracts.Repository
         double GetStudentGradeAverage(string userId);
 
         int GetStudentSemesterCount(string userId);
+
+        IEnumerable<Student> GetStudentsTutoringSubjectByID(string subjectId);
     }
 }

@@ -49,6 +49,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         }
 
         
+
         private string GetUserIdFromToken()
         {
             var handler = new JwtSecurityTokenHandler();

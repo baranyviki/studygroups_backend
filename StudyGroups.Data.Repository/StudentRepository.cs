@@ -248,5 +248,19 @@ namespace StudyGroups.Repository
             }
         }
 
+        public IEnumerable<Student> GetStudentsTutoringSubjectByID(string subjectId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("subjectId", subjectId);
+                string query = $@"MATCH (u:User)-[r:TUTORING]->(s:Subject)
+                                  WHERE s.SubjectID=$subjectId return u";
+                var result = session.Run(query, parameters);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return new List<Student>();
+                return resultList.Map<Student>();
+            }
+        }
     }
 }

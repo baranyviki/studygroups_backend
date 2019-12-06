@@ -38,6 +38,12 @@
             <param name="searchParams">Object holding filter parameters.</param>
             <returns>List of students, who met the search criteria.</returns>
         </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetAllStudentTutoringSubject(System.String)">
+            <summary>
+            Gets students who are tutoring the given subject.
+            </summary>
+            <returns>List of subjects as selection items.</returns>
+        </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems">
             <summary>
             Gets all subjects.

@@ -130,5 +130,13 @@ namespace StudyGroups.Services
                 }
             }
         }
+
+        public IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string id,string loggedInUserId)
+        {
+            var students = _studentRepository.GetStudentsTutoringSubjectByID(id);
+            var studentListItemDtos = students.Select(x => MapStudents.MapStudentDBModelToStudentListItemDTO(x));
+            studentListItemDtos = studentListItemDtos.Where(x => x.Id != loggedInUserId);
+            return studentListItemDtos;
+        }
     }
 }

@@ -77,12 +77,24 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
 
         // PUT api/values/5
         [HttpPut("update"), Authorize(Roles = "Student")]
-        public IActionResult Put([FromBody] StudentDTO value)
+        public IActionResult UpdateStudent([FromBody] StudentDTO value)
         {
             
             var studentId = GetUserIdFromToken();
             _studentService.UpdateStudentAndTutoringRelationShips(value,studentId);
             return Ok();
+        }
+
+        /// <summary>
+        /// Gets students who are tutoring the given subject.
+        /// </summary>
+        /// <returns>List of subjects as selection items.</returns>
+        [Authorize]
+        [HttpGet("tutors/{id}")]
+        public ActionResult<string> GetAllStudentTutoringSubject(string id)
+        {
+            IEnumerable<StudentListItemDTO> studentListItemDtos = _studentService.GetStudentsTutoringSubject(id, GetUserIdFromToken());
+            return Ok(studentListItemDtos);
         }
 
         private string GetUserIdFromToken()
