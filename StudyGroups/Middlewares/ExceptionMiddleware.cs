@@ -4,8 +4,6 @@ using StudyGroups.Data.Repository;
 using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Security.Authentication;
 using System.Threading.Tasks;
@@ -77,11 +75,11 @@ namespace StudyGroups.WebAPI.WebSite.Middlewares
             // Create a Http response with the status code and the exception message
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)code;
-            
+
             string message;
             if ((int)code == 500)
                 message = "Internal server error, please contact administrator.";
-            else 
+            else
                 message = ex.Message;
 
             return httpContext.Response.WriteAsync(new ErrorDetails()

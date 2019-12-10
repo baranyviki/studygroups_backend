@@ -2,9 +2,6 @@
 using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.DTOmodels;
 using StudyGroups.WebAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Services.Mapping
 {
@@ -12,10 +9,11 @@ namespace StudyGroups.WebAPI.Services.Mapping
     {
         internal static StudentListItemDTO MapStudentDBModelToStudentListItemDTO(Student studentDBModel)
         {
-            return new StudentListItemDTO {
+            return new StudentListItemDTO
+            {
                 Id = studentDBModel.UserID.ToString(),
                 Email = studentDBModel.Email,
-                Name = studentDBModel.FirstName+" "+studentDBModel.LastName
+                Name = studentDBModel.FirstName + " " + studentDBModel.LastName
             };
 
         }
@@ -37,10 +35,12 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         }
 
-        internal static Student MapStudentDTOToStudentDBModel(StudentDTO studentDto,string userId) {
+        internal static Student MapStudentDTOToStudentDBModel(StudentDTO studentDto, string userId)
+        {
 
-            return new Student {
-                UserID =userId,
+            return new Student
+            {
+                UserID = userId,
                 NeptunCode = studentDto.NeptunCode,
                 Email = studentDto.Email,
                 MessengerName = studentDto.MessengerName,
@@ -48,9 +48,9 @@ namespace StudyGroups.WebAPI.Services.Mapping
                 LastName = studentDto.LastName,
                 GenderType = studentDto.GenderType,
                 ImagePath = studentDto.ImagePath,
-                InstagramName = studentDto.InstagramName               
+                InstagramName = studentDto.InstagramName
             };
-            
+
         }
     }
 }

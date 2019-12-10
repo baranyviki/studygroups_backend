@@ -2,10 +2,7 @@
 using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace StudyGroups.Repository
 {
@@ -25,12 +22,12 @@ namespace StudyGroups.Repository
                 string classType = typeof(T).Name;
                 var parameters = new Neo4jParameters().WithEntity("newNode", node);
                 string query = $@"CREATE (node:{classType} $newNode ) RETURN node";
-                var result = session.Run(query,parameters);
+                var result = session.Run(query, parameters);
                 return result.Single().Map<T>();
             }
         }
 
-        public void Delete(T node,string ID)
+        public void Delete(T node, string ID)
         {
             using (var session = Neo4jDriver.Session())
             {
@@ -39,7 +36,7 @@ namespace StudyGroups.Repository
                 {
                     classType = "User";
                 }
-                string query = $@"MATCH (node:" + classType + ") WHERE node." + classType+"ID ='"+ID+"' DETACH DELETE node";
+                string query = $@"MATCH (node:" + classType + ") WHERE node." + classType + "ID ='" + ID + "' DETACH DELETE node";
                 session.Run(query);
                 return;
             }

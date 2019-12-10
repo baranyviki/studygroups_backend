@@ -1,9 +1,6 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.Data.DAL.ProjectionModels;
 using StudyGroups.WebAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Services.Mapping
 {
@@ -18,7 +15,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
                 type = CourseType.Theoretical;
             else if (courseExportModel.CourseType == "Labor" || courseExportModel.CourseType == "Labour")
                 type = CourseType.Labour;
-            else if(courseExportModel.CourseType == "Gyakorlat" || courseExportModel.CourseType == "Practice")
+            else if (courseExportModel.CourseType == "Gyakorlat" || courseExportModel.CourseType == "Practice")
                 type = CourseType.Labour;
             else
                 type = CourseType.Special;
@@ -26,8 +23,8 @@ namespace StudyGroups.WebAPI.Services.Mapping
             course.CourseCode = courseExportModel.CourseCode;
             course.Semester = semester;
             course.CourseType = (int)type;
-            
-            return new CourseSubjectCode{Course=course,SubjectCode=courseExportModel.SubjectCode };
+
+            return new CourseSubjectCode { Course = course, SubjectCode = courseExportModel.SubjectCode };
         }
 
         internal static GeneralSelectionItem MapCourseProjectionToGeneralSelectionItem(CourseCodeSubjectNameProjection x)

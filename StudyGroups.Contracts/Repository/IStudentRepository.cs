@@ -36,7 +36,7 @@ namespace StudyGroups.Contracts.Repository
         void MergeTutoringRelationship(string userId, string subjectId);
 
         void DeleteTutoringRelationship(string userId, string subjectId);
-        
+
         void CreateEnrolledToRelationShipWithSubjectAndGrade(Guid userID, Guid subjectID, string semester, int grade);
 
         void CreateEnrolledToRelationShipWithSubject(Guid userID, Guid subjectID, string semester);

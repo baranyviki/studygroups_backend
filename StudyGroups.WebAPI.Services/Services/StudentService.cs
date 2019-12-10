@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
+using System.Text.RegularExpressions;
 
 namespace StudyGroups.Services
 {
@@ -24,29 +25,48 @@ namespace StudyGroups.Services
             _subjectRepository = subjectRepository;
         }
 
-        public List<StudentListItemDTO> GetStudentsAttendedToSubject(string subjectID, string semester)
+        public IEnumerable<StudentListItemDTO> GetStudentsAttendedToSubject(string subjectID, string semester)
         {
+            if (subjectID == null || semester == null)
+                throw new ParameterException("Id parameters cannot be null");
+            if (!Guid.TryParse(subjectID, out Guid subjectGuid))
+                throw new ParameterException("Ids must be GUIDs");
+            if (!Regex.Match(semester, "[1-2]{1}[0-9]{3}/[0-9]{2}/[1-2]{1}").Success)
+                throw new ParameterException("Semester is in invalid format");
             var studentDBList = _studentRepository.GetStudentsAttendedToSubject(subjectID, semester);
-            List<StudentListItemDTO> studentDTOs = new List<StudentListItemDTO>();
-            studentDTOs.AddRange(studentDBList.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x)));
+            if (studentDBList == null)
+                return new List<StudentListItemDTO>().AsEnumerable();
+            var studentDTOs = studentDBList.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x));
             return studentDTOs;
         }
 
 
         public StudentDTO GetStudentDetails(string userID)
         {
+            if (userID == null || !Guid.TryParse(userID, out Guid userguid))
+                throw new ParameterException("user ID is invalid");
             var currentStudent = _studentRepository.FindStudentByUserID(userID);
+
             if (currentStudent == null)
                 throw new AuthenticationException("Requested student does not exists");
-            var subjectsTutoring = _subjectRepository.GetSubjectsStudentIsTutoring(userID);
-            var subjectDtos = subjectsTutoring.Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
+
             StudentDTO studentDTO = MapStudent.MapStudentDBModelToStudentDTO(currentStudent);
-            studentDTO.TutoringSubjects = subjectDtos;
+
+            var subjectsTutoring = _subjectRepository.GetSubjectsStudentIsTutoring(userID);
+
+            if (subjectsTutoring != null)
+            {
+                var subjectDtos = subjectsTutoring.Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
+                studentDTO.TutoringSubjects = subjectDtos;
+            }
             return studentDTO;
         }
 
-        public List<StudentListItemDTO> GetStudentFromStudyGroupSearch(StudyGroupSearchDTO searchParams, string loggedInUserId)
+        public IEnumerable<StudentListItemDTO> GetStudentFromStudyGroupSearch(StudyGroupSearchDTO searchParams, string loggedInUserId)
         {
+
+            if (loggedInUserId == null || !Guid.TryParse(loggedInUserId, out Guid userguid))
+                throw new ParameterException("user ID is invalid");
             if (searchParams == null || searchParams.CourseID == null)
                 throw new ParameterException("Search parameters cannot be null");
 
@@ -92,7 +112,7 @@ namespace StudyGroups.Services
                 filteredStudents = filteredStudents.Where(x => !filteredOutStudents.Select(y => y.UserID).Contains(x.UserID));
             }
 
-            var filteredStudentListDtos = filteredStudents.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x)).ToList();
+            var filteredStudentListDtos = filteredStudents.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x));
             return filteredStudentListDtos;
 
         }
@@ -132,9 +152,13 @@ namespace StudyGroups.Services
             }
         }
 
-        public IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string id, string loggedInUserId)
+        public IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string subjectid, string loggedInUserId)
         {
-            var students = _studentRepository.GetStudentsTutoringSubjectByID(id);
+            if (subjectid == null || loggedInUserId == null)
+                throw new ParameterException("Id parameters cannot be null");
+            if (!Guid.TryParse(subjectid, out Guid subjectGuid) || !Guid.TryParse(loggedInUserId, out Guid userGuid))
+                throw new ParameterException("Ids must be GUIDs");
+            var students = _studentRepository.GetStudentsTutoringSubjectByID(subjectid);
             var studentListItemDtos = students.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x));
             studentListItemDtos = studentListItemDtos.Where(x => x.Id != loggedInUserId);
             return studentListItemDtos;

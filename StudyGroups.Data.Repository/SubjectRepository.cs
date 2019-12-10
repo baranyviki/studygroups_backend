@@ -2,13 +2,10 @@
 using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Data.DAL.ProjectionModels;
 using StudyGroups.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace StudyGroups.Data.Repository
 {
@@ -66,7 +63,7 @@ namespace StudyGroups.Data.Repository
             }
         }
 
-        public void UpdateSubject(Subject subject)
+        public Subject UpdateSubject(Subject subject)
         {
             using (var session = Neo4jDriver.Session())
             {
@@ -75,12 +72,13 @@ namespace StudyGroups.Data.Repository
                                   WHERE n.SubjectID=$subjectId SET n = $props";
                 var result = session.Run(query, parameters);
                 var summary = result.Summary;
-                //return result.Map<Subject>();
-                if (false)
+                if (summary.Notifications.Select(x => x.Description).Contains("Error"))
                 {
                     throw new NodeNotExistsException("Node to be updated does not exists.");
                 }
+                return result.SingleOrDefault().Map<Subject>();
             }
+
         }
     }
 }

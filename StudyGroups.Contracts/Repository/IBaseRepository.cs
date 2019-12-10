@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StudyGroups.Contracts.Repository
+﻿namespace StudyGroups.Contracts.Repository
 {
     public interface IBaseRepository<T> : IQueryableRepository<T> where T : class
     {

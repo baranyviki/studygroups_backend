@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace StudyGroups.WebAPI.Models
 {
@@ -13,7 +11,7 @@ namespace StudyGroups.WebAPI.Models
         public string InstagramName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int GenderType { get; set; }   
+        public int GenderType { get; set; }
         public string ImagePath { get; set; }
         public IEnumerable<SubjectListItemDTO> TutoringSubjects { get; set; }
     }

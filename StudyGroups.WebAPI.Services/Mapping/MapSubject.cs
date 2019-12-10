@@ -1,9 +1,5 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Data.DAL.ProjectionModels;
 using StudyGroups.WebAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Services.Mapping
 {
@@ -30,13 +26,14 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         internal static SubjectDTO MapSubjectToSubjectDTO(Subject subjectDbModel)
         {
-            return new SubjectDTO {
-            Credits=subjectDbModel.Credits,
-            Name=subjectDbModel.Name,
-            SubjectCode=subjectDbModel.SubjectCode,
-            SubjectID = subjectDbModel.SubjectID,
-            SubjectType=(SubjectType)subjectDbModel.SubjectType,
-            SuggestedSemester=subjectDbModel.SuggestedSemester
+            return new SubjectDTO
+            {
+                Credits = subjectDbModel.Credits,
+                Name = subjectDbModel.Name,
+                SubjectCode = subjectDbModel.SubjectCode,
+                SubjectID = subjectDbModel.SubjectID,
+                SubjectType = (SubjectType)subjectDbModel.SubjectType,
+                SuggestedSemester = subjectDbModel.SuggestedSemester
             };
         }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StudyGroups.WebAPI.Models
+﻿namespace StudyGroups.WebAPI.Models
 {
     public class GeneralSelectionItem
     {

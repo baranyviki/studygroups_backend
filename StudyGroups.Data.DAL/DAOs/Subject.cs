@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StudyGroups.Data.DAL.DAOs
+﻿namespace StudyGroups.Data.DAL.DAOs
 {
     public enum SubjectType
     {

@@ -37,6 +37,13 @@
             <param name="searchParams">Object holding filter parameters.</param>
             <returns>List of students, who met the search criteria.</returns>
         </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.UpdateStudent(StudyGroups.WebAPI.Models.StudentDTO)">
+            <summary>
+            Updates a student.
+            </summary>
+            <param name="value">Student DTO with updateable fields.</param>
+            <returns></returns>
+        </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetAllStudentTutoringSubject(System.String)">
             <summary>
             Gets students who are tutoring the given subject.

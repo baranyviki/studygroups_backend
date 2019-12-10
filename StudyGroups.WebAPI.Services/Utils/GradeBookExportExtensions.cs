@@ -1,8 +1,5 @@
 ﻿using StudyGroups.WebAPI.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Services.Utils
 {
@@ -23,7 +20,7 @@ namespace StudyGroups.WebAPI.Services.Utils
             //bool isHungarian = gradeBookExportModel.Completed == "Igen" || gradeBookExportModel.Completed == "Nem";
             var dataElements = s.Split(". ");
             string grade = dataElements.Last().Split(" ").FirstOrDefault();
-            
+
 
             if (gradeBookExportModel.Completed == "No" || gradeBookExportModel.Completed == "Nem")
             {
@@ -56,7 +53,8 @@ namespace StudyGroups.WebAPI.Services.Utils
             {
                 return GradeTypes.Excellent;
             }
-            else {
+            else
+            {
                 return null;
             }
         }

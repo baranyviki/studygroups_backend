@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Security.Authentication;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using CryptoHelper;
+﻿using CryptoHelper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -20,19 +10,29 @@ using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Exceptions;
 using StudyGroups.WebAPI.Services.Mapping;
 using StudyGroups.WebAPI.Services.Utils;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Authentication;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StudyGroups.WebAPI.Services
 {
 
     public class AuthenticationService : IAuthenticationService
     {
-       private readonly ICourseRepository courseRepository;
-       private readonly IStudentRepository studentRepository;
-       private readonly ISubjectRepository subjectRepository;
-       private readonly ITeacherRepository teacherRepository;
-       private readonly IUserRepository userRepository;
-       private readonly IConfiguration _config;
-       private readonly ILogger _logger;
+        private readonly ICourseRepository courseRepository;
+        private readonly IStudentRepository studentRepository;
+        private readonly ISubjectRepository subjectRepository;
+        private readonly ITeacherRepository teacherRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IConfiguration _config;
+        private readonly ILogger _logger;
 
         public AuthenticationService(ICourseRepository courseRepository, IStudentRepository studentRepository, ISubjectRepository subjectRepository
            , ITeacherRepository teacherRepository, IUserRepository userRepository, IConfiguration config, ILogger<AuthenticationService> logger)
@@ -51,7 +51,7 @@ namespace StudyGroups.WebAPI.Services
             if (user == null)
             {
                 throw new AuthenticationException("Login object was null");
-          
+
             }
 
             var loggedInUser = userRepository.FindUserByUserName(user.UserName);
@@ -134,7 +134,7 @@ namespace StudyGroups.WebAPI.Services
                 catch (Exception e)
                 {
                     _logger.Log(LogLevel.Error, e.Message);
-                    studentRepository.Delete(stud,stud.UserID);
+                    studentRepository.Delete(stud, stud.UserID);
                     throw new RegistrationException("Neptun export processing was unsuccesful.");
                 }
             }

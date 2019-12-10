@@ -1,15 +1,12 @@
 ﻿using StudyGroups.Contracts.Logic;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Data.DAL.ProjectionModels;
 using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Exceptions;
 using StudyGroups.WebAPI.Services.Mapping;
-using StudyGroups.WebAPI.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Services
 {
@@ -42,12 +39,14 @@ namespace StudyGroups.WebAPI.Services
 
         public IEnumerable<SubjectListItemDTO> GetSubjectUserHasPassedAsSubjectDTO(string userId)
         {
+            if (userId == null)
+            { throw new ParameterException("Requested userId cannot be null"); }
             var subjects = _subjectRepository.GetSubjectsStudentHasPassed(userId);
             var selectionItems = subjects.Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
             return selectionItems;
         }
 
-        public void UpdateSubject(SubjectDTO subject)
+        public SubjectDTO UpdateSubject(SubjectDTO subject)
         {
             if (subject == null)
             {
@@ -57,8 +56,12 @@ namespace StudyGroups.WebAPI.Services
             {
                 throw new ParameterException("SubjectID, SubjectCode cannot be null or empty");
             }
+
             var subjectDBModel = MapSubject.MapSubjectDTOToSubject(subject);
-            _subjectRepository.UpdateSubject(subjectDBModel);
+            Subject updated = _subjectRepository.UpdateSubject(subjectDBModel);
+
+            return MapSubject.MapSubjectToSubjectDTO(updated);
+
         }
     }
 }

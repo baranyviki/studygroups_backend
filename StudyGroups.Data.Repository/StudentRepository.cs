@@ -1,11 +1,10 @@
 ﻿using Neo4j.Driver.V1;
+using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
+using StudyGroups.Data.DAL.DAOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Neo4jMapper;
-using System;
-using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Data.DAL.ProjectionModels;
 
 namespace StudyGroups.Repository
 {
@@ -65,12 +64,12 @@ namespace StudyGroups.Repository
             using (var session = Neo4jDriver.Session())
             {
                 var parameters = new Neo4jParameters().WithValue("userId", student.UserID)
-                                                      .WithValue("firstName",student.FirstName)
-                                                      .WithValue("lastName",student.LastName)
-                                                      .WithValue("email",student.Email)
-                                                      .WithValue("messenger",student.MessengerName)
-                                                      .WithValue("instagram",student.InstagramName)
-                                                      .WithValue("neptun",student.NeptunCode);
+                                                      .WithValue("firstName", student.FirstName)
+                                                      .WithValue("lastName", student.LastName)
+                                                      .WithValue("email", student.Email)
+                                                      .WithValue("messenger", student.MessengerName)
+                                                      .WithValue("instagram", student.InstagramName)
+                                                      .WithValue("neptun", student.NeptunCode);
 
                 string query = @"MATCH(n: User)
                                  WHERE n.UserID = $userId
@@ -84,7 +83,7 @@ namespace StudyGroups.Repository
         {
             using (var session = Neo4jDriver.Session())
             {
-                var parameters = new Neo4jParameters().WithValue("userId", userId).WithValue("subjectId",subjectId);
+                var parameters = new Neo4jParameters().WithValue("userId", userId).WithValue("subjectId", subjectId);
                 string query = $@"MATCH (u:User),(s:Subject)
                                   WHERE u.UserID = $userId and s.SubjectID=$subjectId
                                   MERGE(u) -[r: TUTORING]->(s)";
@@ -152,6 +151,9 @@ namespace StudyGroups.Repository
                             WHERE sub.SubjectID='{subjectID}' AND r.Semester='{semester}'
                             RETURN stud";
                 var result = session.Run(query);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return null;
                 var students = result.Map<Student>();
                 return students;
             }
@@ -174,7 +176,7 @@ namespace StudyGroups.Repository
                 return students;
             }
         }
-                
+
         public IEnumerable<Student> GetStudentsHavingCommonPracticalCoursesInCurrentSemester(string userId, string searchCourseId, string currentSemester)
         {
             using (var session = Neo4jDriver.Session())

@@ -1,6 +1,5 @@
 ﻿using Neo4j.Driver.V1;
 using Neo4jMapper;
-using ServiceStack.Text;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.ConversionUtils;
 using StudyGroups.Data.DAL.DAOs;
@@ -9,7 +8,6 @@ using StudyGroups.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StudyGroups.Data.Repository

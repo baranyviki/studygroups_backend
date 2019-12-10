@@ -1,11 +1,8 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Models
 {
-   public class SubjectDTO
+    public class SubjectDTO
     {
         public string SubjectID { get; set; }
         public string SubjectCode { get; set; }

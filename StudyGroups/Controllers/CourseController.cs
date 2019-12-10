@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyGroups.Contracts.Logic;
-using StudyGroups.Contracts.Repository;
-using StudyGroups.WebAPI.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace StudyGroups.WebAPI.WebSite.Controllers
 {

@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyGroups.Contracts.Logic;
-using StudyGroups.WebAPI.Services.Utils;
+using StudyGroups.DTOmodels;
 using StudyGroups.WebAPI.Models;
+using StudyGroups.WebAPI.Services.Utils;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using StudyGroups.DTOmodels;
 
 namespace StudyGroups.WebAPI.WebSite.Controllers
 {
@@ -14,7 +14,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly IStudentService _studentService;      
+        private readonly IStudentService _studentService;
 
         public StudentController(IStudentService studentService)
         {
@@ -27,7 +27,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // GET api/student/5/'2015/16/1'
-        [HttpGet("group-search/{id}"),Authorize(Roles ="Student")]
+        [HttpGet("group-search/{id}"), Authorize(Roles = "Student")]
         public ActionResult<string> GetStudentsEnrolledToSubject(string id)
         {
             // TODO: need to calculate from date
@@ -44,7 +44,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         public ActionResult<StudentDTO> GetStudentDetails()
         {
             var userID = GetUserIdFromToken();
-            StudentDTO student=_studentService.GetStudentDetails(userID);
+            StudentDTO student = _studentService.GetStudentDetails(userID);
             return Ok(student);
         }
 
@@ -59,7 +59,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             StudentDTO student = _studentService.GetStudentDetails(id);
             return Ok(student);
         }
-        
+
 
         /// <summary>
         /// Gets filtered student list, applied with given params.
@@ -67,20 +67,24 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         /// <param name="searchParams">Object holding filter parameters.</param>
         /// <returns>List of students, who met the search criteria.</returns>
         [HttpGet("team-search"), Authorize(Roles = "Student")]
-        public ActionResult<string> GetStudentsFromStudyGroupSearch ([FromQuery] StudyGroupSearchDTO searchParams)
+        public ActionResult<string> GetStudentsFromStudyGroupSearch([FromQuery] StudyGroupSearchDTO searchParams)
         {
             string id = GetUserIdFromToken();
-            List<StudentListItemDTO> student = _studentService.GetStudentFromStudyGroupSearch(searchParams,id);
+            IEnumerable<StudentListItemDTO> student = _studentService.GetStudentFromStudyGroupSearch(searchParams, id);
             return Ok(student);
         }
 
-        // PUT api/values/5
+        /// <summary>
+        /// Updates a student.
+        /// </summary>
+        /// <param name="value">Student DTO with updateable fields.</param>
+        /// <returns></returns>
         [HttpPut("update"), Authorize(Roles = "Student")]
         public IActionResult UpdateStudent([FromBody] StudentDTO value)
         {
-            
+
             var studentId = GetUserIdFromToken();
-            _studentService.UpdateStudentAndTutoringRelationShips(value,studentId);
+            _studentService.UpdateStudentAndTutoringRelationShips(value, studentId);
             return Ok();
         }
 
@@ -103,7 +107,6 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             authHeader = authHeader.Replace("Bearer ", "");
             JwtSecurityToken tokens = handler.ReadToken(authHeader) as JwtSecurityToken;
             return tokens.Claims.Where(claim => claim.Type == JwtRegisteredClaimNames.Sub).SingleOrDefault().Value;
-
         }
     }
 }
