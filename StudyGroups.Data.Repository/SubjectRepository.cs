@@ -26,9 +26,20 @@ namespace StudyGroups.Data.Repository
                 var parameters = new Neo4jParameters().WithValue("subjectCode", subjectCode);
                 string query = $@"MATCH (node:Subject) WHERE node.SubjectCode = $subjectCode RETURN node";
                 var result = session.Run(query, parameters);
-                return result.Single().Map<Subject>();
+                return result.SingleOrDefault().Map<Subject>();
             }
 
+        }
+
+        public Subject GetSubjectById(string subjectId)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("subjectId", subjectId);
+                string query = $@"MATCH (node:Subject) WHERE node.SubjectID = $subjectId RETURN node";
+                var result = session.Run(query, parameters);
+                return result.SingleOrDefault().Map<Subject>();
+            }
         }
 
         public IEnumerable<Subject> GetSubjectsStudentHasPassed(string userID)
@@ -42,7 +53,7 @@ namespace StudyGroups.Data.Repository
                 return result.Map<Subject>();
             }
         }
-        
+
         public IEnumerable<Subject> GetSubjectsStudentIsTutoring(string userId)
         {
             using (var session = Neo4jDriver.Session())
@@ -52,6 +63,23 @@ namespace StudyGroups.Data.Repository
                                   WHERE n.UserID=$userId RETURN s";
                 var result = session.Run(query, parameters);
                 return result.Map<Subject>();
+            }
+        }
+
+        public void UpdateSubject(Subject subject)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("subjectId", subject.SubjectID);
+                string query = $@"MATCH (n:Subject)
+                                  WHERE n.SubjectID=$subjectId SET n = $props";
+                var result = session.Run(query, parameters);
+                var summary = result.Summary;
+                //return result.Map<Subject>();
+                if (false)
+                {
+                    throw new NodeNotExistsException("Node to be updated does not exists.");
+                }
             }
         }
     }

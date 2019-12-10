@@ -23,20 +23,16 @@ using StudyGroups.WebAPI.Services.Utils;
 
 namespace StudyGroups.WebAPI.Services
 {
-    //    public enum UserRoleTypes {
-    //        Student,
-    //        Admin
-    //    } 
 
     public class AuthenticationService : IAuthenticationService
     {
-        ICourseRepository courseRepository;
-        IStudentRepository studentRepository;
-        ISubjectRepository subjectRepository;
-        ITeacherRepository teacherRepository;
-        IUserRepository userRepository;
-        IConfiguration _config;
-        ILogger _logger;
+       private readonly ICourseRepository courseRepository;
+       private readonly IStudentRepository studentRepository;
+       private readonly ISubjectRepository subjectRepository;
+       private readonly ITeacherRepository teacherRepository;
+       private readonly IUserRepository userRepository;
+       private readonly IConfiguration _config;
+       private readonly ILogger _logger;
 
         public AuthenticationService(ICourseRepository courseRepository, IStudentRepository studentRepository, ISubjectRepository subjectRepository
            , ITeacherRepository teacherRepository, IUserRepository userRepository, IConfiguration config, ILogger<AuthenticationService> logger)
@@ -67,8 +63,11 @@ namespace StudyGroups.WebAPI.Services
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSecretKey"]));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, loggedInUser.UserName));
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, loggedInUser.UserName)
+                };
+
                 foreach (var role in roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role));
@@ -79,7 +78,7 @@ namespace StudyGroups.WebAPI.Services
                     issuer: _config["ValidClientURI"],
                     audience: _config["ValidClientURI"],
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
+                    expires: DateTime.Now.AddMinutes(60),
                     signingCredentials: signinCredentials
 
                 );
@@ -107,18 +106,18 @@ namespace StudyGroups.WebAPI.Services
             if (studentRegistrationDTO.GradeBook != null && studentRegistrationDTO.Courses != null)
             {
 
-                var student = new Student();
-                student.DateOfBirth = studentRegistrationDTO.DateOfBirth;
-                student.Email = studentRegistrationDTO.Email;
-                student.FirstName = studentRegistrationDTO.FirstName;
-                student.LastName = studentRegistrationDTO.LastName;
-                student.GenderType = (int)studentRegistrationDTO.GenderType;
-                student.InstagramName = studentRegistrationDTO.InstagramName;
-                student.MessengerName = studentRegistrationDTO.MessengerName;
-                student.NeptunCode = studentRegistrationDTO.NeptunCode;
-
-                student.Password = Crypto.HashPassword(studentRegistrationDTO.Password);
-                student.UserName = studentRegistrationDTO.UserName;
+                var student = new Student
+                {
+                    Email = studentRegistrationDTO.Email,
+                    FirstName = studentRegistrationDTO.FirstName,
+                    LastName = studentRegistrationDTO.LastName,
+                    GenderType = (int)studentRegistrationDTO.GenderType,
+                    InstagramName = studentRegistrationDTO.InstagramName,
+                    MessengerName = studentRegistrationDTO.MessengerName,
+                    NeptunCode = studentRegistrationDTO.NeptunCode,
+                    Password = Crypto.HashPassword(studentRegistrationDTO.Password),
+                    UserName = studentRegistrationDTO.UserName
+                };
 
                 if (studentRegistrationDTO.Image != null)
                 {

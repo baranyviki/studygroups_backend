@@ -8,7 +8,7 @@ using System.Text;
 
 namespace StudyGroups.WebAPI.Services.Mapping
 {
-    internal static class MapStudents
+    internal static class MapStudent
     {
         internal static StudentListItemDTO MapStudentDBModelToStudentListItemDTO(Student studentDBModel)
         {
@@ -27,7 +27,6 @@ namespace StudyGroups.WebAPI.Services.Mapping
                 Email = studentDBModel.Email,
                 FirstName = studentDBModel.FirstName,
                 LastName = studentDBModel.LastName,
-                DateOfBirth = studentDBModel.DateOfBirth,
                 GenderType = studentDBModel.GenderType,
                 InstagramName = studentDBModel.InstagramName,
                 MessengerName = studentDBModel.MessengerName,
@@ -42,7 +41,6 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
             return new Student {
                 UserID =userId,
-                DateOfBirth = studentDto.DateOfBirth,
                 NeptunCode = studentDto.NeptunCode,
                 Email = studentDto.Email,
                 MessengerName = studentDto.MessengerName,

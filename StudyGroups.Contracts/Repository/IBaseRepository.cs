@@ -12,11 +12,6 @@ namespace StudyGroups.Contracts.Repository
         /// <param name="node">node for create</param>
         T Create(T node);
 
-        /// <summary>
-        /// Update method
-        /// </summary>
-        /// <param name="node">node for Update</param>
-        void Update(T node);
 
         /// <summary>
         /// Update method

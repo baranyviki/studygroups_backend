@@ -13,9 +13,8 @@ namespace StudyGroups.WebAPI.Models
         public string InstagramName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int GenderType { get; set; }
-        public DateTime DateOfBirth { get; set; }       
+        public int GenderType { get; set; }   
         public string ImagePath { get; set; }
-        public IEnumerable<SubjectDTO> TutoringSubjects { get; set; }
+        public IEnumerable<SubjectListItemDTO> TutoringSubjects { get; set; }
     }
 }

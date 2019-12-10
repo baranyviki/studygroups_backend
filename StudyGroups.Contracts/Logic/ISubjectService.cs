@@ -9,7 +9,8 @@ namespace StudyGroups.Contracts.Logic
     public interface ISubjectService
     {
         List<GeneralSelectionItem> GetAllSubjectsAsSelectionItem();
-        IEnumerable<SubjectDTO> GetSubjectUserHasPassedAsSubjectDTO(string userId);
-
+        IEnumerable<SubjectListItemDTO> GetSubjectUserHasPassedAsSubjectDTO(string userId);
+        SubjectDTO GetSubjectById(string subjectId);
+        void UpdateSubject(SubjectDTO subject);
     }
 }

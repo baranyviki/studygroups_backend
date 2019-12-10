@@ -15,8 +15,8 @@ namespace StudyGroups.Services
 {
     public class StudentService : IStudentService
     {
-        IStudentRepository _studentRepository;
-        ISubjectRepository _subjectRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly ISubjectRepository _subjectRepository;
 
         public StudentService(IStudentRepository studentRepository, ISubjectRepository subjectRepository)
         {
@@ -28,19 +28,19 @@ namespace StudyGroups.Services
         {
             var studentDBList = _studentRepository.GetStudentsAttendedToSubject(subjectID, semester);
             List<StudentListItemDTO> studentDTOs = new List<StudentListItemDTO>();
-            studentDTOs.AddRange(studentDBList.Select(x => MapStudents.MapStudentDBModelToStudentListItemDTO(x)));
+            studentDTOs.AddRange(studentDBList.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x)));
             return studentDTOs;
         }
 
-        
+
         public StudentDTO GetStudentDetails(string userID)
         {
             var currentStudent = _studentRepository.FindStudentByUserID(userID);
             if (currentStudent == null)
                 throw new AuthenticationException("Requested student does not exists");
             var subjectsTutoring = _subjectRepository.GetSubjectsStudentIsTutoring(userID);
-            var subjectDtos = subjectsTutoring.Select(x => MapSubjects.MapSubjectToSubjectDTO(x));
-            StudentDTO studentDTO = MapStudents.MapStudentDBModelToStudentDTO(currentStudent);
+            var subjectDtos = subjectsTutoring.Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
+            StudentDTO studentDTO = MapStudent.MapStudentDBModelToStudentDTO(currentStudent);
             studentDTO.TutoringSubjects = subjectDtos;
             return studentDTO;
         }
@@ -74,7 +74,7 @@ namespace StudyGroups.Services
                         filteredOutStudents.Add(stud);
                     }
                 }
-                filteredStudents = filteredStudents.Where(x => !filteredOutStudents.Select(y=>y.UserID).Contains(x.UserID));
+                filteredStudents = filteredStudents.Where(x => !filteredOutStudents.Select(y => y.UserID).Contains(x.UserID));
             }
             if (searchParams.IsSameGradeAverage && filteredStudents.Count() > 0)
             {
@@ -92,18 +92,18 @@ namespace StudyGroups.Services
                 filteredStudents = filteredStudents.Where(x => !filteredOutStudents.Select(y => y.UserID).Contains(x.UserID));
             }
 
-            var filteredStudentListDtos = filteredStudents.Select(x => MapStudents.MapStudentDBModelToStudentListItemDTO(x)).ToList();
+            var filteredStudentListDtos = filteredStudents.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x)).ToList();
             return filteredStudentListDtos;
 
-        }        
+        }
 
-        public void UpdateStudentAndTutoringRelationShips(StudentDTO studentDTO,string userId)
+        public void UpdateStudentAndTutoringRelationShips(StudentDTO studentDTO, string userId)
         {
             if (studentDTO == null)
                 throw new ParameterException("Student for update cannot be null");
             if (userId == null)
                 throw new AuthenticationException("Bad user token");
-            var student = MapStudents.MapStudentDTOToStudentDBModel(studentDTO, userId);
+            var student = MapStudent.MapStudentDTOToStudentDBModel(studentDTO, userId);
             _studentRepository.UpdateStudent(student);
 
             var tutoringSubjects = _subjectRepository.GetSubjectsStudentIsTutoring(userId).ToList();
@@ -120,10 +120,11 @@ namespace StudyGroups.Services
                 }
                 foreach (var subId in toDeleteTutoringRelationship)
                 {
-                    _studentRepository.DeleteTutoringRelationship(userId,subId);
+                    _studentRepository.DeleteTutoringRelationship(userId, subId);
                 }
             }
-            else {
+            else
+            {
                 foreach (var subject in studentDTO.TutoringSubjects)
                 {
                     _studentRepository.MergeTutoringRelationship(userId, subject.SubjectID);
@@ -131,10 +132,10 @@ namespace StudyGroups.Services
             }
         }
 
-        public IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string id,string loggedInUserId)
+        public IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string id, string loggedInUserId)
         {
             var students = _studentRepository.GetStudentsTutoringSubjectByID(id);
-            var studentListItemDtos = students.Select(x => MapStudents.MapStudentDBModelToStudentListItemDTO(x));
+            var studentListItemDtos = students.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x));
             studentListItemDtos = studentListItemDtos.Where(x => x.Id != loggedInUserId);
             return studentListItemDtos;
         }

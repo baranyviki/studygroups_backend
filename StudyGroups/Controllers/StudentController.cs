@@ -14,7 +14,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        IStudentService _studentService;      
+        private readonly IStudentService _studentService;      
 
         public StudentController(IStudentService studentService)
         {
@@ -39,7 +39,6 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         /// <summary>
         /// Fetch a user student with details.
         /// </summary>
-        /// <param name="userName"></param>
         /// <returns>Student with profile details.</returns>
         [HttpGet("details"), Authorize(Roles = "Student")]
         public ActionResult<StudentDTO> GetStudentDetails()
@@ -52,7 +51,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         /// <summary>
         /// Fetch student details.
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="id">User id</param>
         /// <returns></returns>
         [HttpGet("details/{id}"), Authorize(Roles = "Student")]
         public ActionResult<StudentDTO> GetStudentDetailsById(string id)

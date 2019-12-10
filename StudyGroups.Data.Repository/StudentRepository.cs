@@ -185,7 +185,7 @@ namespace StudyGroups.Repository
                 string query = $@"MATCH (u1:Student)-[:ATTENDS]->(c1:Course)<-[:ATTENDS]-(u2:Student)
                                   ,(u1)-[:ATTENDS]->(c2:Course)<-[:ATTENDS]-(u2)
                                   WHERE u1.UserID = $userId AND c1.Semester = $semester AND c1.CourseID=$courseId
-                                  AND c2.Semester=c1.Semester AND c2.CourseType IN([1,2])
+                                  AND c2.Semester=c1.Semester AND c1 <> c2  AND c2.CourseType IN([1,2])
                                   RETURN distinct u2";
                 var result = session.Run(query, parameters);
                 var resultList = result.ToList();

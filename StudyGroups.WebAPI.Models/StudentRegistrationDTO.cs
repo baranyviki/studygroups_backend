@@ -9,7 +9,6 @@ namespace StudyGroups.WebAPI.Models
     {
         public string FirstName { get; set;}
         public string LastName { get; set;}
-        public DateTime DateOfBirth { get; set;}
         public int GenderType { get; set;}
         public string Email { get; set; }
         public string MessengerName { get; set; }

@@ -26,6 +26,7 @@ namespace StudyGroups.Data.DAL.DAOs
         public string Name { get; set; }
         public int Credits { get; set; }
         public int SuggestedSemester { get; set; }
+        public int SubjectType { get; set; }
     }
 
 }

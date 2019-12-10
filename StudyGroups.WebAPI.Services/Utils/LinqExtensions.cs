@@ -17,7 +17,7 @@ namespace StudyGroups.WebAPI.Services.Utils
     class StructEqualityComparer<T, TKey> : IEqualityComparer<T> where TKey : struct
     {
 
-        Func<T, TKey> lookup;
+        private readonly Func<T, TKey> lookup;
 
         public StructEqualityComparer(Func<T, TKey> lookup)
         {

@@ -21,14 +21,13 @@
             <summary>
             Fetch a user student with details.
             </summary>
-            <param name="userName"></param>
             <returns>Student with profile details.</returns>
         </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetailsById(System.String)">
             <summary>
             Fetch student details.
             </summary>
-            <param name="userId"></param>
+            <param name="id">User id</param>
             <returns></returns>
         </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsFromStudyGroupSearch(StudyGroups.WebAPI.Models.StudyGroupSearchDTO)">

@@ -15,7 +15,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
     [ApiController]
     public class SubjectController : ControllerBase
     {
-        ISubjectService subjectService;
+        private readonly ISubjectService subjectService;
 
         public SubjectController(ISubjectService subjectService)
         {
@@ -48,7 +48,13 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             return Ok(subjectListItems);
         }
 
-        
+        [Authorize]
+        [HttpGet("details/{id}")]
+        public ActionResult<string> GetSubjectById(string subjectId)
+        {
+            var results = subjectService.GetSubjectById(subjectId);
+            return Ok(results);
+        }
 
         private string GetUserIdFromToken()
         {

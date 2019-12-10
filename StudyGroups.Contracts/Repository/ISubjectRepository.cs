@@ -12,5 +12,7 @@ namespace StudyGroups.Contracts.Repository
         Subject FindSubjectBySubjectCode(string subjectCode);
         IEnumerable<Subject> GetSubjectsStudentHasPassed(string userID);
         IEnumerable<Subject> GetSubjectsStudentIsTutoring(string userId);
+        Subject GetSubjectById(string subjectId);
+        void UpdateSubject(Subject subject);
     }
 }

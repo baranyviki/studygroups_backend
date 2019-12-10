@@ -16,7 +16,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        ICourseService _courseService;
+        private readonly ICourseService _courseService;
 
         public CourseController(ICourseService courseService)
         {

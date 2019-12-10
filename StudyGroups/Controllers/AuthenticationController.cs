@@ -21,13 +21,11 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        IAuthenticationService _authenticationService;
-        private readonly IConfiguration _config;
-
-        public AuthenticationController(IAuthenticationService authenticationService,IConfiguration config)
+        private readonly IAuthenticationService _authenticationService;
+        
+        public AuthenticationController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
-            _config = config;
         }
 
 
@@ -43,7 +41,6 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         {
             string token = _authenticationService.Login(user);
             return Ok(new { Token = token });
-
         }
 
     }

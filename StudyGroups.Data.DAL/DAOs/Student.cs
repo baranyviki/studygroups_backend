@@ -13,6 +13,5 @@ namespace StudyGroups.Data.DAL.DAOs
         public string LastName { get; set; }
         public string ImagePath { get; set; }
         public int GenderType { get; set; }
-        public DateTime DateOfBirth { get; set; }
     }
 }

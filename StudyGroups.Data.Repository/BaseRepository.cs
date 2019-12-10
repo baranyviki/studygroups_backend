@@ -3,6 +3,7 @@ using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -39,8 +40,7 @@ namespace StudyGroups.Repository
                     classType = "User";
                 }
                 string query = $@"MATCH (node:" + classType + ") WHERE node." + classType+"ID ='"+ID+"' DETACH DELETE node";
-                var result = session.Run(query);
-                var summary = result.Summary;
+                session.Run(query);
                 return;
             }
         }
@@ -50,8 +50,6 @@ namespace StudyGroups.Repository
             using (var session = Neo4jDriver.Session())
             {
                 string classType = typeof(T).Name;
-                //int classTypeIdx = typeof(T).ToString().LastIndexOf(".");
-                //string classType = typeof(T).ToString().Substring(classTypeIdx+1);
                 string query = $@"Match (node:{classType}) RETURN node";
                 var result = session.Run(query);
                 var results = result.Map<T>().AsQueryable();
@@ -59,21 +57,5 @@ namespace StudyGroups.Repository
             }
         }
 
-        public IQueryable<T> FindByCondition(string expression)
-        {
-            using (var session = Neo4jDriver.Session())
-            {
-                string classType = typeof(T).Name;
-                string query = $@"Match (node:{classType}) WHERE "+expression+" RETURN node";
-                var result = session.Run(query);
-                var results = result.Map<T>().AsQueryable();
-                return results;
-            }
-        }
-
-        public void Update(T node)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
