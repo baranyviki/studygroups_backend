@@ -411,7 +411,116 @@ namespace XUnitTestProject
             Assert.DoesNotContain(userSameSemesters, res.Select(x => x.Id));
         }
 
-        
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_InvalidUserIdPassed_ThrowsParameterException()
+        {
+            string userId = Guid.NewGuid().ToString()+"invalid";
+            StudentDTO updatedStud = new StudentDTO();
+
+            Assert.Throws<ParameterException>(() => _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId));
+        }
+
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_StudentDTONULLPassed_ThrowsParameterException()
+        {
+            string userId = Guid.NewGuid().ToString();
+            StudentDTO updatedStud = null;
+
+            Assert.Throws<ParameterException>(() => _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId));
+
+        }
+
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_UserIDNULLPassed_ThrowsParameterException()
+        {
+            string userId = null;
+            StudentDTO updatedStud = new StudentDTO();
+
+            Assert.Throws<ParameterException>(() => _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId));
+
+        }
+
+
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_TutoredSubjectsHasntChanged_DeleteAndMergeHasntCalled()
+        {
+            string userId = Guid.NewGuid().ToString();
+            var subjectsInDB = CreateRandomSubjects();
+            var subjectsUpdated = subjectsInDB.Select(x => new SubjectListItemDTO { Name = x.Name,SubjectID=x.SubjectID});
+            StudentDTO updatedStud = new StudentDTO {Email="email",UserName="janedoe",TutoringSubjects=subjectsUpdated};
+
+           // _studentRepository.Setup(x => x.UpdateStudent(It.IsAny<Student>()));
+            _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
+
+            _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId);
+
+            _studentRepository.Verify(x => x.MergeTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _studentRepository.Verify(x => x.DeleteTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_TutoredSubjectsChangedAdded_JustMergeCalledOnce()
+        {
+            //delete not
+            //merge yes
+
+            string userId = Guid.NewGuid().ToString();
+            var subjectsInDB = CreateRandomSubjects();
+            var subjectsUpdated = subjectsInDB.Select(x => new SubjectListItemDTO { Name = x.Name, SubjectID = x.SubjectID })
+                .Append(new SubjectListItemDTO { Name="SUB",SubjectID= Guid.NewGuid().ToString()});
+            StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
+
+           // _studentRepository.Setup(x => x.UpdateStudent(It.IsAny<Student>()));
+            _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
+
+            _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId);
+
+            _studentRepository.Verify(x => x.MergeTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _studentRepository.Verify(x => x.DeleteTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_TutoredSubjectsChangedRemoved_JustDeleteCalled()
+        {
+            //delete yes
+            //merge not
+            string userId = Guid.NewGuid().ToString();
+            var subjectsInDB = CreateRandomSubjects();
+            var subjectsUpdated = subjectsInDB.Skip(2).Select(x => new SubjectListItemDTO { Name = x.Name, SubjectID = x.SubjectID });
+            
+            StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
+            _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
+
+            _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId);
+
+            _studentRepository.Verify(x => x.MergeTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _studentRepository.Verify(x => x.DeleteTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
+        }
+
+
+        [Fact]
+        public void UpdateStudentAndTutoringRelationShips_TutoredSubjectsChangedAddedAndRemoved_MergeAndDeleteCalled()
+        {
+            //delete yes
+            //merge yes
+            string userId = Guid.NewGuid().ToString();
+            var subjectsInDB = CreateRandomSubjects();
+            var subjectsUpdated = subjectsInDB.Skip(1).Select(x => new SubjectListItemDTO { Name = x.Name, SubjectID = x.SubjectID })
+                .Append(new SubjectListItemDTO {  Name="Subject",SubjectID="id"});
+
+            StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
+            _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
+
+            _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId);
+
+            _studentRepository.Verify(x => x.MergeTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _studentRepository.Verify(x => x.DeleteTutoringRelationship(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+
+
+
         //private IEnumerable<Course> CreateRandomCourses()
         //{
         //    return new List<Course> {

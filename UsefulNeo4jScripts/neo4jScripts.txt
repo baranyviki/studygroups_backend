@@ -71,3 +71,13 @@ MATCH (n:User)-[r:ENROLLED_TO]->(s:Subject)
 WHERE n.UserName="admin" AND r.Grade > 1 and s.SubjectCode='NAMVS1SAND'
 MERGE (n)-[:TUTORING]->(s)
 RETURN n,r,s
+
+MATCH (u:User{UserID:"f55b6e6b-4119-4066-81b7-1069992c8fd2"})-[:ENROLLED_TO]->(s:Subject{SubjectID:"77f572a7-a2a9-425f-8a25-27ec14d073ec"})<-[r2:ENROLLED_TO]-(u2:Student),
+(u)-[:ATTENDS]->(cCommon:Course{Semester:"2018/19/1"})<-[:ATTENDS]-(u2),
+(u)-[:ATTENDS]->(c2:Course)-[:BELONGS_TO]->(s)<-[:BELONGS_TO]-(c3:Course)-[:ATTENDS]-(u2),
+(c3)-[te]-(t:Teacher)
+WHERE NOT (c2)<-[:TEACHING]-(t:Teacher)-[:TEACHING]->(c3)
+ANd cCommon.CourseType IN ([1,2]) 
+AND r2.Semester="2018/19/1" 
+AND c2 <> c3
+RETURN t,te,c2,c3

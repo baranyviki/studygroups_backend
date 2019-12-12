@@ -37,6 +37,13 @@
             <param name="searchParams">Object holding filter parameters.</param>
             <returns>List of students, who met the search criteria.</returns>
         </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsFromStudyBuddySearch(StudyGroups.WebAPI.Models.StudyBuddySearchDTO)">
+            <summary>
+            Gets filtered student list, applied with given params.
+            </summary>
+            <param name="searchParams">Object holding filter parameters.</param>
+            <returns>List of students, who met the search criteria.</returns>
+        </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.UpdateStudent(StudyGroups.WebAPI.Models.StudentDTO)">
             <summary>
             Updates a student.

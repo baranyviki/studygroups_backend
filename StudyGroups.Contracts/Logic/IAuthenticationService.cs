@@ -5,7 +5,7 @@ namespace StudyGroups.Contracts.Logic
 {
     public interface IAuthenticationService
     {
-        Task RegisterUserAsync(StudentRegistrationDTO userRegistrationDTO);
+        void RegisterUser(StudentRegistrationDTO userRegistrationDTO);
         string Login(LoginDTO user);
     }
 }

@@ -27,16 +27,20 @@ namespace StudyGroups.Repository
             }
         }
 
-        public void Delete(T node, string ID)
+        public virtual void Delete(T node, string ID)
         {
             using (var session = Neo4jDriver.Session())
             {
+                string query;
                 string classType = typeof(T).Name;
                 if (node is User)
                 {
                     classType = "User";
+                    query = $@"MATCH (node:" + classType + ") WHERE node." + classType + "ID ='" + ID + "' DETACH DELETE node";
                 }
-                string query = $@"MATCH (node:" + classType + ") WHERE node." + classType + "ID ='" + ID + "' DETACH DELETE node";
+
+                query = $@"MATCH (node:" + classType + ") WHERE node." + classType + "ID ='" + ID + "' DETACH DELETE node";
+                
                 session.Run(query);
                 return;
             }

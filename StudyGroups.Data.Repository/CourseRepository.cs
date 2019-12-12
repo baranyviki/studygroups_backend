@@ -49,18 +49,19 @@ namespace StudyGroups.Data.Repository
             }
         }
 
-        public async Task<IEnumerable<CourseSubjectCode>> GetAllCoursesWithTheirSubjectsInSemesterAsync(string semester)
+        public IEnumerable<CourseSubjectCode> GetAllCoursesWithTheirSubjectsInSemester(string semester)
         {
             using (var session = Neo4jDriver.Session())
             {
                 var parameters = new Neo4jParameters().WithValue("semester", semester);
 
-                var cursor = await session.RunAsync(@"
-                            MATCH (c:Course { Semester: $semester })-[:BELONGS_TO]-(s:Subject)
+                var res = session.Run(@"
+                            MATCH (c:Course)-[:BELONGS_TO]-(s:Subject)
+                            WHERE c.Semester = $semester
                             RETURN s,c", parameters);
 
-                var courseWithSubjects = (await cursor.ToListAsync())
-                  .Map((Course course, Subject subject) => new CourseSubjectCode
+                var courseWithSubjects = res
+                  .Map(( Subject subject, Course course) => new CourseSubjectCode
                   {
                       Course = course,
                       SubjectCode = subject.SubjectCode

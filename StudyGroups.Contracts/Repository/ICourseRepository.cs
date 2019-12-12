@@ -8,7 +8,7 @@ namespace StudyGroups.Contracts.Repository
 {
     public interface ICourseRepository : IBaseRepository<Course>
     {
-        Task<IEnumerable<CourseSubjectCode>> GetAllCoursesWithTheirSubjectsInSemesterAsync(string semester);
+        IEnumerable<CourseSubjectCode> GetAllCoursesWithTheirSubjectsInSemester(string semester);
 
         /// <summary>
         /// Creates a :BELONGS_TO relationship between the id given course and subject.  

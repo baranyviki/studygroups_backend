@@ -16,6 +16,25 @@ namespace StudyGroups.Data.Repository
 
         }
 
+        public override void Delete(User user, string ID)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                if (ID == null)
+                {
+                    var param = new Neo4jParameters().WithValue("userName", user.UserName);
+                    string queryName = $@"MATCH (node:User) WHERE node.UserName =$userID DETACH DELETE node";
+                    session.Run(queryName,param);
+                }
+
+                var parameters = new Neo4jParameters().WithValue("userID", ID);
+                string query = $@"MATCH (node:User) WHERE node.UserID =$userID DETACH DELETE node";
+                session.Run(query,parameters);
+                return;
+
+            }
+        }
+
         public User FindUserById(Guid userID)
         {
             using (var session = Neo4jDriver.Session())

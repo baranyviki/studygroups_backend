@@ -40,7 +40,6 @@ namespace StudyGroups.Services
             return studentDTOs;
         }
 
-
         public StudentDTO GetStudentDetails(string userID)
         {
             if (userID == null || !Guid.TryParse(userID, out Guid userguid))
@@ -120,36 +119,35 @@ namespace StudyGroups.Services
         public void UpdateStudentAndTutoringRelationShips(StudentDTO studentDTO, string userId)
         {
             if (studentDTO == null)
-                throw new ParameterException("Student for update cannot be null");
-            if (userId == null)
-                throw new AuthenticationException("Bad user token");
+                throw new ParameterException("Student for update cannot be null.");
+            if (userId == null || !Guid.TryParse(userId, out Guid subjectGuid))
+                throw new ParameterException("UserID is null or invalid.");
+            
             var student = MapStudent.MapStudentDTOToStudentDBModel(studentDTO, userId);
+            
             _studentRepository.UpdateStudent(student);
+
+            IEnumerable<string> toCreateTutoringRelationship = studentDTO.TutoringSubjects.Select(x => x.SubjectID);
 
             var tutoringSubjects = _subjectRepository.GetSubjectsStudentIsTutoring(userId).ToList();
             if (tutoringSubjects != null && tutoringSubjects.Count != 0)
             {
                 var subjectIdsFromDatabase = tutoringSubjects.Select(x => x.SubjectID);
                 var subjectIdsFromDTO = studentDTO.TutoringSubjects.Select(x => x.SubjectID);
-                var toCreateTutoringRelationship = subjectIdsFromDTO.Where(x => !subjectIdsFromDatabase.Contains(x));
+                toCreateTutoringRelationship = subjectIdsFromDTO.Where(x => !subjectIdsFromDatabase.Contains(x));
                 var toDeleteTutoringRelationship = subjectIdsFromDatabase.Where(x => !subjectIdsFromDTO.Contains(x));
 
-                foreach (var subId in toCreateTutoringRelationship)
-                {
-                    _studentRepository.MergeTutoringRelationship(userId, subId);
-                }
                 foreach (var subId in toDeleteTutoringRelationship)
                 {
                     _studentRepository.DeleteTutoringRelationship(userId, subId);
                 }
             }
-            else
+
+            foreach (var subjectId in toCreateTutoringRelationship)
             {
-                foreach (var subject in studentDTO.TutoringSubjects)
-                {
-                    _studentRepository.MergeTutoringRelationship(userId, subject.SubjectID);
-                }
+                _studentRepository.MergeTutoringRelationship(userId, subjectId);
             }
+
         }
 
         public IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string subjectid, string loggedInUserId)

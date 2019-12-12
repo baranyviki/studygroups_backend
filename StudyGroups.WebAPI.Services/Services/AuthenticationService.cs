@@ -48,10 +48,9 @@ namespace StudyGroups.WebAPI.Services
 
         public string Login(LoginDTO user)
         {
-            if (user == null)
+            if (user == null || user.UserName == null || user.Password == null)
             {
-                throw new AuthenticationException("Login object was null");
-
+                throw new ParameterException("Login object was null");
             }
 
             var loggedInUser = userRepository.FindUserByUserName(user.UserName);
@@ -92,7 +91,7 @@ namespace StudyGroups.WebAPI.Services
             }
         }
 
-        public async Task RegisterUserAsync(StudentRegistrationDTO studentRegistrationDTO)
+        public void RegisterUser(StudentRegistrationDTO studentRegistrationDTO)
         {
             //todo: validate these values!!
             //check username existence
@@ -111,7 +110,7 @@ namespace StudyGroups.WebAPI.Services
                     Email = studentRegistrationDTO.Email,
                     FirstName = studentRegistrationDTO.FirstName,
                     LastName = studentRegistrationDTO.LastName,
-                    GenderType = (int)studentRegistrationDTO.GenderType,
+                    GenderType = (int)studentRegistrationDTO.Gender,
                     InstagramName = studentRegistrationDTO.InstagramName,
                     MessengerName = studentRegistrationDTO.MessengerName,
                     NeptunCode = studentRegistrationDTO.NeptunCode,
@@ -129,7 +128,7 @@ namespace StudyGroups.WebAPI.Services
 
                 try
                 {
-                    await ProcessNeptunExportsAsync(stud, studentRegistrationDTO.GradeBook, studentRegistrationDTO.Courses);
+                    ProcessNeptunExports(stud, studentRegistrationDTO.GradeBook, studentRegistrationDTO.Courses);
                 }
                 catch (Exception e)
                 {
@@ -145,7 +144,7 @@ namespace StudyGroups.WebAPI.Services
 
         }
 
-        private async Task ProcessNeptunExportsAsync(Student student, IFormFile gradeBook, IFormFile courses)
+        private void ProcessNeptunExports(Student student, IFormFile gradeBook, IFormFile courses)
         {
             //store file
             string courseServerPath = StoreFile(courses, "Exports");
@@ -159,7 +158,7 @@ namespace StudyGroups.WebAPI.Services
 
             //process course
             var courseExports = CSVProcesser.ProcessCSV<CourseExportModel>(courseServerPath);
-            var createCourses = await GetNonExistingCoursesFromExportAsync(courseExports, thisSemester);
+            var createCourses = GetNonExistingCoursesFromExport(courseExports, thisSemester);
 
             //process teachers
             var createTeachers = GetNonExistingTeachersFromExport(courseExports);
@@ -216,9 +215,10 @@ namespace StudyGroups.WebAPI.Services
         private IEnumerable<Teacher> GetNonExistingTeachersFromExport(IEnumerable<CourseExportModel> courseExports)
         {
             var exportedTeachers = courseExports.Select(x => x.TeacherName.Split(",")).SelectMany(x => x).Distinct();
-            var existingTeachers = teacherRepository.FindAll();
+            var existingTeachers = teacherRepository.FindAll().Select(x => x.Name).ToList();
 
-            var nonExistingTeachers = exportedTeachers.Except(existingTeachers.Select(x => x.Name).Distinct());
+            var nonExistingTeachers = exportedTeachers.Where(x => !existingTeachers.Contains(x));
+
             return nonExistingTeachers.Select(x => new Teacher { Name = x });
 
         }
@@ -242,18 +242,17 @@ namespace StudyGroups.WebAPI.Services
 
         }
 
-        private async System.Threading.Tasks.Task<IEnumerable<CourseSubjectCode>> GetNonExistingCoursesFromExportAsync(IEnumerable<CourseExportModel> courseExports, string semester)
+        private IEnumerable<CourseSubjectCode> GetNonExistingCoursesFromExport(IEnumerable<CourseExportModel> courseExports, string semester)
         {
             //var courseExports = CSVProcesser.ProcessCSV<CourseExportModel>(csvFilePath);
-            var dbcourses = await courseRepository.GetAllCoursesWithTheirSubjectsInSemesterAsync("2017/18/1");
+            var dbcourses = courseRepository.GetAllCoursesWithTheirSubjectsInSemester(semester).ToList();
+            
+            var courseList = courseExports.ToList();
 
-            var coursesNotInDB = courseExports.Where(
-                    y => dbcourses.Where(
-                        x => y.CourseCode == x.Course.CourseCode &&
-                        y.SubjectCode == x.SubjectCode &&
-                        x.Course.Semester == semester).Count() == 0
-                                );
-
+            var coursesNotInDB = courseList.Where(
+                    y => dbcourses.Where( x => y.CourseCode == x.Course.CourseCode &&  y.SubjectCode == x.SubjectCode && x.Course.Semester == semester).Count() == 0 );
+ 
+           
             var coursesToCreate = coursesNotInDB.Select(x => MapCourse.MapCourseExportToCourseSubjectCode(x, semester));
 
             return coursesToCreate;

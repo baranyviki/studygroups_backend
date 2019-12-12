@@ -10,5 +10,6 @@ namespace StudyGroups.Contracts.Repository
         User FindUserById(Guid userID);
         User FindUserByUserNameAndPassword(string username, string password);
         List<string> GetUserLabelsByUserID(string userID);
+        new void Delete(User user, string ID);
     }
 }

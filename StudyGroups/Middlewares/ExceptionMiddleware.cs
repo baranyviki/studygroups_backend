@@ -71,15 +71,13 @@ namespace StudyGroups.WebAPI.WebSite.Middlewares
             if (ex is AuthenticationException) code = HttpStatusCode.Unauthorized;
             else if (ex is RegistrationException) code = HttpStatusCode.BadRequest;
             else if (ex is ParameterException) code = HttpStatusCode.BadRequest;
-            else if (ex is NodeNotExistsException) code = HttpStatusCode.NotFound;
+            else if (ex is NodeNotExistsException) code = HttpStatusCode.NoContent;
             // Create a Http response with the status code and the exception message
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)code;
 
-            string message;
-            if ((int)code == 500)
-                message = "Internal server error, please contact administrator.";
-            else
+            string message= "Internal server error, please contact administrator.";
+            if ((int)code != 500)
                 message = ex.Message;
 
             return httpContext.Response.WriteAsync(new ErrorDetails()

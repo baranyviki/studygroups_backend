@@ -20,7 +20,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         [HttpPost, Route("registration"), DisableRequestSizeLimit]
         public async Task<IActionResult> RegistrationAsync([FromForm]StudentRegistrationDTO userReg)
         {
-            await _authenticationService.RegisterUserAsync(userReg);
+             _authenticationService.RegisterUser(userReg);
             return Ok();
         }
 

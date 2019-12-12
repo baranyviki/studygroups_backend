@@ -30,7 +30,6 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         [HttpGet("group-search/{id}"), Authorize(Roles = "Student")]
         public ActionResult<string> GetStudentsEnrolledToSubject(string id)
         {
-            // TODO: need to calculate from date
             string semester = SemesterManager.GetCurrentSemester();
             var students = _studentService.GetStudentsAttendedToSubject(id, semester);
             return Ok(students);
@@ -74,6 +73,18 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Gets filtered student list, applied with given params.
+        /// </summary>
+        /// <param name="searchParams">Object holding filter parameters.</param>
+        /// <returns>List of students, who met the search criteria.</returns>
+        [HttpGet("study-search"), Authorize(Roles = "Student")]
+        public ActionResult<string> GetStudentsFromStudyBuddySearch([FromQuery] StudyBuddySearchDTO searchParams)
+        {
+            string id = GetUserIdFromToken();
+            IEnumerable<StudentListItemDTO> student;
+            return Ok();
+        }
         /// <summary>
         /// Updates a student.
         /// </summary>
