@@ -3,9 +3,9 @@ using StudyGroups.WebAPI.Models;
 
 namespace StudyGroups.WebAPI.Services.Mapping
 {
-    internal static class MapSubject
+    public static class MapSubject
     {
-        internal static GeneralSelectionItem MapSubjectToGeneralSelectionItem(Subject subjectDBModel)
+        public static GeneralSelectionItem MapSubjectToGeneralSelectionItem(Subject subjectDBModel)
         {
             return new GeneralSelectionItem
             {
@@ -15,16 +15,17 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         }
 
-        internal static SubjectListItemDTO MapSubjectToSubjectListItemDTO(Subject subjectDBModel)
+        public static SubjectListItemDTO MapSubjectToSubjectListItemDTO(Subject subjectDBModel)
         {
             return new SubjectListItemDTO
             {
-                SubjectID = subjectDBModel.SubjectID,
-                Name = $"{subjectDBModel.Name} - {subjectDBModel.SubjectCode}"
+                ID = subjectDBModel.SubjectID,
+                Name = subjectDBModel.Name,
+                SubjectCode = subjectDBModel.SubjectCode
             };
         }
 
-        internal static SubjectDTO MapSubjectToSubjectDTO(Subject subjectDbModel)
+        public static SubjectDTO MapSubjectToSubjectDTO(Subject subjectDbModel)
         {
             return new SubjectDTO
             {
@@ -37,7 +38,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
             };
         }
 
-        internal static Subject MapSubjectDTOToSubject(SubjectDTO subjectDto)
+        public static Subject MapSubjectDTOToSubject(SubjectDTO subjectDto)
         {
             return new Subject
             {

@@ -1,26 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.WebAPI.Models
 {
     public class StudyBuddySearchDTO
     {
         [FromQuery(Name = "sub")]
-        public string SubjectControl { get; set; }
+        public string SubjectID { get; set; }
         [FromQuery(Name = "common")]
-        public bool CommonCourseControl { get; set; }
+        public bool IsCommonCourse { get; set; }
         [FromQuery(Name = "curr")]
-        public bool CurrentlyEnrolledControl { get; set; }
+        public bool IsCurrentlyEnrolledTo { get; set; }
         [FromQuery(Name = "teacher")]
-        public bool AnotherTeacherControl { get; set; }
+        public bool IsAttendingToAnotherTeacher { get; set; }
         [FromQuery(Name = "completed")]
-        public bool CompletedControl { get; set; }
+        public bool IsAlreadyCompleted { get; set; }
         [FromQuery(Name = "grade")]
-        public int GradeControl { get; set; }
+        public int ComletedWithGrade { get; set; }
         [FromQuery(Name = "disc")]
-        public int DisciplinesControl { get; set; }
+        public int GoodInDiscipline { get; set; }
 
     }
 }

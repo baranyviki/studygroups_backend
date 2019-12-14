@@ -40,7 +40,7 @@ namespace StudyGroups.Repository
                 }
 
                 query = $@"MATCH (node:" + classType + ") WHERE node." + classType + "ID ='" + ID + "' DETACH DELETE node";
-                
+
                 session.Run(query);
                 return;
             }

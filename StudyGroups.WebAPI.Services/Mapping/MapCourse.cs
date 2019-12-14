@@ -7,7 +7,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
     public static class MapCourse
     {
 
-        internal static CourseSubjectCode MapCourseExportToCourseSubjectCode(CourseExportModel courseExportModel, string semester)
+        public static CourseSubjectCode MapCourseExportToCourseSubjectCode(CourseExportModel courseExportModel, string semester)
         {
             Course course = new Course();
             CourseType type;
@@ -27,7 +27,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
             return new CourseSubjectCode { Course = course, SubjectCode = courseExportModel.SubjectCode };
         }
 
-        internal static GeneralSelectionItem MapCourseProjectionToGeneralSelectionItem(CourseCodeSubjectNameProjection x)
+        public static GeneralSelectionItem MapCourseProjectionToGeneralSelectionItem(CourseCodeSubjectNameProjection x)
         {
             return new GeneralSelectionItem
             {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudyGroups.Contracts.Logic;
 using StudyGroups.WebAPI.Models;
-using System.Threading.Tasks;
 
 namespace StudyGroups.WebAPI.WebSite.Controllers
 {
@@ -18,9 +17,9 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
 
 
         [HttpPost, Route("registration"), DisableRequestSizeLimit]
-        public async Task<IActionResult> RegistrationAsync([FromForm]StudentRegistrationDTO userReg)
+        public IActionResult Registration([FromForm]StudentRegistrationDTO userReg)
         {
-             _authenticationService.RegisterUser(userReg);
+            _authenticationService.RegisterUser(userReg);
             return Ok();
         }
 

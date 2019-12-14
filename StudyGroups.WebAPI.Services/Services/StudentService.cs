@@ -12,7 +12,7 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Text.RegularExpressions;
 
-namespace StudyGroups.Services
+namespace StudyGroups.WebAPI.Services.Services
 {
     public class StudentService : IStudentService
     {
@@ -122,18 +122,18 @@ namespace StudyGroups.Services
                 throw new ParameterException("Student for update cannot be null.");
             if (userId == null || !Guid.TryParse(userId, out Guid subjectGuid))
                 throw new ParameterException("UserID is null or invalid.");
-            
+
             var student = MapStudent.MapStudentDTOToStudentDBModel(studentDTO, userId);
-            
+
             _studentRepository.UpdateStudent(student);
 
-            IEnumerable<string> toCreateTutoringRelationship = studentDTO.TutoringSubjects.Select(x => x.SubjectID);
+            IEnumerable<string> toCreateTutoringRelationship = studentDTO.TutoringSubjects.Select(x => x.ID);
 
             var tutoringSubjects = _subjectRepository.GetSubjectsStudentIsTutoring(userId).ToList();
             if (tutoringSubjects != null && tutoringSubjects.Count != 0)
             {
                 var subjectIdsFromDatabase = tutoringSubjects.Select(x => x.SubjectID);
-                var subjectIdsFromDTO = studentDTO.TutoringSubjects.Select(x => x.SubjectID);
+                var subjectIdsFromDTO = studentDTO.TutoringSubjects.Select(x => x.ID);
                 toCreateTutoringRelationship = subjectIdsFromDTO.Where(x => !subjectIdsFromDatabase.Contains(x));
                 var toDeleteTutoringRelationship = subjectIdsFromDatabase.Where(x => !subjectIdsFromDTO.Contains(x));
 
@@ -161,5 +161,124 @@ namespace StudyGroups.Services
             studentListItemDtos = studentListItemDtos.Where(x => x.Id != loggedInUserId);
             return studentListItemDtos;
         }
+
+        public IEnumerable<StudentListItemDTO> GetStudentFromStudyBuddySearch(StudyBuddySearchDTO searchParams, string loggedInUserId)
+        {
+            if (searchParams == null)
+                throw new ParameterException("Search parameters cannot be null");
+            if (searchParams.GoodInDiscipline < 0 || searchParams.GoodInDiscipline > Enum.GetValues(typeof(SubjectType)).Length)
+                throw new ParameterException("Discipline value is invalid");
+            if (searchParams.ComletedWithGrade < 0 || searchParams.ComletedWithGrade > 5)
+                throw new ParameterException("Grade value is invalid");
+            if (searchParams.SubjectID != "null" && !Guid.TryParse(searchParams.SubjectID, out Guid guid))
+                throw new ParameterException("Subject ID is invalid");
+            if (searchParams.IsAlreadyCompleted && searchParams.IsCurrentlyEnrolledTo)
+                throw new ParameterException("Search parameters are invalid, already completed and currently enrolled to cant have true value at the same time.");
+
+            List<Student> results = new List<Student>();
+
+            if (!(searchParams.SubjectID == null && searchParams.GoodInDiscipline == 0))
+            {
+                if (searchParams.SubjectID != null)
+                {
+                    if (!searchParams.IsAlreadyCompleted && !searchParams.IsCurrentlyEnrolledTo && !searchParams.IsCommonCourse)
+                        results = _studentRepository.GetStudentsEnrolledToSubject(searchParams.SubjectID).ToList();
+
+                    string currentSemester = SemesterManager.GetCurrentSemester();
+
+                    if (searchParams.IsCommonCourse)
+                    {
+                        results = _studentRepository.GetStudentsEnrolledToSubjectAndHavingCurrentlyCommonCourse(loggedInUserId, searchParams.SubjectID, currentSemester).ToList();
+                    }
+
+                    if (searchParams.IsCurrentlyEnrolledTo)
+                    {
+                        if (results.Count != 0)
+                        {
+                            results = GetStudentsEnrolledToSubjectCurrently(searchParams.IsAttendingToAnotherTeacher, loggedInUserId, currentSemester, searchParams.SubjectID, results);
+                        }
+                        else if (searchParams.IsAttendingToAnotherTeacher)
+                            results = _studentRepository.GetStudentsCurrentlyEnrolledToSubjectWithStudentButHavingAnotherCurseTeacher(loggedInUserId, searchParams.SubjectID, currentSemester).ToList();
+                        else
+                            results = _studentRepository.GetStudentsEnrolledToSubjectInSemester(searchParams.SubjectID, currentSemester).ToList();
+                    }
+                    if (searchParams.IsAlreadyCompleted)
+                    {
+                        if (results.Count != 0)
+                        {
+                            results = GetStudentsAlreadyCompletedSubjectFromStudentList(searchParams.ComletedWithGrade, searchParams.SubjectID, results);
+                        }
+                        else if (searchParams.ComletedWithGrade != 0)
+                            results = _studentRepository.GetStudentsCompletedSubjectWithGrade(searchParams.SubjectID, searchParams.ComletedWithGrade).ToList();
+                        else
+                            results = _studentRepository.GetStudentsCompletedSubject(searchParams.SubjectID).ToList();
+                    }
+
+                }
+                if (searchParams.GoodInDiscipline != 0)
+                {
+                    double betterThanAvg = 3.5;
+                    if (results.Count() != 0)
+                        results = GetStudentsGoodInDisciplineFromStudentList(results, searchParams.GoodInDiscipline, betterThanAvg);
+                    else
+                        results = _studentRepository.GetStudentsGoodInDiscipline(searchParams.GoodInDiscipline, betterThanAvg).ToList();
+                }
+
+
+            }
+            return results.Select(x => MapStudent.MapStudentDBModelToStudentListItemDTO(x));
+        }
+
+        public List<Student> GetStudentsGoodInDisciplineFromStudentList(List<Student> students, int discipline, double betterThanAvg)
+        {
+            var filteredStudents = new List<Student>();
+            for (int i = 0; i < students.Count(); i++)
+            {
+                double avg = _studentRepository.GetStudentGradeAverageInDiscipline(students[i].UserID, discipline);
+                if (avg >= betterThanAvg)
+                    filteredStudents.Add(students[i]);
+            }
+            return filteredStudents;
+        }
+
+        /// <summary>
+        /// Gets list and filter out the students who doesnt meet the criteria.
+        /// </summary>
+        /// <param name="havingAnotherTeacher">Filtering parameter.</param>
+        /// <param name="students">Set of students to filter.</param>
+        /// <returns></returns>
+        public List<Student> GetStudentsEnrolledToSubjectCurrently(bool havingAnotherTeacher, string userId, string semester, string subjectId, List<Student> students)
+        {
+            List<Student> filteredStudents = new List<Student>();
+            IEnumerable<Student> studentsCurrentlyEnrolledToSubject;
+            if (havingAnotherTeacher)
+                studentsCurrentlyEnrolledToSubject = _studentRepository.GetStudentsCurrentlyEnrolledToSubjectWithStudentButHavingAnotherCurseTeacher(userId, subjectId, semester);
+            else
+                studentsCurrentlyEnrolledToSubject = _studentRepository.GetStudentsEnrolledToSubjectInSemester(subjectId, semester);
+            foreach (var stud in studentsCurrentlyEnrolledToSubject)
+            {
+                if (students.Select(x => x.UserID).Contains(stud.UserID))
+                    filteredStudents.Add(stud);
+            }
+            return filteredStudents;
+        }
+
+        public List<Student> GetStudentsAlreadyCompletedSubjectFromStudentList(int grade, string subjectId, List<Student> students)
+        {
+            List<Student> filteredStudents = new List<Student>();
+            var studIds = students.Select(x => x.UserID);
+            IEnumerable<Student> queriedStudents;
+            if (grade == 0)
+                queriedStudents = _studentRepository.GetStudentsCompletedSubject(subjectId);
+            else
+                queriedStudents = _studentRepository.GetStudentsCompletedSubjectWithGrade(subjectId, grade);
+            foreach (var stud in queriedStudents)
+            {
+                if (studIds.Contains(stud.UserID))
+                    filteredStudents.Add(stud);
+            }
+            return filteredStudents;
+        }
+
     }
 }

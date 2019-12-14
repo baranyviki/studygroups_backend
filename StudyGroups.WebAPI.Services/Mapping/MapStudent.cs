@@ -5,9 +5,9 @@ using StudyGroups.WebAPI.Models;
 
 namespace StudyGroups.WebAPI.Services.Mapping
 {
-    internal static class MapStudent
+    public static class MapStudent
     {
-        internal static StudentListItemDTO MapStudentDBModelToStudentListItemDTO(Student studentDBModel)
+        public static StudentListItemDTO MapStudentDBModelToStudentListItemDTO(Student studentDBModel)
         {
             return new StudentListItemDTO
             {
@@ -18,7 +18,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         }
 
-        internal static StudentDTO MapStudentDBModelToStudentDTO(Student studentDBModel)
+        public static StudentDTO MapStudentDBModelToStudentDTO(Student studentDBModel)
         {
             return new StudentDTO
             {
@@ -35,7 +35,7 @@ namespace StudyGroups.WebAPI.Services.Mapping
 
         }
 
-        internal static Student MapStudentDTOToStudentDBModel(StudentDTO studentDto, string userId)
+        public static Student MapStudentDTOToStudentDBModel(StudentDTO studentDto, string userId)
         {
 
             return new Student

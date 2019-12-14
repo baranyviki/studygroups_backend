@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StudyGroups.WebAPI.Services
+namespace StudyGroups.WebAPI.Services.Services
 {
     public class SubjectService : ISubjectService
     {
@@ -17,6 +17,11 @@ namespace StudyGroups.WebAPI.Services
         public SubjectService(ISubjectRepository subjectRepository)
         {
             this._subjectRepository = subjectRepository;
+        }
+
+        public IEnumerable<SubjectListItemDTO> GetAllSubjectAsSubjectListItem()
+        {
+            return _subjectRepository.FindAll().Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
         }
 
         public List<GeneralSelectionItem> GetAllSubjectsAsSelectionItem()
@@ -37,12 +42,12 @@ namespace StudyGroups.WebAPI.Services
             return MapSubject.MapSubjectToSubjectDTO(subject);
         }
 
-        public IEnumerable<SubjectListItemDTO> GetSubjectUserHasPassedAsSubjectDTO(string userId)
+        public IEnumerable<GeneralSelectionItem> GetSubjectUserHasPassedAsSubjectDTO(string userId)
         {
             if (userId == null)
             { throw new ParameterException("Requested userId cannot be null"); }
             var subjects = _subjectRepository.GetSubjectsStudentHasPassed(userId);
-            var selectionItems = subjects.Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
+            var selectionItems = subjects.Select(x => MapSubject.MapSubjectToGeneralSelectionItem(x));
             return selectionItems;
         }
 

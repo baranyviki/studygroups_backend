@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudyGroups.Contracts.Logic;
+using StudyGroups.WebAPI.Models;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
@@ -29,12 +31,19 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             return Ok(subjectListItems);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet()]
+        public ActionResult<string> GetAll()
+        {
+            IEnumerable<SubjectListItemDTO> subjectListItems = subjectService.GetAllSubjectAsSubjectListItem();
+            return Ok(subjectListItems);
+        }
 
         /// <summary>
         /// Gets all subjects user has passed.
         /// </summary>
         /// <returns>List of subjects as selection items.</returns>
-        [Authorize]
+        [Authorize(Roles = "Student")]
         [HttpGet("completed")]
         public ActionResult<string> GetAllCompletedSubjectSelectionItems()
         {

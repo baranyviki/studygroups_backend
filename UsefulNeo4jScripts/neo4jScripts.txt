@@ -18,7 +18,7 @@ CALL apoc.import.csv(
   {fileName: 'file:///subjectGrades.csv', type: 'ENROLLED_TO'},
   {fileName: 'file:///courseStudents.csv', type: 'ATTENDS'}
   ],
-  {delimiter: ';', arrayDelimiter: ',', stringIds: false}
+  {delimiter: ';', arrayDelimiter: ',', stringIds: true}
 )
 
 MATCH (u1:Student{UserID:10054} )-[:ENROLLED_TO]->(s:Subject{SubjectCode:'NAIPR1SAND'})<-[ENROLLED_TO]-(u2:Student)

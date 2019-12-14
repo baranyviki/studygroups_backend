@@ -1,9 +1,9 @@
 ﻿using Moq;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.Services;
 using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Exceptions;
+using StudyGroups.WebAPI.Services.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,7 +162,7 @@ namespace XUnitTestProject
             var res = _studentService.GetStudentDetails(userID);
             Assert.NotNull(res.TutoringSubjects);
             Assert.Equal(res.TutoringSubjects.Count(), subjects.Count());
-            Assert.All(res.TutoringSubjects, x => { _ = x.SubjectID != null; });
+            Assert.All(res.TutoringSubjects, x => { _ = x.ID != null; });
         }
 
 
@@ -233,7 +233,7 @@ namespace XUnitTestProject
         public void GetStudentFromStudyGroupSearch_ParamObjectWithCourseIDNullValuePassed_ThrowsParameterException()
         {
             string userId = Guid.NewGuid().ToString();
-            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID=null,IsHavingOtherCourseInCommonCurrently=true,IsSameCompletedSemesters=true,IsSameGradeAverage=true};
+            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = null, IsHavingOtherCourseInCommonCurrently = true, IsSameCompletedSemesters = true, IsSameGradeAverage = true };
 
             Assert.Throws<ParameterException>(() => _studentService.GetStudentFromStudyGroupSearch(queryParams, userId));
         }
@@ -274,11 +274,12 @@ namespace XUnitTestProject
 
             string userId = Guid.NewGuid().ToString();
             string anotheruserId = Guid.NewGuid().ToString();
-            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameGradeAverage=true };
-            var students = CreateRandomStudents().Append(new Student { UserID = anotheruserId});
-            
+            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameGradeAverage = true };
+            var students = CreateRandomStudents().Append(new Student { UserID = anotheruserId });
+
             _studentRepository.Setup(x => x.GetStudentsAttendingToCourseInCurrentSemester(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(students);
-            _studentRepository.Setup(x => x.GetStudentGradeAverage(It.IsAny<string>())).Returns<string>((y) => {
+            _studentRepository.Setup(x => x.GetStudentGradeAverage(It.IsAny<string>())).Returns<string>((y) =>
+            {
                 if ((string)y == userId)
                     return 5.0;
                 else if ((string)y == anotheruserId)
@@ -286,7 +287,7 @@ namespace XUnitTestProject
                 else
                     return 2.0;
             });
-            
+
             var res = _studentService.GetStudentFromStudyGroupSearch(queryParams, userId);
             Assert.Single(res);
         }
@@ -300,7 +301,8 @@ namespace XUnitTestProject
             var students = CreateRandomStudents().Append(new Student { UserID = anotheruserId });
 
             _studentRepository.Setup(x => x.GetStudentsAttendingToCourseInCurrentSemester(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(students);
-            _studentRepository.Setup(x => x.GetStudentGradeAverage(It.IsAny<string>())).Returns<string>((y) => {
+            _studentRepository.Setup(x => x.GetStudentGradeAverage(It.IsAny<string>())).Returns<string>((y) =>
+            {
                 if ((string)y == userId)
                     return 2.0;
                 else if ((string)y == anotheruserId)
@@ -316,18 +318,19 @@ namespace XUnitTestProject
 
         [Fact]
         public void GetStudentFromStudyGroupSearch_HavingSameGradeAverageAndSameCompletedSemesters_ReturnsRightStudents()
-        { 
+        {
             string userId = Guid.NewGuid().ToString();
             string anotheruserIdWithSameGradeAndSemesters = Guid.NewGuid().ToString();
             string anotheruserIdWithSameGrade = Guid.NewGuid().ToString();
 
-            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameGradeAverage = true, IsSameCompletedSemesters=true };
+            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameGradeAverage = true, IsSameCompletedSemesters = true };
             var students = CreateRandomStudents()
                 .Append(new Student { UserID = anotheruserIdWithSameGradeAndSemesters })
-                .Append(new Student {UserID = anotheruserIdWithSameGrade });
+                .Append(new Student { UserID = anotheruserIdWithSameGrade });
 
             _studentRepository.Setup(x => x.GetStudentsAttendingToCourseInCurrentSemester(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(students);
-            _studentRepository.Setup(x => x.GetStudentGradeAverage(It.IsAny<string>())).Returns<string>((y) => {
+            _studentRepository.Setup(x => x.GetStudentGradeAverage(It.IsAny<string>())).Returns<string>((y) =>
+            {
                 if ((string)y == userId)
                     return 5.0;
                 else if ((string)y == anotheruserIdWithSameGradeAndSemesters || (string)y == anotheruserIdWithSameGrade)
@@ -335,8 +338,9 @@ namespace XUnitTestProject
                 else
                     return 2.0;
             });
-       
-            _studentRepository.Setup(x => x.GetStudentSemesterCount(It.IsAny<string>())).Returns<string>((y) => {
+
+            _studentRepository.Setup(x => x.GetStudentSemesterCount(It.IsAny<string>())).Returns<string>((y) =>
+            {
                 if ((string)y == userId)
                     return 5;
                 else if ((string)y == anotheruserIdWithSameGradeAndSemesters)
@@ -355,17 +359,18 @@ namespace XUnitTestProject
         {
             string userId = Guid.NewGuid().ToString();
             string anotheruserId1 = Guid.NewGuid().ToString();
-            string anotheruserId2= Guid.NewGuid().ToString();
-            
-            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(),IsSameCompletedSemesters = true };
+            string anotheruserId2 = Guid.NewGuid().ToString();
+
+            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameCompletedSemesters = true };
             var students = CreateRandomStudents()
                 .Append(new Student { UserID = anotheruserId1 })
                 .Append(new Student { UserID = anotheruserId2 });
 
             _studentRepository.Setup(x => x.GetStudentsAttendingToCourseInCurrentSemester(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(students);
-           
 
-            _studentRepository.Setup(x => x.GetStudentSemesterCount(It.IsAny<string>())).Returns<string>((y) => {
+
+            _studentRepository.Setup(x => x.GetStudentSemesterCount(It.IsAny<string>())).Returns<string>((y) =>
+            {
                 if ((string)y == userId)
                     return 4;
                 else if ((string)y == anotheruserId1 || (string)y == anotheruserId2)
@@ -389,13 +394,14 @@ namespace XUnitTestProject
             string userSameCourseAndSemesters = Guid.NewGuid().ToString();
             string userSameSemesters = Guid.NewGuid().ToString();
 
-            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameCompletedSemesters = true, IsHavingOtherCourseInCommonCurrently=true };
+            StudyGroupSearchDTO queryParams = new StudyGroupSearchDTO { CourseID = Guid.NewGuid().ToString(), IsSameCompletedSemesters = true, IsHavingOtherCourseInCommonCurrently = true };
             var students = CreateRandomStudents()
                 .Append(new Student { UserID = userSameCourseAndSemesters });
 
             _studentRepository.Setup(x => x.GetStudentsHavingCommonPracticalCoursesInCurrentSemester(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(students);
 
-            _studentRepository.Setup(x => x.GetStudentSemesterCount(It.IsAny<string>())).Returns<string>((y) => {
+            _studentRepository.Setup(x => x.GetStudentSemesterCount(It.IsAny<string>())).Returns<string>((y) =>
+            {
                 if ((string)y == userId)
                     return 4;
                 else if ((string)y == userSameCourseAndSemesters || (string)y == userSameSemesters)
@@ -405,7 +411,7 @@ namespace XUnitTestProject
             });
 
             var res = _studentService.GetStudentFromStudyGroupSearch(queryParams, userId);
-            
+
             Assert.Single(res);
             Assert.Contains(userSameCourseAndSemesters, res.Select(x => x.Id));
             Assert.DoesNotContain(userSameSemesters, res.Select(x => x.Id));
@@ -414,7 +420,7 @@ namespace XUnitTestProject
         [Fact]
         public void UpdateStudentAndTutoringRelationShips_InvalidUserIdPassed_ThrowsParameterException()
         {
-            string userId = Guid.NewGuid().ToString()+"invalid";
+            string userId = Guid.NewGuid().ToString() + "invalid";
             StudentDTO updatedStud = new StudentDTO();
 
             Assert.Throws<ParameterException>(() => _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId));
@@ -446,10 +452,10 @@ namespace XUnitTestProject
         {
             string userId = Guid.NewGuid().ToString();
             var subjectsInDB = CreateRandomSubjects();
-            var subjectsUpdated = subjectsInDB.Select(x => new SubjectListItemDTO { Name = x.Name,SubjectID=x.SubjectID});
-            StudentDTO updatedStud = new StudentDTO {Email="email",UserName="janedoe",TutoringSubjects=subjectsUpdated};
+            var subjectsUpdated = subjectsInDB.Select(x => new SubjectListItemDTO { Name = x.Name, ID = x.SubjectID });
+            StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
 
-           // _studentRepository.Setup(x => x.UpdateStudent(It.IsAny<Student>()));
+            // _studentRepository.Setup(x => x.UpdateStudent(It.IsAny<Student>()));
             _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
 
             _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId);
@@ -467,11 +473,11 @@ namespace XUnitTestProject
 
             string userId = Guid.NewGuid().ToString();
             var subjectsInDB = CreateRandomSubjects();
-            var subjectsUpdated = subjectsInDB.Select(x => new SubjectListItemDTO { Name = x.Name, SubjectID = x.SubjectID })
-                .Append(new SubjectListItemDTO { Name="SUB",SubjectID= Guid.NewGuid().ToString()});
+            var subjectsUpdated = subjectsInDB.Select(x => new SubjectListItemDTO { Name = x.Name, ID = x.SubjectID })
+                .Append(new SubjectListItemDTO { Name = "SUB", ID = Guid.NewGuid().ToString() });
             StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
 
-           // _studentRepository.Setup(x => x.UpdateStudent(It.IsAny<Student>()));
+            // _studentRepository.Setup(x => x.UpdateStudent(It.IsAny<Student>()));
             _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
 
             _studentService.UpdateStudentAndTutoringRelationShips(updatedStud, userId);
@@ -487,8 +493,8 @@ namespace XUnitTestProject
             //merge not
             string userId = Guid.NewGuid().ToString();
             var subjectsInDB = CreateRandomSubjects();
-            var subjectsUpdated = subjectsInDB.Skip(2).Select(x => new SubjectListItemDTO { Name = x.Name, SubjectID = x.SubjectID });
-            
+            var subjectsUpdated = subjectsInDB.Skip(2).Select(x => new SubjectListItemDTO { Name = x.Name, ID = x.SubjectID });
+
             StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
             _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);
 
@@ -506,8 +512,8 @@ namespace XUnitTestProject
             //merge yes
             string userId = Guid.NewGuid().ToString();
             var subjectsInDB = CreateRandomSubjects();
-            var subjectsUpdated = subjectsInDB.Skip(1).Select(x => new SubjectListItemDTO { Name = x.Name, SubjectID = x.SubjectID })
-                .Append(new SubjectListItemDTO {  Name="Subject",SubjectID="id"});
+            var subjectsUpdated = subjectsInDB.Skip(1).Select(x => new SubjectListItemDTO { Name = x.Name, ID = x.SubjectID })
+                .Append(new SubjectListItemDTO { Name = "Subject", ID = "id" });
 
             StudentDTO updatedStud = new StudentDTO { Email = "email", UserName = "janedoe", TutoringSubjects = subjectsUpdated };
             _subjectRepository.Setup(x => x.GetSubjectsStudentIsTutoring(It.IsAny<string>())).Returns(subjectsInDB);

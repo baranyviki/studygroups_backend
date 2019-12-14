@@ -2,7 +2,8 @@
 {
     public class SubjectListItemDTO
     {
-        public string SubjectID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
+        public string SubjectCode { get; set; }
     }
 }

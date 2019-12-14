@@ -12,7 +12,7 @@
         </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsEnrolledToSubject(System.String)">
             <summary>
-            Gets all student who enrolled to a given subject in current semester/all time
+            Gets all student who enrolled to a given subject in actual semester
             </summary>
             <param name="id"></param>
             <returns></returns>

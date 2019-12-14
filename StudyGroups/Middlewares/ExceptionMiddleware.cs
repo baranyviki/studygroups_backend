@@ -76,7 +76,7 @@ namespace StudyGroups.WebAPI.WebSite.Middlewares
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)code;
 
-            string message= "Internal server error, please contact administrator.";
+            string message = "Internal server error, please contact administrator.";
             if ((int)code != 500)
                 message = ex.Message;
 

@@ -22,11 +22,10 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         }
 
         /// <summary>
-        /// Gets all student who enrolled to a given subject in current semester/all time
+        /// Gets all student who enrolled to a given subject in actual semester
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // GET api/student/5/'2015/16/1'
         [HttpGet("group-search/{id}"), Authorize(Roles = "Student")]
         public ActionResult<string> GetStudentsEnrolledToSubject(string id)
         {
@@ -82,9 +81,10 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         public ActionResult<string> GetStudentsFromStudyBuddySearch([FromQuery] StudyBuddySearchDTO searchParams)
         {
             string id = GetUserIdFromToken();
-            IEnumerable<StudentListItemDTO> student;
-            return Ok();
+            IEnumerable<StudentListItemDTO> student = _studentService.GetStudentFromStudyBuddySearch(searchParams, id);
+            return Ok(student);
         }
+
         /// <summary>
         /// Updates a student.
         /// </summary>
@@ -93,7 +93,6 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         [HttpPut("update"), Authorize(Roles = "Student")]
         public IActionResult UpdateStudent([FromBody] StudentDTO value)
         {
-
             var studentId = GetUserIdFromToken();
             _studentService.UpdateStudentAndTutoringRelationShips(value, studentId);
             return Ok();

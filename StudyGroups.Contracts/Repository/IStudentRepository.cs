@@ -14,15 +14,6 @@ namespace StudyGroups.Contracts.Repository
         /// <returns></returns>
         IEnumerable<Student> GetStudentsAttendedToSubject(string subjectID, string semester);
 
-        /// <summary>
-        /// Gets students who had been comleted a specific subject, with a better grade then specified.
-        /// </summary>
-        /// <param name="subjectID"></param>
-        /// <param name="semester"></param>
-        /// <param name="grade"></param>
-        /// <returns></returns>
-        IEnumerable<Student> GetStudentsAttendedToSubjectWithGrade(string subjectID, string semester, int grade);
-
         void CreateAttendsToRelationShipWithCourse(Guid userID, Guid courseID);
 
         Student CreateUserStudent(Student student);
@@ -50,5 +41,21 @@ namespace StudyGroups.Contracts.Repository
         int GetStudentSemesterCount(string userId);
 
         IEnumerable<Student> GetStudentsTutoringSubjectByID(string subjectId);
+
+
+        /// <summary>
+        /// Gets given student's grade average in given discipline
+        /// </summary>
+        /// <param name="userID">user unique identifier</param>
+        /// <param name="goodInDiscipline">which discipline</param>
+        /// <returns></returns>
+        double GetStudentGradeAverageInDiscipline(string userID, int goodInDiscipline);
+        IEnumerable<Student> GetStudentsGoodInDiscipline(int goodInDiscipline, double betterThanAvg);
+        IEnumerable<Student> GetStudentsEnrolledToSubject(string subjectID);
+        IEnumerable<Student> GetStudentsEnrolledToSubjectAndHavingCurrentlyCommonCourse(string userID, string subjectId, string currentSemester);
+        IEnumerable<Student> GetStudentsCurrentlyEnrolledToSubjectWithStudentButHavingAnotherCurseTeacher(string userId, string subjectId, string semester);
+        IEnumerable<Student> GetStudentsEnrolledToSubjectInSemester(string subjectId, string semester);
+        IEnumerable<Student> GetStudentsCompletedSubject(string subjectID);
+        IEnumerable<Student> GetStudentsCompletedSubjectWithGrade(string subjectID, int comletedWithGrade);
     }
 }

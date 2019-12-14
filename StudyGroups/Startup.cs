@@ -14,8 +14,6 @@ using StudyGroups.Contracts.Logic;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.Repository;
 using StudyGroups.Repository;
-using StudyGroups.Services;
-using StudyGroups.WebAPI.Services;
 using StudyGroups.WebAPI.Services.Services;
 using StudyGroups.WebAPI.WebSite.Middlewares;
 using Swashbuckle.AspNetCore.Swagger;
@@ -56,6 +54,7 @@ namespace StudyGroupRecommendations
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();

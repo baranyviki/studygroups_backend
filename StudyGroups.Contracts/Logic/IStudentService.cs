@@ -11,5 +11,6 @@ namespace StudyGroups.Contracts.Logic
         IEnumerable<StudentListItemDTO> GetStudentFromStudyGroupSearch(StudyGroupSearchDTO searchParams, string userId);
         void UpdateStudentAndTutoringRelationShips(StudentDTO studentDTO, string userId);
         IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string id, string loggedInUserId);
+        IEnumerable<StudentListItemDTO> GetStudentFromStudyBuddySearch(StudyBuddySearchDTO searchParams, string loggedInUserId);
     }
 }

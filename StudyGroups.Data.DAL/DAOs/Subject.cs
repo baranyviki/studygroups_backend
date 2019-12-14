@@ -2,17 +2,18 @@
 {
     public enum SubjectType
     {
-        MathematicalAndNaturalSciences //0
-        , EnterpriseInformationSystems //1
-        , SoftwareEngineering //2
-        , NetworksAndInformationSecurity //3
-        , DatabasesAndBigData //4
-        , EmbeddedSystems //5
-        , Economics //6
-        , Humanities //7
-        , FoundationSubject //8
-        , Other //9 -do not map this
-        , ComputerArchitectures //10
+        None                                //0
+        , MathematicalAndNaturalSciences    //1
+        , EnterpriseInformationSystems      //2
+        , SoftwareEngineering               //3
+        , NetworksAndInformationSecurity    //4
+        , DatabasesAndBigData               //5
+        , EmbeddedSystems                   //6
+        , Economics                         //7
+        , Humanities                        //8
+        , FoundationSubject                 //9 
+        , Other                             //10 -do not map this
+        , ComputerArchitectures             //11
     };
 
     public class Subject

@@ -5,13 +5,11 @@ using Moq;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.WebAPI.Models;
-using StudyGroups.WebAPI.Services;
 using StudyGroups.WebAPI.Services.Exceptions;
-using System;
+using StudyGroups.WebAPI.Services.Services;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
-using System.Text;
 using Xunit;
 
 namespace XUnitTestProject

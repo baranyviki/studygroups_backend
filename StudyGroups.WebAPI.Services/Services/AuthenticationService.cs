@@ -19,9 +19,8 @@ using System.Net.Http.Headers;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace StudyGroups.WebAPI.Services
+namespace StudyGroups.WebAPI.Services.Services
 {
 
     public class AuthenticationService : IAuthenticationService
@@ -72,6 +71,7 @@ namespace StudyGroups.WebAPI.Services
                     claims.Add(new Claim(ClaimTypes.Role, role));
                 }
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, loggedInUser.UserID));
+                claims.Add(new Claim("Role", roles[0]));
 
                 var tokenOptions = new JwtSecurityToken(
                     issuer: _config["ValidClientURI"],
@@ -246,13 +246,13 @@ namespace StudyGroups.WebAPI.Services
         {
             //var courseExports = CSVProcesser.ProcessCSV<CourseExportModel>(csvFilePath);
             var dbcourses = courseRepository.GetAllCoursesWithTheirSubjectsInSemester(semester).ToList();
-            
+
             var courseList = courseExports.ToList();
 
             var coursesNotInDB = courseList.Where(
-                    y => dbcourses.Where( x => y.CourseCode == x.Course.CourseCode &&  y.SubjectCode == x.SubjectCode && x.Course.Semester == semester).Count() == 0 );
- 
-           
+                    y => dbcourses.Where(x => y.CourseCode == x.Course.CourseCode && y.SubjectCode == x.SubjectCode && x.Course.Semester == semester).Count() == 0);
+
+
             var coursesToCreate = coursesNotInDB.Select(x => MapCourse.MapCourseExportToCourseSubjectCode(x, semester));
 
             return coursesToCreate;

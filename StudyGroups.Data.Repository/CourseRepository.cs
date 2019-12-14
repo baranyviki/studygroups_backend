@@ -8,7 +8,6 @@ using StudyGroups.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace StudyGroups.Data.Repository
 {
@@ -61,7 +60,7 @@ namespace StudyGroups.Data.Repository
                             RETURN s,c", parameters);
 
                 var courseWithSubjects = res
-                  .Map(( Subject subject, Course course) => new CourseSubjectCode
+                  .Map((Subject subject, Course course) => new CourseSubjectCode
                   {
                       Course = course,
                       SubjectCode = subject.SubjectCode

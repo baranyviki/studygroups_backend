@@ -2,7 +2,6 @@
 using StudyGroups.Data.DAL.ProjectionModels;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StudyGroups.Contracts.Repository
 {
