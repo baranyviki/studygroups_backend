@@ -22,6 +22,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Rr]esources/
+StudyGroups/Log/
+StudyGroups/Resources/
 
 # Visual Studio 2015 cache/options directory
 .vs/

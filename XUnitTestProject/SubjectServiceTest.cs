@@ -23,18 +23,6 @@ namespace XUnitTestProject
         }
 
         [Fact]
-        public void GetAllSubjectsAsSelectionItem_WhenCalled_ReturnsSelectionItemList()
-        {
-            //Arrange
-
-            //Act
-            var result = _subjectService.GetAllSubjectsAsSelectionItem();
-
-            //Assert
-            Assert.IsType<List<GeneralSelectionItem>>(result);
-        }
-
-        [Fact]
         public void GetAllSubjectsAsSelectionItem_WhenCalled_ReturnsExactNumberOfItems()
         {
             //Arrange
@@ -47,6 +35,14 @@ namespace XUnitTestProject
 
             //Assert
             Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void GetAllSubjectsAsSelectionItem_WhenCalled_ReturnsSelectionItemList()
+        {
+            var result = _subjectService.GetAllSubjectsAsSelectionItem();
+
+            Assert.IsType<List<GeneralSelectionItem>>(result);
         }
 
         [Fact]
