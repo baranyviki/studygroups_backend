@@ -1,0 +1,30 @@
+2019-12-15 21:39:28.532 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/values  
+2019-12-15 21:39:29.078 +01:00 [INF] Request finished in 584.4229ms 404 
+2019-12-15 21:39:53.513 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/values  
+2019-12-15 21:39:53.521 +01:00 [INF] Request finished in 7.7837ms 404 
+2019-12-15 21:40:06.333 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api  
+2019-12-15 21:40:06.342 +01:00 [INF] Request finished in 7.5587ms 301 
+2019-12-15 21:40:06.352 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/index.html  
+2019-12-15 21:40:06.514 +01:00 [INF] Request finished in 162.7988ms 200 text/html
+2019-12-15 21:40:06.579 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/swagger-ui.css  
+2019-12-15 21:40:06.589 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/swagger-ui-bundle.js  
+2019-12-15 21:40:06.589 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/swagger-ui-standalone-preset.js  
+2019-12-15 21:40:06.652 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2019-12-15 21:40:06.653 +01:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2019-12-15 21:40:06.663 +01:00 [INF] Request finished in 78.0774ms 200 application/javascript
+2019-12-15 21:40:06.666 +01:00 [INF] Request finished in 84.2723ms 200 text/css
+2019-12-15 21:40:06.677 +01:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2019-12-15 21:40:06.681 +01:00 [INF] Request finished in 97.9927ms 200 application/javascript
+2019-12-15 21:40:06.940 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json  
+2019-12-15 21:40:07.165 +01:00 [INF] Request finished in 225.9853ms 200 application/json;charset=utf-8
+2019-12-15 21:41:08.104 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/  
+2019-12-15 21:41:08.115 +01:00 [INF] Request finished in 14.3639ms 404 
+2019-12-15 21:41:08.143 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/  
+2019-12-15 21:41:08.149 +01:00 [INF] Request finished in 7.5224ms 404 
+2019-12-15 21:43:31.057 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/index.html  
+2019-12-15 21:43:31.400 +01:00 [INF] Request finished in 366.4855ms 200 text/html
+2019-12-15 21:43:31.816 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/swagger/v1/swagger.json  
+2019-12-15 21:43:31.890 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/favicon-32x32.png  
+2019-12-15 21:43:31.934 +01:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2019-12-15 21:43:31.938 +01:00 [INF] Request finished in 48.2751ms 200 image/png
+2019-12-15 21:43:32.173 +01:00 [INF] Request finished in 355.7382ms 200 application/json;charset=utf-8

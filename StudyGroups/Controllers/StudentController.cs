@@ -95,7 +95,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         {
             var studentId = GetUserIdFromToken();
             _studentService.UpdateStudentAndTutoringRelationShips(value, studentId);
-            return Ok();
+            return NoContent();
         }
 
         /// <summary>
@@ -110,6 +110,14 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             return Ok(studentListItemDtos);
         }
 
+        [Authorize(Roles ="Admin")]
+        [HttpGet("reports/semester-avgs")]
+        public ActionResult<string> GetSemesterAverages()
+        {
+            var avg = _studentService.GetSemesterAverages();
+                return Ok(avg);
+        }
+        
         private string GetUserIdFromToken()
         {
             var handler = new JwtSecurityTokenHandler();

@@ -2,6 +2,7 @@
 using Neo4jMapper;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.Data.DAL.ProjectionModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -389,6 +390,26 @@ namespace StudyGroups.Repository
                 if (resultList.Count == 0)
                     return new List<Student>();
                 return resultList.Map<Student>();
+            }
+
+        }
+
+        public IEnumerable<SemesterAverageGrouping> GetSemesterAverageGroupings()
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                string query = @"match (n:Student)-[r:ENROLLED_TO]->(s:Subject)
+                                WITH count(distinct r.Semester) as sCnt, AVG(Coalesce(r.Grade,0)) as avg, n.UserID as uid
+                                WITH sCnt as c, AVG(avg) as a
+                                return c,a";
+                var result = session.Run(query);
+                var resultList = result.ToList();
+                if (resultList.Count == 0)
+                    return new List<SemesterAverageGrouping>();
+                return resultList.Map((int c, double a) => new SemesterAverageGrouping { 
+                Average = a,
+                SemesterCnt = c
+                });
             }
 
         }

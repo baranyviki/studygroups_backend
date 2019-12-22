@@ -42,7 +42,6 @@ namespace StudyGroupRecommendations
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connectionURI = Configuration["DatabaseConfigurations:BoltURI"];
             var username = Configuration["DatabaseConfigurations:User"];
             var password = Configuration["DatabaseConfigurations:Password"];
@@ -77,10 +76,12 @@ namespace StudyGroupRecommendations
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder.
+                    //WithOrigins(Configuration["CORSConfigurations:AllowedOrigin"])
+                    AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
-                //.AllowCredentials());
+                    .AllowAnyHeader()
+                    .AllowCredentials());
             });
 
             services.AddAuthentication(x =>
@@ -101,6 +102,7 @@ namespace StudyGroupRecommendations
                 };
             });
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

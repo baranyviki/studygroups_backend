@@ -1,4 +1,5 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
+using StudyGroups.Data.DAL.ProjectionModels;
 using System;
 using System.Collections.Generic;
 
@@ -57,5 +58,7 @@ namespace StudyGroups.Contracts.Repository
         IEnumerable<Student> GetStudentsEnrolledToSubjectInSemester(string subjectId, string semester);
         IEnumerable<Student> GetStudentsCompletedSubject(string subjectID);
         IEnumerable<Student> GetStudentsCompletedSubjectWithGrade(string subjectID, int comletedWithGrade);
+
+        IEnumerable<SemesterAverageGrouping> GetSemesterAverageGroupings();
     }
 }

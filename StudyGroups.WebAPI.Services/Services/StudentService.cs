@@ -1,5 +1,6 @@
 ﻿using StudyGroups.Contracts.Logic;
 using StudyGroups.Contracts.Repository;
+using StudyGroups.Data.DAL.ConversionUtils;
 using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.DTOmodels;
 using StudyGroups.WebAPI.Models;
@@ -280,5 +281,11 @@ namespace StudyGroups.WebAPI.Services.Services
             return filteredStudents;
         }
 
+        public double[] GetSemesterAverages()
+        {
+            var avg = _studentRepository.GetSemesterAverageGroupings();
+            double[] avgArray = ReportMappings.MapSemesterAverageGroupingsToDoubleArray(avg);
+            return avgArray;
+        }
     }
 }
