@@ -19,6 +19,17 @@ namespace StudyGroups.WebAPI.Services.Services
             this._subjectRepository = subjectRepository;
         }
 
+        public void CreateSubject(SubjectDTO subjectDTO)
+        {
+            if (subjectDTO == null)
+                throw new ParameterException("subject object cannot be null");
+            if (subjectDTO.SubjectID != null)
+                throw new ParameterException("subjectID cannot have initial value");
+            var sub = MapSubject.MapSubjectDTOToSubject(subjectDTO);
+            _subjectRepository.Create(sub);
+
+        }
+
         public IEnumerable<SubjectListItemDTO> GetAllSubjectAsSubjectListItem()
         {
             return _subjectRepository.FindAll().Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));

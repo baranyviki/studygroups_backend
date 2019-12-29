@@ -54,12 +54,25 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
 
         [Authorize]
         [HttpGet("details/{id}")]
-        public ActionResult<string> GetSubjectById(string subjectId)
+        public ActionResult<string> GetSubjectById(string id)
         {
-            var results = subjectService.GetSubjectById(subjectId);
+            var results = subjectService.GetSubjectById(id);
             return Ok(results);
         }
-
+        [Authorize]
+        [HttpPost("create")]
+        public ActionResult<string> CreateSubject([FromBody] SubjectDTO subjectDTO)
+        {
+            subjectService.CreateSubject(subjectDTO);
+            return Ok();
+        }
+        [Authorize]
+        [HttpPut("mod/{id}")]
+        public ActionResult<string> UpdateSubject(string id, [FromBody] SubjectDTO subjectDTO)
+        {
+            subjectService.UpdateSubject(subjectDTO);
+            return Ok();
+        }
         private string GetUserIdFromToken()
         {
             var handler = new JwtSecurityTokenHandler();

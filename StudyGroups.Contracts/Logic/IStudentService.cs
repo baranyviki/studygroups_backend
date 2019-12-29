@@ -12,7 +12,7 @@ namespace StudyGroups.Contracts.Logic
         void UpdateStudentAndTutoringRelationShips(StudentDTO studentDTO, string userId);
         IEnumerable<StudentListItemDTO> GetStudentsTutoringSubject(string id, string loggedInUserId);
         IEnumerable<StudentListItemDTO> GetStudentFromStudyBuddySearch(StudyBuddySearchDTO searchParams, string loggedInUserId);
-
+        void DeleteStudent(string userId);
         double[] GetSemesterAverages();
     }
 }

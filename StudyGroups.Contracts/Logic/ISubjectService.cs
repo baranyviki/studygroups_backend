@@ -10,5 +10,7 @@ namespace StudyGroups.Contracts.Logic
         SubjectDTO GetSubjectById(string subjectId);
         SubjectDTO UpdateSubject(SubjectDTO subject);
         IEnumerable<SubjectListItemDTO> GetAllSubjectAsSubjectListItem();
+        void CreateSubject(SubjectDTO subjectDTO);
+        //void ModifySubject();
     }
 }

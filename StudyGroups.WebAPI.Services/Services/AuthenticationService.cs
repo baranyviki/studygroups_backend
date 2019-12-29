@@ -53,6 +53,8 @@ namespace StudyGroups.WebAPI.Services.Services
             }
 
             var loggedInUser = userRepository.FindUserByUserName(user.UserName);
+            if (loggedInUser != null && loggedInUser.IsDisabled)
+                throw new AuthenticationException("User is disabled, please contact administrator");
             if (loggedInUser != null && Crypto.VerifyHashedPassword(loggedInUser.Password, user.Password))
             {
                 var roles = userRepository.GetUserLabelsByUserID(loggedInUser.UserID);
@@ -77,7 +79,7 @@ namespace StudyGroups.WebAPI.Services.Services
                     issuer: _config["ValidClientURI"],
                     audience: _config["ValidClientURI"],
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(60),
+                    expires: DateTime.Now.AddMinutes(180),
                     signingCredentials: signinCredentials
 
                 );

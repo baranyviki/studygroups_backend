@@ -25,6 +25,8 @@ namespace StudyGroups.Contracts.Repository
 
         void UpdateStudent(Student student);
 
+        void AnonymizeStudentUser(string userID);
+
         void MergeTutoringRelationship(string userId, string subjectId);
 
         void DeleteTutoringRelationship(string userId, string subjectId);

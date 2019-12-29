@@ -56,7 +56,7 @@ namespace StudyGroups.WebAPI.Services.Services
 
             if (subjectsTutoring != null)
             {
-                var subjectDtos = subjectsTutoring.Select(x => MapSubject.MapSubjectToSubjectListItemDTO(x));
+                var subjectDtos = subjectsTutoring.Select(x => MapSubject.MapSubjectToGeneralSelectionItem(x));
                 studentDTO.TutoringSubjects = subjectDtos;
             }
             return studentDTO;
@@ -64,7 +64,6 @@ namespace StudyGroups.WebAPI.Services.Services
 
         public IEnumerable<StudentListItemDTO> GetStudentFromStudyGroupSearch(StudyGroupSearchDTO searchParams, string loggedInUserId)
         {
-
             if (loggedInUserId == null || !Guid.TryParse(loggedInUserId, out Guid userguid))
                 throw new ParameterException("user ID is invalid");
             if (searchParams == null || searchParams.CourseID == null)
@@ -286,6 +285,15 @@ namespace StudyGroups.WebAPI.Services.Services
             var avg = _studentRepository.GetSemesterAverageGroupings();
             double[] avgArray = ReportMappings.MapSemesterAverageGroupingsToDoubleArray(avg);
             return avgArray;
+        }
+
+        public void DeleteStudent(string userId)
+        {
+            if (userId == null)
+                throw new ParameterException("UserID cannot be null");
+            if (!Guid.TryParse(userId, out Guid guid))
+                throw new ParameterException("UserID is invalid");
+            _studentRepository.AnonymizeStudentUser(userId);
         }
     }
 }

@@ -13,6 +13,6 @@ namespace StudyGroups.WebAPI.Models
         public string LastName { get; set; }
         public int GenderType { get; set; }
         public string ImagePath { get; set; }
-        public IEnumerable<SubjectListItemDTO> TutoringSubjects { get; set; }
+        public IEnumerable<GeneralSelectionItem> TutoringSubjects { get; set; }
     }
 }

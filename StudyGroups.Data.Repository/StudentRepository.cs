@@ -406,10 +406,25 @@ namespace StudyGroups.Repository
                 var resultList = result.ToList();
                 if (resultList.Count == 0)
                     return new List<SemesterAverageGrouping>();
-                return resultList.Map((int c, double a) => new SemesterAverageGrouping { 
-                Average = a,
-                SemesterCnt = c
+                return resultList.Map((int c, double a) => new SemesterAverageGrouping
+                {
+                    Average = a,
+                    SemesterCnt = c
                 });
+            }
+
+        }
+
+        public void AnonymizeStudentUser(string userID)
+        {
+            using (var session = Neo4jDriver.Session())
+            {
+                var parameters = new Neo4jParameters().WithValue("userId", userID);
+                string query =
+                $@"MATCH (n:User:Student)
+                    WHERE n.UserID = $userId
+                    SET n.InstagramName = 0, n.Email = 0, n.FirstName = 0, n.NeptunCode = 0, n.IsDisabled = 1, n.LastName = 0, n.GenderType = 2,n.MessengerName = 0,n.Password = 0";
+                var result = session.Run(query, parameters);
             }
 
         }

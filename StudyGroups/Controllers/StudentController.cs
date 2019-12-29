@@ -95,7 +95,7 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
         {
             var studentId = GetUserIdFromToken();
             _studentService.UpdateStudentAndTutoringRelationShips(value, studentId);
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
@@ -117,7 +117,15 @@ namespace StudyGroups.WebAPI.WebSite.Controllers
             var avg = _studentService.GetSemesterAverages();
                 return Ok(avg);
         }
-        
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public IActionResult DeleteStudent(string id)
+        {
+            _studentService.DeleteStudent(id);
+            return Ok();
+        }
+
         private string GetUserIdFromToken()
         {
             var handler = new JwtSecurityTokenHandler();

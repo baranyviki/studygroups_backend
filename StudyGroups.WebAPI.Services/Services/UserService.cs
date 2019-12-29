@@ -29,7 +29,7 @@ namespace StudyGroups.WebAPI.Services.Services
         public IEnumerable<UserManageListItem> GetUsers()
         {
             var users = _userRepository.FindAll();
-            var listitems = users.Select(x => MapUser.MapUserToUserManageListItem(x));
+            var listitems = users.Where(u=> u.Password != "0").Select(x => MapUser.MapUserToUserManageListItem(x));
             return listitems;
         }
 

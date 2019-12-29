@@ -35,7 +35,10 @@ namespace StudyGroups.Data.Repository
                 var parameters = new Neo4jParameters().WithValue("subjectId", subjectId);
                 string query = $@"MATCH (node:Subject) WHERE node.SubjectID = $subjectId RETURN node";
                 var result = session.Run(query, parameters);
-                return result.SingleOrDefault().Map<Subject>();
+                var res = result.ToList();
+                if (res.Count == 0)
+                    throw new NodeNotExistsException("Subject with given id does not exists");
+                return res.SingleOrDefault().Map<Subject>();
             }
         }
 
@@ -67,9 +70,11 @@ namespace StudyGroups.Data.Repository
         {
             using (var session = Neo4jDriver.Session())
             {
-                var parameters = new Neo4jParameters().WithValue("subjectId", subject.SubjectID);
+                var parameters = new Neo4jParameters().WithValue("subjectId", subject.SubjectID).WithEntity("props", subject);
                 string query = $@"MATCH (n:Subject)
-                                  WHERE n.SubjectID=$subjectId SET n = $props";
+                                  WHERE n.SubjectID=$subjectId SET n += $props
+                                  RETURN n";
+
                 var result = session.Run(query, parameters);
                 var summary = result.Summary;
                 if (summary.Notifications.Select(x => x.Description).Contains("Error"))
@@ -78,7 +83,8 @@ namespace StudyGroups.Data.Repository
                 }
                 return result.SingleOrDefault().Map<Subject>();
             }
-
         }
+
+
     }
 }
