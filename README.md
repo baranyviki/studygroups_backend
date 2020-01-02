@@ -1,6 +1,6 @@
 # studygroups_backend
 
-Available on: http://79.143.181.189/studygroups/
+Available on: http://79.143.181.189:38213/api/index.html
 
 # Deployment:
 
@@ -9,7 +9,7 @@ Available on: http://79.143.181.189/studygroups/
 https://neo4j.com/download-center/#community
 Version: 3.5.13
 
-unzip 
+unzip
 copy to folder > that wil be %Neo4j folder
 get apoc 
 https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/tag/3.5.0.5
