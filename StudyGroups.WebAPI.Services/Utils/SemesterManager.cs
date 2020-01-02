@@ -14,7 +14,9 @@ namespace StudyGroups.WebAPI.Services.Utils
             }
             else //oszi felev
             {
-                return $"{currentdate.Year }/{(currentdate.Year + 1).ToString().Substring(0, 2)}/1";
+                return "2019/20/1";
+
+                //return $"{currentdate.Year }/{(currentdate.Year + 1).ToString().Substring(2, 2)}/1";
             }
 
         }
