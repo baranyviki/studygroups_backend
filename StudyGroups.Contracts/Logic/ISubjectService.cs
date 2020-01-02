@@ -1,14 +1,16 @@
-﻿using StudyGroups.Data.DAL.DAOs;
-using StudyGroups.WebAPI.Models;
-using System;
+﻿using StudyGroups.WebAPI.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.Contracts.Logic
 {
     public interface ISubjectService
     {
         List<GeneralSelectionItem> GetAllSubjectsAsSelectionItem();
-        //List<GeneralSelectionItem> GetAllLabourCoursesWithSubjectStudentEnrolledToCurrentSemester(string username);
+        IEnumerable<GeneralSelectionItem> GetSubjectUserHasPassedAsSubjectDTO(string userId);
+        SubjectDTO GetSubjectById(string subjectId);
+        SubjectDTO UpdateSubject(SubjectDTO subject);
+        IEnumerable<SubjectListItemDTO> GetAllSubjectAsSubjectListItem();
+        void CreateSubject(SubjectDTO subjectDTO);
+        //void ModifySubject();
     }
 }

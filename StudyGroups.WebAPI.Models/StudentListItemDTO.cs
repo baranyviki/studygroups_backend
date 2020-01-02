@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StudyGroups.DTOmodels
+﻿namespace StudyGroups.DTOmodels
 {
     public class StudentListItemDTO
     {

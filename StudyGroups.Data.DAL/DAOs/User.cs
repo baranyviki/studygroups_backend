@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace StudyGroups.Data.DAL.DAOs
+﻿namespace StudyGroups.Data.DAL.DAOs
 {
-    public enum GenderType {
-        Female,Male,Other
+    public enum GenderType
+    {
+        Female, Male, Other
     }
 
     public class User
@@ -11,7 +10,8 @@ namespace StudyGroups.Data.DAL.DAOs
         public string UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string Email { get; set; }  
+        public string Email { get; set; }
+        public bool IsDisabled { get; set; }
 
     }
 }

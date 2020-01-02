@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Neo4j.Driver.V1;
 using Serilog;
@@ -22,12 +14,14 @@ using StudyGroups.Contracts.Logic;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.Repository;
 using StudyGroups.Repository;
-using StudyGroups.Services;
-using StudyGroups.WebAPI.Services;
 using StudyGroups.WebAPI.Services.Services;
 using StudyGroups.WebAPI.WebSite.Middlewares;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace StudyGroupRecommendations
 {
@@ -48,7 +42,6 @@ namespace StudyGroupRecommendations
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connectionURI = Configuration["DatabaseConfigurations:BoltURI"];
             var username = Configuration["DatabaseConfigurations:User"];
             var password = Configuration["DatabaseConfigurations:Password"];
@@ -60,6 +53,7 @@ namespace StudyGroupRecommendations
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
@@ -82,16 +76,20 @@ namespace StudyGroupRecommendations
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder.
+                    //WithOrigins(Configuration["CORSConfigurations:AllowedOrigin"])
+                    AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
-                //.AllowCredentials());
+                    .AllowAnyHeader()
+                    .AllowCredentials());
             });
 
-            services.AddAuthentication(x => {
+            services.AddAuthentication(x =>
+            {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(opt => {
+            }).AddJwtBearer(opt =>
+            {
                 opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -104,6 +102,7 @@ namespace StudyGroupRecommendations
                 };
             });
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

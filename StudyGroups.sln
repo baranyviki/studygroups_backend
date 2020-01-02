@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyGroups.WebAPI.WebSite", "StudyGroups\StudyGroups.WebAPI.WebSite.csproj", "{FA48B7AD-9B75-4380-A1E8-95F1D3EB608B}"
 EndProject
@@ -13,7 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyGroups.WebAPI.Services
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyGroups.WebAPI.Models", "StudyGroups.WebAPI.Models\StudyGroups.WebAPI.Models.csproj", "{10971A57-9821-41F7-A556-1AE8CD08D143}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyGroups.Contracts", "StudyGroups.Contracts\StudyGroups.Contracts.csproj", "{176D6B7B-BAF0-45C6-A044-5170F71B900D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyGroups.Contracts", "StudyGroups.Contracts\StudyGroups.Contracts.csproj", "{176D6B7B-BAF0-45C6-A044-5170F71B900D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject", "XUnitTestProject\XUnitTestProject.csproj", "{71354A6B-81CA-426B-8A63-00656B753A8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{819F5CD7-6C2D-4618-AEC2-252CF9177819}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +52,10 @@ Global
 		{176D6B7B-BAF0-45C6-A044-5170F71B900D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{176D6B7B-BAF0-45C6-A044-5170F71B900D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{176D6B7B-BAF0-45C6-A044-5170F71B900D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71354A6B-81CA-426B-8A63-00656B753A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71354A6B-81CA-426B-8A63-00656B753A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71354A6B-81CA-426B-8A63-00656B753A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71354A6B-81CA-426B-8A63-00656B753A8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

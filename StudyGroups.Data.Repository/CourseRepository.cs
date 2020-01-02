@@ -1,6 +1,5 @@
 ﻿using Neo4j.Driver.V1;
 using Neo4jMapper;
-using ServiceStack.Text;
 using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.ConversionUtils;
 using StudyGroups.Data.DAL.DAOs;
@@ -9,8 +8,6 @@ using StudyGroups.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyGroups.Data.Repository
 {
@@ -51,18 +48,19 @@ namespace StudyGroups.Data.Repository
             }
         }
 
-        public async Task<IEnumerable<CourseSubjectCode>> GetAllCoursesWithTheirSubjectsInSemesterAsync(string semester)
+        public IEnumerable<CourseSubjectCode> GetAllCoursesWithTheirSubjectsInSemester(string semester)
         {
             using (var session = Neo4jDriver.Session())
             {
                 var parameters = new Neo4jParameters().WithValue("semester", semester);
 
-                var cursor = await session.RunAsync(@"
-                            MATCH (c:Course { Semester: $semester })-[:BELONGS_TO]-(s:Subject)
+                var res = session.Run(@"
+                            MATCH (c:Course)-[:BELONGS_TO]-(s:Subject)
+                            WHERE c.Semester = $semester
                             RETURN s,c", parameters);
 
-                var courseWithSubjects = (await cursor.ToListAsync())
-                  .Map((Course course, Subject subject) => new CourseSubjectCode
+                var courseWithSubjects = res
+                  .Map((Subject subject, Course course) => new CourseSubjectCode
                   {
                       Course = course,
                       SubjectCode = subject.SubjectCode

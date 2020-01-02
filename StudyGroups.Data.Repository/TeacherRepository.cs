@@ -4,14 +4,12 @@ using StudyGroups.Contracts.Repository;
 using StudyGroups.Data.DAL.DAOs;
 using StudyGroups.Repository;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.Data.Repository
 {
     public class TeacherRepository : BaseRepository<Teacher>, ITeacherRepository
     {
-        public TeacherRepository(IDriver _neo4jDriver):base(_neo4jDriver)
+        public TeacherRepository(IDriver _neo4jDriver) : base(_neo4jDriver)
         {
 
         }
@@ -36,7 +34,7 @@ namespace StudyGroups.Data.Repository
                 var parameters = new Neo4jParameters().WithValue("teacherName", teacherName)
                                                       .WithValue("subjectCode", subjectCode)
                                                       .WithValue("courseCode", courseCode)
-                                                      .WithValue("semester",semester);
+                                                      .WithValue("semester", semester);
 
                 string query = @"MATCH (sub:Subject {SubjectCode:$subjectCode })<-[BELONGS_TO]-
                                 (course: Course { CourseCode: $courseCode, Semester:$semester})

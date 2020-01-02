@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using StudyGroups.Data.Repository;
 using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace StudyGroups.WebAPI.WebSite.Middlewares
-{    
+{
     /// <summary>
-     /// Middleware class for handling Exceptions generally, and return proper HTTP responses.
-     /// Registered in ApplicationExtensions during startup.
-     /// With help of this class, there is no need try catch blocks in the code (just special cases).
-     /// </summary>
+    /// Middleware class for handling Exceptions generally, and return proper HTTP responses.
+    /// Registered in ApplicationExtensions during startup.
+    /// With help of this class, there is no need try catch blocks in the code (just special cases).
+    /// </summary>
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -72,13 +71,19 @@ namespace StudyGroups.WebAPI.WebSite.Middlewares
             if (ex is AuthenticationException) code = HttpStatusCode.Unauthorized;
             else if (ex is RegistrationException) code = HttpStatusCode.BadRequest;
             else if (ex is ParameterException) code = HttpStatusCode.BadRequest;
+            else if (ex is NodeNotExistsException) code = HttpStatusCode.NoContent;
             // Create a Http response with the status code and the exception message
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = (int)code;
+
+            string message = "Internal server error, please contact administrator.";
+            if ((int)code != 500)
+                message = ex.Message;
+
             return httpContext.Response.WriteAsync(new ErrorDetails()
             {
                 StatusCode = httpContext.Response.StatusCode,
-                Message = ex.Message
+                Message = message
             }.ToString());
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq;
 
 namespace StudyGroups.Contracts
 {
@@ -13,16 +11,7 @@ namespace StudyGroups.Contracts
         /// <summary>
         /// Find all database node for the given database set.
         /// </summary>
-        /// <returns>Queryable data structure, contains given type records</returns>
+        /// <returns>Enumerable data structure, contains given type records</returns>
         IQueryable<T> FindAll();
-
-        /// <summary>
-        /// Find all database node for the given database entity by given condition.
-        /// </summary>
-        /// <param name="expression">
-        /// Condition in lambda expression
-        /// </param>
-        /// <returns>Queryable data structure, contains given type records</returns>
-        IQueryable<T> FindByCondition(string whereExpression);
     }
 }

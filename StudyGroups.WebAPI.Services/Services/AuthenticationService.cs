@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Security.Authentication;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using CryptoHelper;
+﻿using CryptoHelper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -20,23 +10,28 @@ using StudyGroups.WebAPI.Models;
 using StudyGroups.WebAPI.Services.Exceptions;
 using StudyGroups.WebAPI.Services.Mapping;
 using StudyGroups.WebAPI.Services.Utils;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Authentication;
+using System.Security.Claims;
+using System.Text;
 
-namespace StudyGroups.WebAPI.Services
+namespace StudyGroups.WebAPI.Services.Services
 {
-    //    public enum UserRoleTypes {
-    //        Student,
-    //        Admin
-    //    } 
 
     public class AuthenticationService : IAuthenticationService
     {
-        ICourseRepository courseRepository;
-        IStudentRepository studentRepository;
-        ISubjectRepository subjectRepository;
-        ITeacherRepository teacherRepository;
-        IUserRepository userRepository;
-        IConfiguration _config;
-        ILogger _logger;
+        private readonly ICourseRepository courseRepository;
+        private readonly IStudentRepository studentRepository;
+        private readonly ISubjectRepository subjectRepository;
+        private readonly ITeacherRepository teacherRepository;
+        private readonly IUserRepository userRepository;
+        private readonly IConfiguration _config;
+        private readonly ILogger _logger;
 
         public AuthenticationService(ICourseRepository courseRepository, IStudentRepository studentRepository, ISubjectRepository subjectRepository
            , ITeacherRepository teacherRepository, IUserRepository userRepository, IConfiguration config, ILogger<AuthenticationService> logger)
@@ -52,13 +47,14 @@ namespace StudyGroups.WebAPI.Services
 
         public string Login(LoginDTO user)
         {
-            if (user == null)
+            if (user == null || user.UserName == null || user.Password == null)
             {
-                throw new AuthenticationException("Login object was null");
-          
+                throw new ParameterException("Login object was null");
             }
 
             var loggedInUser = userRepository.FindUserByUserName(user.UserName);
+            if (loggedInUser != null && loggedInUser.IsDisabled)
+                throw new AuthenticationException("User is disabled, please contact administrator");
             if (loggedInUser != null && Crypto.VerifyHashedPassword(loggedInUser.Password, user.Password))
             {
                 var roles = userRepository.GetUserLabelsByUserID(loggedInUser.UserID);
@@ -67,19 +63,23 @@ namespace StudyGroups.WebAPI.Services
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTSecretKey"]));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, loggedInUser.UserName));
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, loggedInUser.UserName)
+                };
+
                 foreach (var role in roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role));
                 }
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, loggedInUser.UserID));
+                claims.Add(new Claim("Role", roles[0]));
 
                 var tokenOptions = new JwtSecurityToken(
                     issuer: _config["ValidClientURI"],
                     audience: _config["ValidClientURI"],
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
+                    expires: DateTime.Now.AddMinutes(180),
                     signingCredentials: signinCredentials
 
                 );
@@ -93,7 +93,7 @@ namespace StudyGroups.WebAPI.Services
             }
         }
 
-        public async Task RegisterUserAsync(StudentRegistrationDTO studentRegistrationDTO)
+        public void RegisterUser(StudentRegistrationDTO studentRegistrationDTO)
         {
             //todo: validate these values!!
             //check username existence
@@ -107,18 +107,18 @@ namespace StudyGroups.WebAPI.Services
             if (studentRegistrationDTO.GradeBook != null && studentRegistrationDTO.Courses != null)
             {
 
-                var student = new Student();
-                student.DateOfBirth = studentRegistrationDTO.DateOfBirth;
-                student.Email = studentRegistrationDTO.Email;
-                student.FirstName = studentRegistrationDTO.FirstName;
-                student.LastName = studentRegistrationDTO.LastName;
-                student.GenderType = (int)studentRegistrationDTO.GenderType;
-                student.InstagramName = studentRegistrationDTO.InstagramName;
-                student.MessengerName = studentRegistrationDTO.MessengerName;
-                student.NeptunCode = studentRegistrationDTO.NeptunCode;
-
-                student.Password = Crypto.HashPassword(studentRegistrationDTO.Password);
-                student.UserName = studentRegistrationDTO.UserName;
+                var student = new Student
+                {
+                    Email = studentRegistrationDTO.Email,
+                    FirstName = studentRegistrationDTO.FirstName,
+                    LastName = studentRegistrationDTO.LastName,
+                    GenderType = (int)studentRegistrationDTO.Gender,
+                    InstagramName = studentRegistrationDTO.InstagramName,
+                    MessengerName = studentRegistrationDTO.MessengerName,
+                    NeptunCode = studentRegistrationDTO.NeptunCode,
+                    Password = Crypto.HashPassword(studentRegistrationDTO.Password),
+                    UserName = studentRegistrationDTO.UserName
+                };
 
                 if (studentRegistrationDTO.Image != null)
                 {
@@ -130,12 +130,12 @@ namespace StudyGroups.WebAPI.Services
 
                 try
                 {
-                    await ProcessNeptunExportsAsync(stud, studentRegistrationDTO.GradeBook, studentRegistrationDTO.Courses);
+                    ProcessNeptunExports(stud, studentRegistrationDTO.GradeBook, studentRegistrationDTO.Courses);
                 }
                 catch (Exception e)
                 {
                     _logger.Log(LogLevel.Error, e.Message);
-                    studentRepository.Delete(stud,stud.UserID);
+                    studentRepository.Delete(stud, stud.UserID);
                     throw new RegistrationException("Neptun export processing was unsuccesful.");
                 }
             }
@@ -146,7 +146,7 @@ namespace StudyGroups.WebAPI.Services
 
         }
 
-        private async Task ProcessNeptunExportsAsync(Student student, IFormFile gradeBook, IFormFile courses)
+        private void ProcessNeptunExports(Student student, IFormFile gradeBook, IFormFile courses)
         {
             //store file
             string courseServerPath = StoreFile(courses, "Exports");
@@ -160,7 +160,7 @@ namespace StudyGroups.WebAPI.Services
 
             //process course
             var courseExports = CSVProcesser.ProcessCSV<CourseExportModel>(courseServerPath);
-            var createCourses = await GetNonExistingCoursesFromExportAsync(courseExports, thisSemester);
+            var createCourses = GetNonExistingCoursesFromExport(courseExports, thisSemester);
 
             //process teachers
             var createTeachers = GetNonExistingTeachersFromExport(courseExports);
@@ -217,9 +217,10 @@ namespace StudyGroups.WebAPI.Services
         private IEnumerable<Teacher> GetNonExistingTeachersFromExport(IEnumerable<CourseExportModel> courseExports)
         {
             var exportedTeachers = courseExports.Select(x => x.TeacherName.Split(",")).SelectMany(x => x).Distinct();
-            var existingTeachers = teacherRepository.FindAll();
+            var existingTeachers = teacherRepository.FindAll().Select(x => x.Name).ToList();
 
-            var nonExistingTeachers = exportedTeachers.Except(existingTeachers.Select(x => x.Name).Distinct());
+            var nonExistingTeachers = exportedTeachers.Where(x => !existingTeachers.Contains(x));
+
             return nonExistingTeachers.Select(x => new Teacher { Name = x });
 
         }
@@ -243,17 +244,16 @@ namespace StudyGroups.WebAPI.Services
 
         }
 
-        private async System.Threading.Tasks.Task<IEnumerable<CourseSubjectCode>> GetNonExistingCoursesFromExportAsync(IEnumerable<CourseExportModel> courseExports, string semester)
+        private IEnumerable<CourseSubjectCode> GetNonExistingCoursesFromExport(IEnumerable<CourseExportModel> courseExports, string semester)
         {
             //var courseExports = CSVProcesser.ProcessCSV<CourseExportModel>(csvFilePath);
-            var dbcourses = await courseRepository.GetAllCoursesWithTheirSubjectsInSemesterAsync("2017/18/1");
+            var dbcourses = courseRepository.GetAllCoursesWithTheirSubjectsInSemester(semester).ToList();
 
-            var coursesNotInDB = courseExports.Where(
-                    y => dbcourses.Where(
-                        x => y.CourseCode == x.Course.CourseCode &&
-                        y.SubjectCode == x.SubjectCode &&
-                        x.Course.Semester == semester).Count() == 0
-                                );
+            var courseList = courseExports.ToList();
+
+            var coursesNotInDB = courseList.Where(
+                    y => dbcourses.Where(x => y.CourseCode == x.Course.CourseCode && y.SubjectCode == x.SubjectCode && x.Course.Semester == semester).Count() == 0);
+
 
             var coursesToCreate = coursesNotInDB.Select(x => MapCourse.MapCourseExportToCourseSubjectCode(x, semester));
 

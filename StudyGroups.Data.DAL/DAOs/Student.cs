@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StudyGroups.Data.DAL.DAOs
+﻿namespace StudyGroups.Data.DAL.DAOs
 {
     public class Student : User
     {
@@ -13,6 +9,5 @@ namespace StudyGroups.Data.DAL.DAOs
         public string LastName { get; set; }
         public string ImagePath { get; set; }
         public int GenderType { get; set; }
-        public DateTime DateOfBirth { get; set; }
     }
 }

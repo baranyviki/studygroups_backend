@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace StudyGroups.WebAPI.Models
 {
@@ -14,7 +12,7 @@ namespace StudyGroups.WebAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int GenderType { get; set; }
-        public DateTime DateOfBirth { get; set; }       
         public string ImagePath { get; set; }
+        public IEnumerable<GeneralSelectionItem> TutoringSubjects { get; set; }
     }
 }

@@ -2,14 +2,12 @@
 using StudyGroups.Data.DAL.ProjectionModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyGroups.Contracts.Repository
 {
     public interface ICourseRepository : IBaseRepository<Course>
     {
-        Task<IEnumerable<CourseSubjectCode>> GetAllCoursesWithTheirSubjectsInSemesterAsync(string semester);
+        IEnumerable<CourseSubjectCode> GetAllCoursesWithTheirSubjectsInSemester(string semester);
 
         /// <summary>
         /// Creates a :BELONGS_TO relationship between the id given course and subject.  
@@ -26,7 +24,7 @@ namespace StudyGroups.Contracts.Repository
         /// <param name="semester">Semester, in which course was started. Format: YYYY/YY/S</param>
         /// <returns></returns>
         CourseIDSubjectIDProjection GetCourseWithSubject(string courseCode, string subjectCode, string semester);
-        
+
         Course CreateCourseBelongingToSubject(Course course, string subjectCode);
 
         IEnumerable<CourseCodeSubjectNameProjection> FindLabourCoursesWithSubjectStudentCurrentlyEnrolledTo(string username, string currentSemester);

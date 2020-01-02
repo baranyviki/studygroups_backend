@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StudyGroups.Data.DAL.ProjectionModels
+﻿namespace StudyGroups.Data.DAL.ProjectionModels
 {
     public class CourseCodeSubjectNameProjection
     {

@@ -1,7 +1,4 @@
 ﻿using StudyGroups.Data.DAL.DAOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StudyGroups.Data.DAL.ConversionUtils
 {

@@ -1,0 +1,300 @@
+2019-12-10 09:35:39.830 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/Resources/Images/carousel1.png  
+2019-12-10 09:35:39.919 +01:00 [INF] The file /Images/carousel1.png was not modified
+2019-12-10 09:35:39.933 +01:00 [INF] Request finished in 120.8231ms 304 image/png
+2019-12-10 20:30:12.361 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/index.html  
+2019-12-10 20:30:12.751 +01:00 [INF] Request finished in 401.2848ms 200 text/html
+2019-12-10 20:30:13.494 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/swagger/v1/swagger.json  
+2019-12-10 20:30:13.771 +01:00 [INF] Request finished in 277.5861ms 200 application/json;charset=utf-8
+2019-12-10 23:23:36.528 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/index.html  
+2019-12-10 23:23:36.873 +01:00 [INF] Request finished in 361.8697ms 200 text/html
+2019-12-10 23:23:37.257 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/swagger/v1/swagger.json  
+2019-12-10 23:23:37.508 +01:00 [INF] Request finished in 249.7737ms 200 application/json;charset=utf-8
+2019-12-10 23:24:09.736 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/authentication/login  
+2019-12-10 23:24:09.754 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:09.760 +01:00 [INF] Request finished in 24.6781ms 204 
+2019-12-10 23:24:09.773 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:38213/api/authentication/login application/json 44
+2019-12-10 23:24:09.776 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:09.917 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.AuthenticationController.Login (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:09.953 +01:00 [INF] Route matched with {action = "Login", controller = "Authentication"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login(StudyGroups.WebAPI.Models.LoginDTO) on controller StudyGroups.WebAPI.WebSite.Controllers.AuthenticationController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:24:10.038 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.AuthenticationController.Login (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:24:11.118 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.AuthenticationController.Login (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1063.6886ms.
+2019-12-10 23:24:11.131 +01:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2019-12-10 23:24:11.146 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.AuthenticationController.Login (StudyGroups.WebAPI.WebSite) in 1185.2464ms
+2019-12-10 23:24:11.150 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.AuthenticationController.Login (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:11.154 +01:00 [INF] Request finished in 1379.9115ms 200 application/json; charset=utf-8
+2019-12-10 23:24:11.308 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:24:11.312 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:11.317 +01:00 [INF] Request finished in 7.643ms 204 
+2019-12-10 23:24:11.470 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:24:11.479 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:11.508 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:24:11.517 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:11.537 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:24:11.562 +01:00 [INF] Authorization was successful.
+2019-12-10 23:24:11.570 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:24:11.635 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 60.4872ms.
+2019-12-10 23:24:11.640 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:24:11.646 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 105.52510000000001ms
+2019-12-10 23:24:11.652 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:11.655 +01:00 [INF] Request finished in 189.4481ms 200 application/json; charset=utf-8
+2019-12-10 23:24:24.338 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/student/details/  
+2019-12-10 23:24:24.343 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:24.348 +01:00 [INF] Request finished in 10.3876ms 204 
+2019-12-10 23:24:24.373 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/Resources/Images/blank-profile.png  
+2019-12-10 23:24:24.388 +01:00 [INF] The file /Images/blank-profile.png was not modified
+2019-12-10 23:24:24.400 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/student/details/ application/json 
+2019-12-10 23:24:24.404 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:24.408 +01:00 [INF] Request finished in 33.9317ms 304 image/png
+2019-12-10 23:24:24.412 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:24:24.416 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:24.421 +01:00 [INF] Route matched with {action = "GetStudentDetails", controller = "Student"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[StudyGroups.WebAPI.Models.StudentDTO] GetStudentDetails() on controller StudyGroups.WebAPI.WebSite.Controllers.StudentController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:24:24.427 +01:00 [INF] Authorization was successful.
+2019-12-10 23:24:24.432 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:24:24.504 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 60.724500000000006ms.
+2019-12-10 23:24:24.509 +01:00 [INF] Executing ObjectResult, writing value of type 'StudyGroups.WebAPI.Models.StudentDTO'.
+2019-12-10 23:24:24.522 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) in 97.4484ms
+2019-12-10 23:24:24.528 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:24.531 +01:00 [INF] Request finished in 131.0384ms 200 application/json; charset=utf-8
+2019-12-10 23:24:25.920 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/student/details/ application/json 
+2019-12-10 23:24:25.924 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:25.930 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:24:25.936 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:25.941 +01:00 [INF] Route matched with {action = "GetStudentDetails", controller = "Student"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[StudyGroups.WebAPI.Models.StudentDTO] GetStudentDetails() on controller StudyGroups.WebAPI.WebSite.Controllers.StudentController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:24:25.946 +01:00 [INF] Authorization was successful.
+2019-12-10 23:24:25.951 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:24:25.965 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 9.0709ms.
+2019-12-10 23:24:25.968 +01:00 [INF] Executing ObjectResult, writing value of type 'StudyGroups.WebAPI.Models.StudentDTO'.
+2019-12-10 23:24:25.973 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) in 27.7371ms
+2019-12-10 23:24:25.978 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:25.982 +01:00 [INF] Request finished in 62.4048ms 200 application/json; charset=utf-8
+2019-12-10 23:24:26.550 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:24:26.553 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:26.557 +01:00 [INF] Request finished in 7.4988ms 204 
+2019-12-10 23:24:26.635 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:24:26.638 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:24:26.641 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:24:26.647 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:26.650 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:24:26.653 +01:00 [INF] Authorization was successful.
+2019-12-10 23:24:26.657 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:24:26.666 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 5.4247000000000005ms.
+2019-12-10 23:24:26.670 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:24:26.673 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 19.610400000000002ms
+2019-12-10 23:24:26.677 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:24:26.681 +01:00 [INF] Request finished in 45.5809ms 200 application/json; charset=utf-8
+2019-12-10 23:27:09.775 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:27:09.779 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:27:09.783 +01:00 [INF] Request finished in 6.8467ms 204 
+2019-12-10 23:27:09.934 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:27:09.939 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:27:09.947 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:27:09.951 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:27:09.954 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:27:09.958 +01:00 [INF] Authorization was successful.
+2019-12-10 23:27:09.961 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:27:09.975 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 8.1557ms.
+2019-12-10 23:27:09.978 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:27:09.983 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 24.5725ms
+2019-12-10 23:27:09.989 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:27:09.992 +01:00 [INF] Request finished in 59.6131ms 200 application/json; charset=utf-8
+2019-12-10 23:28:01.690 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/student/details/  
+2019-12-10 23:28:01.701 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:01.704 +01:00 [INF] Request finished in 15.5511ms 204 
+2019-12-10 23:28:01.733 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/student/details/ application/json 
+2019-12-10 23:28:01.736 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:01.739 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:01.743 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:01.746 +01:00 [INF] Route matched with {action = "GetStudentDetails", controller = "Student"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[StudyGroups.WebAPI.Models.StudentDTO] GetStudentDetails() on controller StudyGroups.WebAPI.WebSite.Controllers.StudentController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:01.748 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:01.751 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:01.758 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 3.5063ms.
+2019-12-10 23:28:01.762 +01:00 [INF] Executing ObjectResult, writing value of type 'StudyGroups.WebAPI.Models.StudentDTO'.
+2019-12-10 23:28:01.766 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) in 16.8674ms
+2019-12-10 23:28:01.775 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:01.778 +01:00 [INF] Request finished in 45.2615ms 200 application/json; charset=utf-8
+2019-12-10 23:28:02.816 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/course/current-courses  
+2019-12-10 23:28:02.819 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:02.822 +01:00 [INF] Request finished in 6.4579ms 204 
+2019-12-10 23:28:02.873 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/course/current-courses application/json 
+2019-12-10 23:28:02.877 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:02.880 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:02.884 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:02.890 +01:00 [INF] Route matched with {action = "GetAllCourseWithSubjectStudentCurrentlyHas", controller = "Course"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllCourseWithSubjectStudentCurrentlyHas() on controller StudyGroups.WebAPI.WebSite.Controllers.CourseController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:02.894 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:02.897 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:02.931 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 30.0011ms.
+2019-12-10 23:28:02.934 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[StudyGroups.Data.DAL.ProjectionModels.CourseCodeSubjectNameProjection, StudyGroups.Data.DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:28:02.939 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite) in 45.3059ms
+2019-12-10 23:28:02.942 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:02.945 +01:00 [INF] Request finished in 72.6736ms 200 application/json; charset=utf-8
+2019-12-10 23:28:03.637 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:28:03.640 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:03.646 +01:00 [INF] Request finished in 7.4835ms 204 
+2019-12-10 23:28:03.700 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:28:03.704 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:03.708 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:03.712 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:03.715 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:03.718 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:03.722 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:03.733 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 6.6234ms.
+2019-12-10 23:28:03.741 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:28:03.745 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 26.8425ms
+2019-12-10 23:28:03.749 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:03.752 +01:00 [INF] Request finished in 52.3981ms 200 application/json; charset=utf-8
+2019-12-10 23:28:04.839 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/course/current-courses application/json 
+2019-12-10 23:28:04.844 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:04.848 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:04.851 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:04.854 +01:00 [INF] Route matched with {action = "GetAllCourseWithSubjectStudentCurrentlyHas", controller = "Course"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllCourseWithSubjectStudentCurrentlyHas() on controller StudyGroups.WebAPI.WebSite.Controllers.CourseController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:04.862 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:04.887 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:04.893 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 2.3037ms.
+2019-12-10 23:28:04.896 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[StudyGroups.Data.DAL.ProjectionModels.CourseCodeSubjectNameProjection, StudyGroups.Data.DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:28:04.899 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite) in 41.4874ms
+2019-12-10 23:28:04.903 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:04.906 +01:00 [INF] Request finished in 67.9301ms 200 application/json; charset=utf-8
+2019-12-10 23:28:05.955 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/student/details/ application/json 
+2019-12-10 23:28:05.959 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:05.963 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:05.967 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:05.969 +01:00 [INF] Route matched with {action = "GetStudentDetails", controller = "Student"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[StudyGroups.WebAPI.Models.StudentDTO] GetStudentDetails() on controller StudyGroups.WebAPI.WebSite.Controllers.StudentController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:05.972 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:05.977 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:05.985 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 4.5386000000000006ms.
+2019-12-10 23:28:05.988 +01:00 [INF] Executing ObjectResult, writing value of type 'StudyGroups.WebAPI.Models.StudentDTO'.
+2019-12-10 23:28:05.992 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) in 18.806ms
+2019-12-10 23:28:05.996 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:06.000 +01:00 [INF] Request finished in 45.3932ms 200 application/json; charset=utf-8
+2019-12-10 23:28:07.840 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:28:07.845 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:07.849 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:07.857 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:07.861 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:07.865 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:07.868 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:07.876 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 4.3304ms.
+2019-12-10 23:28:07.885 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:28:07.889 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 24.515600000000003ms
+2019-12-10 23:28:07.894 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:07.898 +01:00 [INF] Request finished in 58.2938ms 200 application/json; charset=utf-8
+2019-12-10 23:28:08.240 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/course/current-courses  
+2019-12-10 23:28:08.244 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:08.248 +01:00 [INF] Request finished in 6.7667ms 204 
+2019-12-10 23:28:08.284 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/course/current-courses application/json 
+2019-12-10 23:28:08.287 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:08.290 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:08.294 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:08.298 +01:00 [INF] Route matched with {action = "GetAllCourseWithSubjectStudentCurrentlyHas", controller = "Course"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllCourseWithSubjectStudentCurrentlyHas() on controller StudyGroups.WebAPI.WebSite.Controllers.CourseController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:08.301 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:08.304 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:08.309 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1.9287ms.
+2019-12-10 23:28:08.313 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[StudyGroups.Data.DAL.ProjectionModels.CourseCodeSubjectNameProjection, StudyGroups.Data.DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:28:08.318 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite) in 15.8945ms
+2019-12-10 23:28:08.321 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.CourseController.GetAllCourseWithSubjectStudentCurrentlyHas (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:08.324 +01:00 [INF] Request finished in 40.5782ms 200 application/json; charset=utf-8
+2019-12-10 23:28:10.745 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:28:10.749 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:10.753 +01:00 [INF] Request finished in 8.8836ms 204 
+2019-12-10 23:28:10.802 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:28:10.805 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:10.808 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:10.810 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:10.813 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:10.817 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:10.819 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:10.826 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 3.9160000000000004ms.
+2019-12-10 23:28:10.831 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:28:10.835 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 18.0674ms
+2019-12-10 23:28:10.839 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:10.842 +01:00 [INF] Request finished in 39.69ms 200 application/json; charset=utf-8
+2019-12-10 23:28:15.237 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/student/details/  
+2019-12-10 23:28:15.241 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:15.245 +01:00 [INF] Request finished in 8.642ms 204 
+2019-12-10 23:28:15.251 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/student/details/ application/json 
+2019-12-10 23:28:15.255 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:28:15.259 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:28:15.262 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:15.267 +01:00 [INF] Route matched with {action = "GetStudentDetails", controller = "Student"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[StudyGroups.WebAPI.Models.StudentDTO] GetStudentDetails() on controller StudyGroups.WebAPI.WebSite.Controllers.StudentController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:28:15.271 +01:00 [INF] Authorization was successful.
+2019-12-10 23:28:15.275 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:28:15.281 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 3.2416ms.
+2019-12-10 23:28:15.285 +01:00 [INF] Executing ObjectResult, writing value of type 'StudyGroups.WebAPI.Models.StudentDTO'.
+2019-12-10 23:28:15.289 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite) in 18.7286ms
+2019-12-10 23:28:15.293 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:28:15.296 +01:00 [INF] Request finished in 46.4875ms 200 application/json; charset=utf-8
+2019-12-10 23:29:02.419 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:29:02.423 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:29:02.427 +01:00 [INF] Request finished in 8.7408ms 204 
+2019-12-10 23:29:02.467 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:29:02.470 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:29:02.473 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:29:02.475 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:29:02.478 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:29:02.481 +01:00 [INF] Authorization was successful.
+2019-12-10 23:29:02.484 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:29:02.499 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 11.4465ms.
+2019-12-10 23:29:02.502 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:29:02.508 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 25.3461ms
+2019-12-10 23:29:02.514 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:29:02.522 +01:00 [INF] Request finished in 50.0324ms 200 application/json; charset=utf-8
+2019-12-10 23:53:04.125 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:53:04.135 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:53:04.142 +01:00 [INF] Request finished in 23.0496ms 204 
+2019-12-10 23:53:04.336 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:53:04.342 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:53:04.354 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:53:04.363 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:53:04.371 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:53:04.376 +01:00 [INF] Authorization was successful.
+2019-12-10 23:53:04.382 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:53:04.486 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 99.5982ms.
+2019-12-10 23:53:04.491 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:53:04.500 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 124.96100000000001ms
+2019-12-10 23:53:04.514 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:53:04.519 +01:00 [INF] Request finished in 182.0467ms 200 application/json; charset=utf-8
+2019-12-10 23:53:07.671 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:53:07.674 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:53:07.679 +01:00 [INF] Request finished in 7.9316ms 204 
+2019-12-10 23:53:07.873 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:53:07.877 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:53:07.881 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:53:07.885 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:53:07.889 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:53:07.894 +01:00 [INF] Authorization was successful.
+2019-12-10 23:53:07.898 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:53:07.919 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 16.6776ms.
+2019-12-10 23:53:07.923 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:53:07.928 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 34.8054ms
+2019-12-10 23:53:07.935 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:53:07.939 +01:00 [INF] Request finished in 66.3961ms 200 application/json; charset=utf-8
+2019-12-10 23:54:35.499 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:54:35.511 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:54:35.518 +01:00 [INF] Request finished in 18.5772ms 204 
+2019-12-10 23:54:35.912 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:54:35.940 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:54:35.950 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:54:35.958 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:54:35.965 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:54:35.977 +01:00 [INF] Authorization was successful.
+2019-12-10 23:54:35.982 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:54:36.000 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 10.694700000000001ms.
+2019-12-10 23:54:36.009 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:54:36.024 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 49.6428ms
+2019-12-10 23:54:36.032 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:54:36.041 +01:00 [INF] Request finished in 135.1435ms 200 application/json; charset=utf-8
+2019-12-10 23:55:23.752 +01:00 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:38213/api/subject/selections  
+2019-12-10 23:55:23.755 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:55:23.762 +01:00 [INF] Request finished in 7.3445ms 204 
+2019-12-10 23:55:23.905 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:38213/api/subject/selections application/json 
+2019-12-10 23:55:23.909 +01:00 [INF] CORS policy execution successful.
+2019-12-10 23:55:23.913 +01:00 [INF] Successfully validated the token.
+2019-12-10 23:55:23.919 +01:00 [INF] Executing endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:55:23.925 +01:00 [INF] Route matched with {action = "GetAllSelectionItems", controller = "Subject"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] GetAllSelectionItems() on controller StudyGroups.WebAPI.WebSite.Controllers.SubjectController (StudyGroups.WebAPI.WebSite).
+2019-12-10 23:55:23.928 +01:00 [INF] Authorization was successful.
+2019-12-10 23:55:23.932 +01:00 [INF] Executing action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) - Validation state: "Valid"
+2019-12-10 23:55:23.945 +01:00 [INF] Executed action method StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 8.9601ms.
+2019-12-10 23:55:23.954 +01:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[StudyGroups.WebAPI.Models.GeneralSelectionItem, StudyGroups.WebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2019-12-10 23:55:23.959 +01:00 [INF] Executed action StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite) in 30.7452ms
+2019-12-10 23:55:23.969 +01:00 [INF] Executed endpoint 'StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems (StudyGroups.WebAPI.WebSite)'
+2019-12-10 23:55:23.974 +01:00 [INF] Request finished in 70.6876ms 200 application/json; charset=utf-8

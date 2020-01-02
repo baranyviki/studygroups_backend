@@ -12,17 +12,23 @@
         </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsEnrolledToSubject(System.String)">
             <summary>
-            Gets all student who enrolled to a given subject in current semester/all time
+            Gets all student who enrolled to a given subject in actual semester
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails(System.String)">
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetails">
             <summary>
-            Fetch a student with details.
+            Fetch a user student with details.
             </summary>
-            <param name="userName"></param>
             <returns>Student with profile details.</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentDetailsById(System.String)">
+            <summary>
+            Fetch student details.
+            </summary>
+            <param name="id">User id</param>
+            <returns></returns>
         </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsFromStudyGroupSearch(StudyGroups.WebAPI.Models.StudyGroupSearchDTO)">
             <summary>
@@ -31,11 +37,37 @@
             <param name="searchParams">Object holding filter parameters.</param>
             <returns>List of students, who met the search criteria.</returns>
         </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetStudentsFromStudyBuddySearch(StudyGroups.WebAPI.Models.StudyBuddySearchDTO)">
+            <summary>
+            Gets filtered student list, applied with given params.
+            </summary>
+            <param name="searchParams">Object holding filter parameters.</param>
+            <returns>List of students, who met the search criteria.</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.UpdateStudent(StudyGroups.WebAPI.Models.StudentDTO)">
+            <summary>
+            Updates a student.
+            </summary>
+            <param name="value">Student DTO with updateable fields.</param>
+            <returns></returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.StudentController.GetAllStudentTutoringSubject(System.String)">
+            <summary>
+            Gets students who are tutoring the given subject.
+            </summary>
+            <returns>List of subjects as selection items.</returns>
+        </member>
         <member name="M:StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllSelectionItems">
             <summary>
             Gets all subjects.
             </summary>
             <returns>Subjects as selection items</returns>
+        </member>
+        <member name="M:StudyGroups.WebAPI.WebSite.Controllers.SubjectController.GetAllCompletedSubjectSelectionItems">
+            <summary>
+            Gets all subjects user has passed.
+            </summary>
+            <returns>List of subjects as selection items.</returns>
         </member>
         <member name="T:StudyGroups.WebAPI.WebSite.Exceptions.InvalidLoginParametersException">
             <summary>
